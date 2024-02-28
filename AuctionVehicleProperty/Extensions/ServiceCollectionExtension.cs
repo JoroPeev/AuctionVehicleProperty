@@ -1,4 +1,4 @@
-﻿using AuctionVehicleProperty.Data;
+﻿using AuctionVehicleProperty.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

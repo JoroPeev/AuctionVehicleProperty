@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuctionVehicleProperty.Data
+namespace AuctionVehicleProperty.Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
