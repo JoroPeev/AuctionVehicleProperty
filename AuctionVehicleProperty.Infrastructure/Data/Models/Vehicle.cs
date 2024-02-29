@@ -19,11 +19,26 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
         [Required]
         [Comment("Used or brand new")]
-        public Condition Condition { get; set; } = null!;
+        public Condition Condition { get; set; }
+
+        [Required]
+        [Comment("VehicleType Identyfier")]
+        public int VehicleTypeId { get; set; }
 
         [Required]
         [Comment("Vehicle Type")]
+        [ForeignKey(nameof(VehicleTypeId))]
         public VehicleType VehicleType { get; set; } = null!;
+
+        [Required]
+        [Comment("FuelType Identifier")]
+        public int FuelTypeId { get; set; }
+
+        [Required]
+        [Comment("Vehicle Fuel Type")]
+        [ForeignKey(nameof(FuelTypeId))]
+        public FuelType FuelType { get; set; } = null!;
+
 
         [Required]
         [StringLength(50)]
@@ -35,10 +50,11 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         [Comment("Vehicle Model")]
         public string Model { get; set; } = string.Empty;
 
-
+        [Required]
         [Comment("Vehicle year of production")]
-        public ProductionYear Year { get; set; }
+        public string Year { get; set; } = string.Empty;
 
+        [Required]
         [Comment("Vehicle Milage in kilometers")]
         public int Mileage { get; set; }
 
@@ -53,6 +69,11 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         [Required]
         [Comment("Vehicle Price")]
         public decimal Price { get; set; }
+
+        [Required]
+        [Comment("Vehicle Details")]
+        [MaxLength(500)]
+        public string Details { get; set; } = string.Empty;
 
         [Required]
         [Comment("Buisness seller or Individual seller or Dealers")]

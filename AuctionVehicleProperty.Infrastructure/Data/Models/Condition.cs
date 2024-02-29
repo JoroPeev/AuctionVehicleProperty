@@ -1,6 +1,9 @@
 ﻿namespace AuctionVehicleProperty.Infrastructure.Data.Models
 {
-    public class Condition
+    public enum Condition
     {
+        New = 0,
+        Used = 1,
+        Parts = 2,
     }
 }

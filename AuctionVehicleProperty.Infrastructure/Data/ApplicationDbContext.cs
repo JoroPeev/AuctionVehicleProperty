@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using AuctionVehicleProperty.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuctionVehicleProperty.Infrastructure.Data
@@ -9,5 +10,10 @@ namespace AuctionVehicleProperty.Infrastructure.Data
             : base(options)
         {
         }
+
+        public DbSet<Vehicle> Vehicles { get; set; }
+
+
+
     }
 }
