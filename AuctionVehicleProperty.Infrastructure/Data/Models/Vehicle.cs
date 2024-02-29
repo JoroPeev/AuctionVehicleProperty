@@ -35,9 +35,9 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         [Comment("Vehicle Model")]
         public string Model { get; set; } = string.Empty;
 
-        [StringLength(4)]
+
         [Comment("Vehicle year of production")]
-        public string Year { get; set; } = string.Empty;
+        public ProductionYear Year { get; set; }
 
         [Comment("Vehicle Milage in kilometers")]
         public int Mileage { get; set; }
