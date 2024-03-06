@@ -11,9 +11,16 @@ namespace AuctionVehicleProperty.Infrastructure.Data
         {
         }
 
+        public DbSet<Agent> Agents { get; set; }
+        public DbSet<Auction> Auctions { get; set; }
+        public DbSet<Bid> Bids { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
 
+        }
     }
 }

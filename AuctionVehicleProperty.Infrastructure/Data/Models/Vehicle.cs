@@ -19,6 +19,10 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         public string Title { get; set; } = string.Empty;
 
 
+        [Comment("Vehicle Image")]
+        public string ImageUrl { get; set; } = string.Empty;
+
+
         [Required]
         [Comment("VehicleType Identyfier")]
         public int VehicleTypeId { get; set; }
@@ -31,29 +35,19 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
 
         [Required]
-        [Comment("FuelType Identifier")]
-        public int FuelTypeId { get; set; }
-
-
-        [Required]
-        [Comment("Vehicle Fuel Type")]
-        [ForeignKey(nameof(FuelTypeId))]
-        public FuelType FuelType { get; set; } = null!;
-
-
-        [Required]
-        [StringLength(50)]
+        [MaxLength(100)]
         [Comment("Vehicle Make")]
-        public string Make { get; set; } = string.Empty;
+        public string Make { get; set; } = null!;
 
 
         [Required]
-        [StringLength(50)]
+        [StringLength(70)]
         [Comment("Vehicle Model")]
         public string Model { get; set; } = string.Empty;
 
 
         [Required]
+        [MaxLength(10)]
         [Comment("Vehicle year of production")]
         public string Year { get; set; } = string.Empty;
 
@@ -69,13 +63,20 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
 
         [Required]
+        [MaxLength(50)]
         [Comment("Vehicle Collor")]
         public string Color { get; set; } = string.Empty;
 
 
         [Required]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
         [Comment("Vehicle Price")]
         public decimal Price { get; set; }
+
+        
+        [Required]
+        [Comment("Location of the Vehicle")]
+        public string Location { get; set; } = string.Empty;
 
 
         [Required]
@@ -83,14 +84,13 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         [MaxLength(500)]
         public string Details { get; set; } = string.Empty;
 
+        [Required]
+        public string OwnerId { get; set; } = string.Empty;
 
         [Required]
-        [Comment("Buisness seller or Individual seller or Dealers")]
-        public string SellerId { get; set; } = string.Empty;
+        [ForeignKey(nameof(OwnerId))]
+        public IdentityUser Owner { get; set; } = null!;
 
-
-        [ForeignKey(nameof(SellerId))]
-        public IdentityUser Seller { get; set; } = null!;
 
 
     }
