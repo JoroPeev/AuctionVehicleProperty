@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using static AuctionVehicleProperty.Infrastructure.Constants.DataConstants;
 
 namespace AuctionVehicleProperty.Infrastructure.Data.Models
 {
@@ -11,7 +12,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(40)]
+        [MaxLength(MakeNameMax)]
         [Comment("Vehicle Make")]
         public string Name { get; set; } = string.Empty;
 

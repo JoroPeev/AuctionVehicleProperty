@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static AuctionVehicleProperty.Infrastructure.Constants.DataConstants;
 
 namespace AuctionVehicleProperty.Infrastructure.Data.Models
 {
@@ -14,7 +15,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
 
         [Required]
-        [StringLength(100)]
+        [StringLength(VehicleTitleMax)]
         [Comment("Vehicle Title")]
         public string Title { get; set; } = string.Empty;
 
@@ -35,13 +36,13 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
 
         [Required]
-        [MaxLength(100)]
+        [MaxLength(VehicleMakeMax)]
         [Comment("Vehicle Make")]
         public string Make { get; set; } = null!;
 
 
         [Required]
-        [StringLength(70)]
+        [StringLength(VehicleModelMax)]
         [Comment("Vehicle Model")]
         public string Model { get; set; } = string.Empty;
 

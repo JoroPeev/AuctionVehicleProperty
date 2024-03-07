@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static AuctionVehicleProperty.Infrastructure.Constants.DataConstants;
 
 namespace AuctionVehicleProperty.Infrastructure.Data.Models
 {
@@ -12,11 +13,13 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
 
         [Required]
+        [DataType(DataType.DateTime)]
         [Comment("Starting Time")]
         public DateTime StartingTime { get; set; }
 
 
         [Required]
+        [DataType(DataType.DateTime)]
         [Comment("Ending Time")]
         public DateTime EndTime { get; set; }
 
@@ -27,10 +30,11 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
 
         [Required]
+        [Range(AuctionBudIncrementMin,AuctionBudIncrementMax)]
         [Comment("Auction Min bid incrementing")]
         public decimal MinimumBidIncrement { get; set; }
         
-
+        
         [Comment("Winner Identyfier")]
         public int? WinnerID { get; set; }
         
