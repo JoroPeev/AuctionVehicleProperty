@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AuctionVehicleProperty.Core.Contracts
+﻿namespace AuctionVehicleProperty.Core.Contracts
 {
     public interface IVehicleService
     {
+        Task<bool> VehicleExistsByIdAsync(int vehicleId);
+
+        Task<bool> OwnerExistsByIdAsync(string ownerId);
+
+
     }
 }
