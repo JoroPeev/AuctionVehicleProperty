@@ -48,23 +48,24 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
 
         [Required]
-        [MaxLength(10)]
         [Comment("Vehicle year of production")]
-        public string Year { get; set; } = string.Empty;
+        public DateOnly Year { get; set; }
 
 
         [Required]
+        [Range(VehicleMilageMin, VehicleMilageMax)]
         [Comment("Vehicle Milage in kilometers")]
         public int Mileage { get; set; }
 
 
         [Required]
+        [Range(VehiclePowerMin, VehiclePowerMax)]
         [Comment("Vehicle Power in horse power or in Kw")]
         public int Power { get; set; }
 
 
         [Required]
-        [MaxLength(50)]
+        [MaxLength(VehicleColorMax)]
         [Comment("Vehicle Collor")]
         public string Color { get; set; } = string.Empty;
 
@@ -82,7 +83,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
         [Required]
         [Comment("Vehicle Details")]
-        [MaxLength(500)]
+        [MaxLength(VehicleDetailsMax)]
         public string Details { get; set; } = string.Empty;
 
         [Required]

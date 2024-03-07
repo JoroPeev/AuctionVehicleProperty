@@ -9,7 +9,7 @@ namespace AuctionVehicleProperty.Infrastructure.Constants
     public static class DataConstants
     {
         public const int AuctionBudIncrementMin = 10;
-        public const int AuctionBudIncrementMax = 10000000;
+        public const int AuctionBudIncrementMax = 10_000_000;
 
         public const int CategoryNameMin = 5;
         public const int CategoryNameMax = 50;
@@ -25,5 +25,17 @@ namespace AuctionVehicleProperty.Infrastructure.Constants
 
         public const int VehicleModelMin = 5;
         public const int VehicleModelMax = 70;
+
+        public const int VehicleMilageMin = 0;
+        public const int VehicleMilageMax = 500_000;
+
+        public const int VehiclePowerMin = 10;
+        public const int VehiclePowerMax = 3000;
+
+        public const int VehicleColorMin = 3;
+        public const int VehicleColorMax = 50;
+
+        public const int VehicleDetailsMin = 20;
+        public const int VehicleDetailsMax = 500;
     }
 }
