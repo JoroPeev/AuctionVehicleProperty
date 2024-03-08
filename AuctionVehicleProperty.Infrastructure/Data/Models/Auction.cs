@@ -25,12 +25,14 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
 
         [Required]
+        [Column(TypeName = "decimal(12,2)")]
         [Comment("Starting price for auction")]
         public decimal StartingPrice { get; set; }
 
 
         [Required]
         [Range(AuctionBudIncrementMin,AuctionBudIncrementMax)]
+        [Column(TypeName ="decimal(12,2)")]
         [Comment("Auction Min bid incrementing")]
         public decimal MinimumBidIncrement { get; set; }
         

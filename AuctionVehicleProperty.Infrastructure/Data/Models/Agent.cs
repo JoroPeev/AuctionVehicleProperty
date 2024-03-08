@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static AuctionVehicleProperty.Infrastructure.Constants.DataConstants;
 
 namespace AuctionVehicleProperty.Infrastructure.Data.Models
 {
@@ -18,6 +19,9 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         [Comment("Agent's Email")]
         public string Email { get; set; } = string.Empty;
 
+        [MaxLength(AgentLocationMax)]
+        [Comment("Agent's Location")]
+        public string Location { get; set; } = string.Empty;
 
         [Required]
         [Comment("User Identifier")]

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AuctionVehicleProperty.Infrastructure.Constants
+﻿namespace AuctionVehicleProperty.Infrastructure.Constants
 {
     public static class DataConstants
     {
@@ -19,6 +13,10 @@ namespace AuctionVehicleProperty.Infrastructure.Constants
 
         public const int VehicleTitleMin = 10;
         public const int VehicleTitleMax = 100;
+
+        public const int AgentLocationMin = 10;
+        public const int AgentLocationMax = 70;
+
 
         public const int VehicleMakeMin = 3;
         public const int VehicleMakeMax = 100;

@@ -71,7 +71,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
 
         [Required]
-        [DisplayFormat(DataFormatString = "{0:C2}")]
+        [Column(TypeName = "decimal(18,2)")]
         [Comment("Vehicle Price")]
         public decimal Price { get; set; }
 
