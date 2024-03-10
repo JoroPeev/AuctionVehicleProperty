@@ -8,7 +8,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
     public class Bid
     {
         [Key]
-        public int BidID { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [Comment("Auction identifier")]
@@ -22,10 +22,10 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
         [Required]
         [Comment("Customer Identifier")]
-        public string CustomerID { get; set; } = string.Empty;
+        public string CustomerId { get; set; } = string.Empty;
 
 
-        [ForeignKey(nameof(CustomerID))]
+        [ForeignKey(nameof(CustomerId))]
         [Comment("User Bidding")]
         public IdentityUser User { get; set; } = null!;
 

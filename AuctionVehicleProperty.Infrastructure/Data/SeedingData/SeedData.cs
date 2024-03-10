@@ -6,30 +6,34 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
     internal class SeedData
     {
         public IdentityUser AgentUser { get; set; }
-
         public IdentityUser GuestUser { get; set; }
-
+        public IdentityUser SecondGuestUser { get; set; }
+       
         public Agent Agent { get; set; }
-
+        
+        public Bid GuestBid { get; set; }
+        public Bid SecondGuestBid { get; set; }
+        
+        public Auction CarAuction { get; set; }
+        
         public Category SUVCategory { get; set; }
-
         public Category CoupeCategory { get; set; }
-
         public Category SedanCategory { get; set; }
-
         public Category PickupCategory { get; set; }
-
         public Category HatchbackCategory { get; set; }
-
         public Category ConvertibleCategory { get; set; }
-
+        
         public Vehicle ElectricVehicle { get; set; }
-
         public Vehicle HybridVehicle { get; set; }
 
         public SeedData()
         {
-
+            SeedUsers();
+            SeedAgent();
+            SeedCategories();
+            SeedVehicles();
+            SeedAuction();
+            SeedBid();
         }
         private void SeedUsers()
         {
@@ -58,6 +62,18 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
 
             GuestUser.PasswordHash =
             hasher.HashPassword(AgentUser, "guest123");
+            
+            SecondGuestUser = new IdentityUser()
+            {
+                Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                UserName = "Secondguest@mail.com",
+                NormalizedUserName = "Secondguest@mail.com",
+                Email = "Secondguest@mail.com",
+                NormalizedEmail = "Secondguest@mail.com"
+            };
+
+            GuestUser.PasswordHash =
+            hasher.HashPassword(AgentUser, "Secondguest123");
         }
         private void SeedAgent()
         {
@@ -107,9 +123,9 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 Name = "Sedan"
             };
         }
-        private void SeedHouses()
+        private void SeedVehicles()
         {
-            
+
 
             ElectricVehicle = new Vehicle()
             {
@@ -133,7 +149,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 " Weight-to-torque ratio: 5.9 kg/Nm, 169 Nm",
                 OwnerId = "dea12856-c198-4129-b3f3-b893d8395082",
                 Owner = AgentUser,
-                Price = 32000,
+                Price = 32000.00M,
             };
             ElectricVehicle = new Vehicle()
             {
@@ -160,10 +176,49 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 " Emission standard: Euro 6d.",
                 OwnerId = "dea12856-c198-4129-b3f3-b893d8395082",
                 Owner = AgentUser,
-                Price = 37610,
+                Price = 37610.00M,
             };
         }
+        private void SeedAuction()
+        {
+            DateTime date = new DateTime(2024, 04, 25, 12, 30, 00);
 
+            CarAuction = new Auction()
+            {
+                Id = 1,
+                StartingTime = DateTime.Parse(date.ToString("MM/dd/yyyy HH:mm:ss")),
+                EndTime = date.AddHours(2),
+                StartingPrice = 25000.00M,
+                MinimumBidIncrement = 500.00M,
+                VehicleId = 1,
+                Vehicle = ElectricVehicle,
+                Bids = new List<Bid>(),
+            };
+        }
+        private void SeedBid()
+        {
+            DateTime date = new DateTime(2024, 04, 25, 12, 30, 00);
+            GuestBid = new Bid()
+            {
+                Id = 1,
+                Auction = CarAuction,
+                AuctionId = 1,
+                CustomerId = GuestUser.Id,
+                User = GuestUser,
+                Amount = 26000.00M,
+                BidTime = date.AddMinutes(12),
+            };
+            SecondGuestBid = new Bid()
+            {
+                Id = 1,
+                Auction = CarAuction,
+                AuctionId = 1,
+                CustomerId = SecondGuestUser.Id,
+                User = SecondGuestUser,
+                Amount = 27000.00M,
+                BidTime = date.AddMinutes(13),
+            };
 
+        }
     }
 }

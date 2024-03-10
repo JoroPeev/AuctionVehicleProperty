@@ -4,14 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
 {
-    internal class VehicleConfiguration: IEntityTypeConfiguration<Vehicle>
+    internal class AgentConfiguration : IEntityTypeConfiguration<Agent>
     {
-
-        public void Configure(EntityTypeBuilder<Vehicle> builder)
+        public void Configure(EntityTypeBuilder<Agent> builder)
         {
             var data = new SeedData();
 
-            builder.HasData(new Vehicle[] { data.ElectricVehicle,data.ElectricVehicle });
+            builder.HasData(new Agent[] { data.Agent});
         }
 
     }

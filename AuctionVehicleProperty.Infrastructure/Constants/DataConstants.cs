@@ -35,5 +35,7 @@
 
         public const int VehicleDetailsMin = 20;
         public const int VehicleDetailsMax = 500;
+
+        public const string DateTimeFormat = "MM/dd/yyyy HH:mm:ss";
     }
 }
