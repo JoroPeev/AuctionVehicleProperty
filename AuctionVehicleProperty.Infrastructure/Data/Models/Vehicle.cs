@@ -49,13 +49,16 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
         [Required]
         [Comment("Vehicle year of production")]
-        public DateOnly Year { get; set; }
+        public DateTime Year { get; set; }
 
 
         [Required]
         [Range(VehicleMilageMin, VehicleMilageMax)]
         [Comment("Vehicle Milage in kilometers")]
         public int Mileage { get; set; }
+
+        [Comment("If is electric range of driving in kilometers")]
+        public int? AverageDivingRange { get; set; }
 
 
         [Required]
