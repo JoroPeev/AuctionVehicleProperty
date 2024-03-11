@@ -65,7 +65,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
             
             SecondGuestUser = new IdentityUser()
             {
-                Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s",
                 UserName = "Secondguest@mail.com",
                 NormalizedUserName = "Secondguest@mail.com",
                 Email = "Secondguest@mail.com",
@@ -125,7 +125,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         }
         private void SeedVehicles()
         {
-
+            DateTime date = new DateTime(2024);
 
             ElectricVehicle = new Vehicle()
             {
@@ -133,10 +133,9 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 Title = "2024 Renault 5 E-Tech 52 kWh (150 hp) Electric",
                 ImageUrl = "https://www.auto-data.net/images/f46/Renault-5-E-Tech_1.jpg",
                 VehicleTypeId = 3,
-                VehicleType = HatchbackCategory,
                 Make = "Renault",
                 Model = "5 E-Tech",
-                Year = DateTime.Parse(2024.ToString()),
+                Year = date,
                 Mileage = 0,
                 AverageDivingRange = 330,
                 Power = 150,
@@ -148,19 +147,17 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 " Weight-to-power ratio: 9.7 kg/Hp, 103.4 Hp/tonne," +
                 " Weight-to-torque ratio: 5.9 kg/Nm, 169 Nm",
                 OwnerId = "dea12856-c198-4129-b3f3-b893d8395082",
-                Owner = AgentUser,
                 Price = 32000.00M,
             };
-            ElectricVehicle = new Vehicle()
+            HybridVehicle = new Vehicle()
             {
                 Id = 2,
                 Title = "2024 Ford Kuga III ST-Line 2.5 (243 кс) Plug-in Hybrid CVT",
                 ImageUrl = "https://www.auto-data.net/images/f76/Ford-Kuga-III-facelift-2024_1.jpg",
                 VehicleTypeId = 1,
-                VehicleType = SUVCategory,
                 Make = "Ford",
                 Model = "Kuga III facelift",
-                Year = DateTime.Parse(2024.ToString()),
+                Year = date,
                 Mileage = 0,
                 Power = 243,
                 Color = "Blue",
@@ -174,8 +171,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 " Acceleration 0 - 62 mph: 7.3 sec," +
                 " Maximum speed: 200 km/h (124.27 mph)," +
                 " Emission standard: Euro 6d.",
-                OwnerId = "dea12856-c198-4129-b3f3-b893d8395082",
-                Owner = AgentUser,
+                OwnerId = "dea12856-c198-4129-b3f3-b893d83950",
                 Price = 37610.00M,
             };
         }
@@ -186,13 +182,11 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
             CarAuction = new Auction()
             {
                 Id = 1,
-                StartingTime = DateTime.Parse(date.ToString("MM/dd/yyyy HH:mm:ss")),
+                StartingTime = date,
                 EndTime = date.AddHours(2),
                 StartingPrice = 25000.00M,
                 MinimumBidIncrement = 500.00M,
                 VehicleId = 1,
-                Vehicle = ElectricVehicle,
-                Bids = new List<Bid>(),
             };
         }
         private void SeedBid()
@@ -201,20 +195,16 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
             GuestBid = new Bid()
             {
                 Id = 1,
-                Auction = CarAuction,
                 AuctionId = 1,
                 CustomerId = GuestUser.Id,
-                User = GuestUser,
                 Amount = 26000.00M,
                 BidTime = date.AddMinutes(12),
             };
             SecondGuestBid = new Bid()
             {
-                Id = 1,
-                Auction = CarAuction,
+                Id = 2,
                 AuctionId = 1,
                 CustomerId = SecondGuestUser.Id,
-                User = SecondGuestUser,
                 Amount = 27000.00M,
                 BidTime = date.AddMinutes(13),
             };

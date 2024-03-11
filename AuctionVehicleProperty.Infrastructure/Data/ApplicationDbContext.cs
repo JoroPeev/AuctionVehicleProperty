@@ -2,6 +2,7 @@
 using AuctionVehicleProperty.Infrastructure.Data.SeedingData;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 
 namespace AuctionVehicleProperty.Infrastructure.Data
 {
@@ -23,10 +24,15 @@ namespace AuctionVehicleProperty.Infrastructure.Data
         {
             builder.ApplyConfiguration(new UserConfiguration());
             builder.ApplyConfiguration(new AgentConfiguration());
-            builder.ApplyConfiguration(new BidConfiguration());
-            builder.ApplyConfiguration(new AuctionConfiguration());
             builder.ApplyConfiguration(new CategoryConfiguration());
             builder.ApplyConfiguration(new VehicleConfiguration());
+            builder.ApplyConfiguration(new AuctionConfiguration());
+            builder.ApplyConfiguration(new BidConfiguration());
+
+            builder.Entity<Bid>(e =>
+            {
+                e.HasKey(k => new { k.AuctionId, k.CustomerId });
+            });
 
             base.OnModelCreating(builder);
         }
