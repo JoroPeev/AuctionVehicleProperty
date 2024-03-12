@@ -73,6 +73,74 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Vehicles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Vehicle Identifier")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Vehicle Title"),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Vehicle Image"),
+                    VehicleTypeId = table.Column<int>(type: "int", nullable: false, comment: "VehicleType Identyfier"),
+                    Make = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Vehicle Make"),
+                    Model = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false, comment: "Vehicle Model"),
+                    Year = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Vehicle year of production"),
+                    Mileage = table.Column<int>(type: "int", nullable: false, comment: "Vehicle Milage in kilometers"),
+                    AverageDivingRange = table.Column<int>(type: "int", nullable: true, comment: "If is electric range of driving in kilometers"),
+                    Power = table.Column<int>(type: "int", nullable: false, comment: "Vehicle Power in horse power or in Kw"),
+                    Color = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Vehicle Collor"),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false, comment: "Vehicle Price"),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Location of the Vehicle"),
+                    Details = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "Vehicle Details"),
+                    OwnerId = table.Column<int>(type: "int", nullable: false),
+                    AgentId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Vehicles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Agents_AgentId",
+                        column: x => x.AgentId,
+                        principalTable: "Agents",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Agents_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "Agents",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Vehicles_Categories_VehicleTypeId",
+                        column: x => x.VehicleTypeId,
+                        principalTable: "Categories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "Vehicle to sell or buy in auction");
+
+            migrationBuilder.CreateTable(
+                name: "Auctions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false, comment: "Auction Identifier")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartingTime = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Starting Time"),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Ending Time"),
+                    StartingPrice = table.Column<decimal>(type: "decimal(12,2)", nullable: false, comment: "Starting price for auction"),
+                    MinimumBidIncrement = table.Column<decimal>(type: "decimal(12,2)", nullable: false, comment: "Auction Min bid incrementing"),
+                    WinnerID = table.Column<int>(type: "int", nullable: true, comment: "Winner Identyfier"),
+                    VehicleId = table.Column<int>(type: "int", nullable: false, comment: "Vehicle Identyfier")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Auctions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Auctions_Vehicles_VehicleId",
+                        column: x => x.VehicleId,
+                        principalTable: "Vehicles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
@@ -124,8 +192,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BidAuctionId = table.Column<int>(type: "int", nullable: true),
-                    BidCustomerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    BidId = table.Column<int>(type: "int", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -167,87 +234,19 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Vehicles",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false, comment: "Vehicle Identifier")
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Vehicle Title"),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Vehicle Image"),
-                    VehicleTypeId = table.Column<int>(type: "int", nullable: false, comment: "VehicleType Identyfier"),
-                    Make = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false, comment: "Vehicle Make"),
-                    Model = table.Column<string>(type: "nvarchar(70)", maxLength: 70, nullable: false, comment: "Vehicle Model"),
-                    Year = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Vehicle year of production"),
-                    Mileage = table.Column<int>(type: "int", nullable: false, comment: "Vehicle Milage in kilometers"),
-                    AverageDivingRange = table.Column<int>(type: "int", nullable: true, comment: "If is electric range of driving in kilometers"),
-                    Power = table.Column<int>(type: "int", nullable: false, comment: "Vehicle Power in horse power or in Kw"),
-                    Color = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false, comment: "Vehicle Collor"),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false, comment: "Vehicle Price"),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false, comment: "Location of the Vehicle"),
-                    Details = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false, comment: "Vehicle Details"),
-                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AgentId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vehicles", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_Agents_AgentId",
-                        column: x => x.AgentId,
-                        principalTable: "Agents",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Vehicles_AspNetUsers_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vehicles_Categories_VehicleTypeId",
-                        column: x => x.VehicleTypeId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Vehicle to sell or buy in auction");
-
-            migrationBuilder.CreateTable(
-                name: "Auctions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false, comment: "Auction Identifier")
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    StartingTime = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Starting Time"),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Ending Time"),
-                    StartingPrice = table.Column<decimal>(type: "decimal(12,2)", nullable: false, comment: "Starting price for auction"),
-                    MinimumBidIncrement = table.Column<decimal>(type: "decimal(12,2)", nullable: false, comment: "Auction Min bid incrementing"),
-                    WinnerID = table.Column<int>(type: "int", nullable: true, comment: "Winner Identyfier"),
-                    VehicleId = table.Column<int>(type: "int", nullable: false, comment: "Vehicle Identyfier")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Auctions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Auctions_Vehicles_VehicleId",
-                        column: x => x.VehicleId,
-                        principalTable: "Vehicles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Bids",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     AuctionId = table.Column<int>(type: "int", nullable: false, comment: "Auction identifier"),
                     CustomerId = table.Column<string>(type: "nvarchar(450)", nullable: false, comment: "Customer Identifier"),
-                    Id = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(12,2)", nullable: false, comment: "Bid Amount"),
                     BidTime = table.Column<DateTime>(type: "datetime2", nullable: false, comment: "Bid Date and Time")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bids", x => new { x.AuctionId, x.CustomerId });
+                    table.PrimaryKey("PK_Bids", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Bids_AspNetUsers_CustomerId",
                         column: x => x.CustomerId,
@@ -258,18 +257,17 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         name: "FK_Bids_Auctions_AuctionId",
                         column: x => x.AuctionId,
                         principalTable: "Auctions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "BidAuctionId", "BidCustomerId", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "BidId", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, null, null, "2339d6da-2405-482c-a66d-1e39ca0223c7", "guest@mail.com", false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEDZUI6KOHKS3uvF8dbKcv5pn2RCsaiyRfTRetxFE9E4HxSIXdRIQEh6Kw/HT+3FCzw==", null, false, "5bd06271-b4fc-4364-a4ee-e903f11700b3", false, "guest@mail.com" },
-                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s", 0, null, null, "9424b354-529d-4fe1-a3c2-6ff3c098292f", "Secondguest@mail.com", false, false, null, "Secondguest@mail.com", "Secondguest@mail.com", null, null, false, "f20da5b3-3994-4026-b02b-f5ff169d3a84", false, "Secondguest@mail.com" },
-                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, null, null, "97499dc2-c988-4235-9906-0326f8a59a46", "agent@mail.com", false, false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAECzbjMgVuY7Zr6CWYkWfOTzLmEM/LaDiTob6FXjK6WLA9PVXboSPIZgsjkAoNOcWQg==", null, false, "bf4ffc13-755f-44ac-9401-f25ec7231db2", false, "agent@mail.com" }
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 0, null, "479cf994-ed51-4c12-bd19-0d7811a443c8", "guest@mail.com", false, false, null, "guest@mail.com", "guest@mail.com", "AQAAAAEAACcQAAAAEHX5yHp3wtZJWUvzmifVr3tQbgpfp7+imcEbjFrzX7tu32MVx4FXWM9Z/8OOPaSU3w==", null, false, "13ea6805-48e2-46de-b20f-863641c36355", false, "guest@mail.com" },
+                    { "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s", 0, null, "fd6949c5-b4df-4d4d-a72e-359478fbafa8", "Secondguest@mail.com", false, false, null, "Secondguest@mail.com", "Secondguest@mail.com", null, null, false, "f9a9b5ab-5c49-4a9e-b6a9-657a872ef2d9", false, "Secondguest@mail.com" },
+                    { "dea12856-c198-4129-b3f3-b893d8395082", 0, null, "46299c4c-ebb2-4329-a169-c707ce43372b", "agent@mail.com", false, false, null, "agent@mail.com", "agent@mail.com", "AQAAAAEAACcQAAAAEIYk4qGfGV5LeyT1sAOHi60pbT3n6MHHI5jv5hYIlUgI2xAO1h3xE+PxE6Ii+RMfsA==", null, false, "861bf044-a0ff-4158-aefc-5061ddce4c6c", false, "agent@mail.com" }
                 });
 
             migrationBuilder.InsertData(
@@ -293,12 +291,12 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "AgentId", "AverageDivingRange", "Color", "Details", "ImageUrl", "Location", "Make", "Mileage", "Model", "OwnerId", "Power", "Price", "Title", "VehicleTypeId", "Year" },
-                values: new object[] { 1, null, 330, "Yellow", "Fuel Type: Electricity, Acceleration: 0 - 100 km/h: 8 sec, Maximum speed: 150 km/h (93.21 mph), Weight-to-power ratio: 9.7 kg/Hp, 103.4 Hp/tonne, Weight-to-torque ratio: 5.9 kg/Nm, 169 Nm", "https://www.auto-data.net/images/f46/Renault-5-E-Tech_1.jpg", "3118 Thunder Road, San Jose, CA, 95134", "Renault", 0, "5 E-Tech", "dea12856-c198-4129-b3f3-b893d8395082", 150, 32000.00m, "2024 Renault 5 E-Tech 52 kWh (150 hp) Electric", 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2024) });
+                values: new object[] { 1, null, 330, "Yellow", "Fuel Type: Electricity, Acceleration: 0 - 100 km/h: 8 sec, Maximum speed: 150 km/h (93.21 mph), Weight-to-power ratio: 9.7 kg/Hp, 103.4 Hp/tonne, Weight-to-torque ratio: 5.9 kg/Nm, 169 Nm", "https://www.auto-data.net/images/f46/Renault-5-E-Tech_1.jpg", "3118 Thunder Road, San Jose, CA, 95134", "Renault", 0, "5 E-Tech", 1, 150, 32000.00m, "2024 Renault 5 E-Tech 52 kWh (150 hp) Electric", 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2024) });
 
             migrationBuilder.InsertData(
                 table: "Vehicles",
                 columns: new[] { "Id", "AgentId", "AverageDivingRange", "Color", "Details", "ImageUrl", "Location", "Make", "Mileage", "Model", "OwnerId", "Power", "Price", "Title", "VehicleTypeId", "Year" },
-                values: new object[] { 2, null, null, "Blue", "Modification (Engine): ST-Line 2.5 (243 Hp) Plug-in Hybrid CVT, Powertrain Architecture: PHEV (Plug-in Hybrid Electric Vehicle), Combined fuel consumption: 0.9-1.2 l/100 km, CO2 emissions: 20-28 g/km, Fuel Type: Petrol / electricity, Acceleration 0 - 100 km/h: 7.3 sec, Acceleration 0 - 62 mph: 7.3 sec, Maximum speed: 200 km/h (124.27 mph), Emission standard: Euro 6d.", "https://www.auto-data.net/images/f76/Ford-Kuga-III-facelift-2024_1.jpg", "3189 Duke Lane, Newark, NJ, 07102", "Ford", 0, "Kuga III facelift", "dea12856-c198-4129-b3f3-b893d83950", 243, 37610.00m, "2024 Ford Kuga III ST-Line 2.5 (243 кс) Plug-in Hybrid CVT", 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2024) });
+                values: new object[] { 2, null, null, "Blue", "Modification (Engine): ST-Line 2.5 (243 Hp) Plug-in Hybrid CVT, Powertrain Architecture: PHEV (Plug-in Hybrid Electric Vehicle), Combined fuel consumption: 0.9-1.2 l/100 km, CO2 emissions: 20-28 g/km, Fuel Type: Petrol / electricity, Acceleration 0 - 100 km/h: 7.3 sec, Acceleration 0 - 62 mph: 7.3 sec, Maximum speed: 200 km/h (124.27 mph), Emission standard: Euro 6d.", "https://www.auto-data.net/images/f76/Ford-Kuga-III-facelift-2024_1.jpg", "3189 Duke Lane, Newark, NJ, 07102", "Ford", 0, "Kuga III facelift", 1, 243, 37610.00m, "2024 Ford Kuga III ST-Line 2.5 (243 кс) Plug-in Hybrid CVT", 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified).AddTicks(2024) });
 
             migrationBuilder.InsertData(
                 table: "Auctions",
@@ -307,13 +305,13 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Bids",
-                columns: new[] { "AuctionId", "CustomerId", "Amount", "BidTime", "Id" },
-                values: new object[] { 1, "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e", 26000.00m, new DateTime(2024, 4, 25, 12, 42, 0, 0, DateTimeKind.Unspecified), 1 });
+                columns: new[] { "Id", "Amount", "AuctionId", "BidTime", "CustomerId" },
+                values: new object[] { 1, 26000.00m, 1, new DateTime(2024, 4, 25, 12, 42, 0, 0, DateTimeKind.Unspecified), "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e" });
 
             migrationBuilder.InsertData(
                 table: "Bids",
-                columns: new[] { "AuctionId", "CustomerId", "Amount", "BidTime", "Id" },
-                values: new object[] { 1, "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s", 27000.00m, new DateTime(2024, 4, 25, 12, 43, 0, 0, DateTimeKind.Unspecified), 2 });
+                columns: new[] { "Id", "Amount", "AuctionId", "BidTime", "CustomerId" },
+                values: new object[] { 2, 27000.00m, 1, new DateTime(2024, 4, 25, 12, 43, 0, 0, DateTimeKind.Unspecified), "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Agents_Email",
@@ -359,9 +357,9 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_BidAuctionId_BidCustomerId",
+                name: "IX_AspNetUsers_BidId",
                 table: "AspNetUsers",
-                columns: new[] { "BidAuctionId", "BidCustomerId" });
+                column: "BidId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -374,6 +372,11 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                 name: "IX_Auctions_VehicleId",
                 table: "Auctions",
                 column: "VehicleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bids_AuctionId",
+                table: "Bids",
+                column: "AuctionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bids_CustomerId",
@@ -428,11 +431,11 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                 onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AspNetUsers_Bids_BidAuctionId_BidCustomerId",
+                name: "FK_AspNetUsers_Bids_BidId",
                 table: "AspNetUsers",
-                columns: new[] { "BidAuctionId", "BidCustomerId" },
+                column: "BidId",
                 principalTable: "Bids",
-                principalColumns: new[] { "AuctionId", "CustomerId" });
+                principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -444,10 +447,6 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
             migrationBuilder.DropForeignKey(
                 name: "FK_Bids_AspNetUsers_CustomerId",
                 table: "Bids");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Vehicles_AspNetUsers_OwnerId",
-                table: "Vehicles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
