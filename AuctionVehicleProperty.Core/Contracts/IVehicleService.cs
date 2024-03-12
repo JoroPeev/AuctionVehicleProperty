@@ -5,7 +5,5 @@
         Task<bool> VehicleExistsByIdAsync(int vehicleId);
 
         Task<bool> OwnerExistsByIdAsync(string ownerId);
-
-
     }
 }
