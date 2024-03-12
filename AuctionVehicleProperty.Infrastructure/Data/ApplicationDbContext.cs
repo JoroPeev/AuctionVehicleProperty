@@ -28,11 +28,18 @@ namespace AuctionVehicleProperty.Infrastructure.Data
             builder.ApplyConfiguration(new VehicleConfiguration());
             builder.ApplyConfiguration(new AuctionConfiguration());
             builder.ApplyConfiguration(new BidConfiguration());
+            
+            builder.Entity<Bid>()
+            .HasOne(b => b.Auction)
+            .WithMany(a => a.Bids)
+            .HasForeignKey(b => b.AuctionId)
+            .OnDelete(DeleteBehavior.NoAction);
 
-            builder.Entity<Bid>(e =>
-            {
-                e.HasKey(k => new { k.AuctionId, k.CustomerId });
-            });
+            builder.Entity<Vehicle>()
+            .HasOne(v => v.Owner)
+            .WithMany()
+            .HasForeignKey(v => v.OwnerId)
+            .OnDelete(DeleteBehavior.NoAction);
 
             base.OnModelCreating(builder);
         }

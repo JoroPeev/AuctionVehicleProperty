@@ -146,7 +146,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 " Maximum speed: 150 km/h (93.21 mph)," +
                 " Weight-to-power ratio: 9.7 kg/Hp, 103.4 Hp/tonne," +
                 " Weight-to-torque ratio: 5.9 kg/Nm, 169 Nm",
-                OwnerId = "dea12856-c198-4129-b3f3-b893d8395082",
+                OwnerId = 1,
                 Price = 32000.00M,
             };
             HybridVehicle = new Vehicle()
@@ -171,7 +171,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 " Acceleration 0 - 62 mph: 7.3 sec," +
                 " Maximum speed: 200 km/h (124.27 mph)," +
                 " Emission standard: Euro 6d.",
-                OwnerId = "dea12856-c198-4129-b3f3-b893d83950",
+                OwnerId = 1,
                 Price = 37610.00M,
             };
         }

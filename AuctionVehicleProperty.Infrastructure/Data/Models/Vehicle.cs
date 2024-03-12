@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static AuctionVehicleProperty.Infrastructure.Constants.DataConstants;
@@ -90,11 +89,11 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         public string Details { get; set; } = string.Empty;
 
         [Required]
-        public string OwnerId { get; set; } = string.Empty;
+        public int OwnerId { get; set; }
 
         [Required]
         [ForeignKey(nameof(OwnerId))]
-        public IdentityUser Owner { get; set; } = null!;
+        public Agent Owner { get; set; } = null!;
 
 
 
