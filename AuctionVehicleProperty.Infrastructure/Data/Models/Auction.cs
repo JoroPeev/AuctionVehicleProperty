@@ -38,8 +38,9 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         
         
         [Comment("Winner Identyfier")]
-        public int? WinnerID { get; set; }
-        
+        public int? WinnerID { get; set; }//may be swich to string
+
+
 
         [Required]
         [Comment("Vehicle Identyfier")]

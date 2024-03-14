@@ -10,8 +10,4 @@
     <ProjectReference Include="..\AuctionVehicleProperty.Infrastructure\AuctionVehicleProperty.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\Bids\" />
-  </ItemGroup>
-
 </Project>
