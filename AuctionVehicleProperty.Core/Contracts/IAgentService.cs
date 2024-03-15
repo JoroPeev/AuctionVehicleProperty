@@ -1,4 +1,6 @@
-﻿namespace AuctionVehicleProperty.Core.Contracts
+﻿using AuctionVehicleProperty.Core.Models.Agents;
+
+namespace AuctionVehicleProperty.Core.Contracts
 {
     public interface IAgentService
     {
@@ -11,6 +13,14 @@
         Task CreateAsync(string userId, string email);
 
         Task<int?> GetAgentIdAsync(string userId);
+
+        Task<IEnumerable<AgentServiceModel>> GetAllAgentsAsync();
+
+        Task<AgentServiceModel> GetAgentByIdAsync(int agentId);
+
+        Task UpdateAgentAsync(int agentId, AgentUpdateServiceModel updatedAgent);
+
+        Task DeleteAgentAsync(int agentId);
 
     }
 }
