@@ -1,18 +1,28 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
 using AuctionVehicleProperty.Core.Models.Agents;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AuctionVehicleProperty.Infrastructure.Data.Common;
+using AuctionVehicleProperty.Infrastructure.Data.Models;
 
 namespace AuctionVehicleProperty.Core.Services
 {
     public class AgentService : IAgentService
     {
-        public Task CreateAsync(string userId, string email)
+        private readonly IRepository repository;
+
+        public AgentService(IRepository _repository)
         {
-            throw new NotImplementedException();
+            repository = _repository;
+        }
+
+        public async Task CreateAsync(string userId, string email)
+        {
+            await repository.AddAsync(new Agent()
+            {
+                UserId = userId,
+                Email = email
+            });
+
+            await repository.SaveChangesAsync();
         }
 
         public Task DeleteAgentAsync(int agentId)
