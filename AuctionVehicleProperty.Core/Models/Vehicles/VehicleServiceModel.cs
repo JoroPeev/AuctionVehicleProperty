@@ -17,7 +17,7 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
       
         public string Title { get; set; } = string.Empty;
 
-        public string ImageUrl { get; set; } = string.Empty;
+        public string ImageUrls { get; set; } = string.Empty;
 
         public int VehicleTypeId { get; set; }
 
