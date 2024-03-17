@@ -8,21 +8,21 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         public IdentityUser AgentUser { get; set; }
         public IdentityUser GuestUser { get; set; }
         public IdentityUser SecondGuestUser { get; set; }
-       
+
         public Agent Agent { get; set; }
-        
+
         public Bid GuestBid { get; set; }
         public Bid SecondGuestBid { get; set; }
-        
+
         public Auction CarAuction { get; set; }
-        
+
         public Category SUVCategory { get; set; }
         public Category CoupeCategory { get; set; }
         public Category SedanCategory { get; set; }
         public Category PickupCategory { get; set; }
         public Category HatchbackCategory { get; set; }
         public Category ConvertibleCategory { get; set; }
-        
+
         public Vehicle ElectricVehicle { get; set; }
         public Vehicle HybridVehicle { get; set; }
 
@@ -62,7 +62,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
 
             GuestUser.PasswordHash =
             hasher.HashPassword(AgentUser, "guest123");
-            
+
             SecondGuestUser = new IdentityUser()
             {
                 Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s",
@@ -125,13 +125,13 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         }
         private void SeedVehicles()
         {
-            DateTime date = new DateTime(2024);
+            DateTime date = new DateTime(2024,12,23);
 
             ElectricVehicle = new Vehicle()
             {
                 Id = 1,
                 Title = "2024 Renault 5 E-Tech 52 kWh (150 hp) Electric",
-                ImageUrl = "https://www.auto-data.net/images/f46/Renault-5-E-Tech_1.jpg",
+                ImageUrls = "https://www.auto-data.net/images/f46/Renault-5-E-Tech_1.jpg",
                 VehicleTypeId = 3,
                 Make = "Renault",
                 Model = "5 E-Tech",
@@ -153,7 +153,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
             {
                 Id = 2,
                 Title = "2024 Ford Kuga III ST-Line 2.5 (243 кс) Plug-in Hybrid CVT",
-                ImageUrl = "https://www.auto-data.net/images/f76/Ford-Kuga-III-facelift-2024_1.jpg",
+                ImageUrls = "https://www.auto-data.net/en/ford-kuga-iii-facelift-2024-st-line-2.5-243hp-plug-in-hybrid-cvt-51008#image1",
                 VehicleTypeId = 1,
                 Make = "Ford",
                 Model = "Kuga III facelift",

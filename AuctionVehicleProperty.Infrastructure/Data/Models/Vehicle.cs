@@ -19,8 +19,8 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         public string Title { get; set; } = string.Empty;
 
 
-        [Comment("Vehicle Image")]
-        public string ImageUrl { get; set; } = string.Empty;
+        [Comment("Vehicle Images")]
+        public string ImageUrls { get; set; } = String.Empty;
 
 
         [Required]
