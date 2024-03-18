@@ -2,6 +2,8 @@
 using AuctionVehicleProperty.Core.Models.Agents;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -30,37 +32,63 @@ namespace AuctionVehicleProperty.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> ExistsByIdAsync(string userId)
+        public async Task<bool> ExistsByIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Agent>()
+                .AnyAsync(a => a.UserId == userId);
         }
 
-        public Task<AgentServiceModel> GetAgentByIdAsync(int agentId)
+        public async Task<int?> GetAgentByIdAsync(int agentId)
         {
-            throw new NotImplementedException();
+            return (await repository.AllReadOnly<Agent>()
+            .FirstOrDefaultAsync(a => a.Id == agentId))?.Id;
         }
 
-        public Task<int?> GetAgentIdAsync(string userId)
+        public async Task<int?> GetAgentIdAsync(string userId)
         {
-            throw new NotImplementedException();
+            return (await repository.AllReadOnly<Agent>()
+            .FirstOrDefaultAsync(a => a.UserId == userId))?.Id;
         }
 
-        public Task<IEnumerable<AgentServiceModel>> GetAllAgentsAsync()
+        public async Task<IEnumerable<AgentServiceModel>> GetAllAgentsAsync()
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Agent>().Select(a => new AgentServiceModel()
+            {
+                Id = a.Id,
+                Email = a.Email,
+                Location = a.Location,
+                Vehicles = a.Vehicles,
+                UserId = a.UserId,
+
+            }).ToListAsync();
         }
 
-        public Task UpdateAgentAsync(int agentId, AgentUpdateServiceModel updatedAgent)
+        public async Task UpdateAgentAsync(int agentId, AgentUpdateServiceModel updatedAgent)
         {
-            throw new NotImplementedException();
+            var agent = await repository.GetByIdAsync<Agent>(agentId);
+
+            if (agent != null)
+            {
+                agent.Email = updatedAgent.Email;
+                agent.Location = updatedAgent.Location;
+                agent.Vehicles = updatedAgent.Vehicles;
+            }
+
+            await repository.SaveChangesAsync();
         }
 
-        public Task<bool> UserHasVehiclesAsync(string userId)
+        public async Task<bool> UserHasVehiclesAsync(string userId)
         {
+
             throw new NotImplementedException();
         }
 
         public Task<bool> UserWithEmailExistsAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<AgentServiceModel> IAgentService.GetAgentByIdAsync(int agentId)
         {
             throw new NotImplementedException();
         }
