@@ -1,10 +1,17 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
 using AuctionVehicleProperty.Core.Models.Auctions;
+using AuctionVehicleProperty.Infrastructure.Data.Common;
 
 namespace AuctionVehicleProperty.Core.Services
 {
     public class AuctionService : IAuctionService
     {
+        private readonly IRepository repository;
+
+        public AuctionService(IRepository _repository)
+        {
+            repository = _repository;
+        }
         public Task<IEnumerable<AuctionIndexServiceModel>> AllAuctionsAsync()
         {
             throw new NotImplementedException();
