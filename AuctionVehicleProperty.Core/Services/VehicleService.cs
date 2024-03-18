@@ -1,18 +1,10 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
 using AuctionVehicleProperty.Core.Models.Vehicles;
-using AuctionVehicleProperty.Infrastructure.Data.Common;
 
 namespace AuctionVehicleProperty.Core.Services
 {
     public class VehicleService : IVehicleService
     {
-        private readonly IRepository repository;
-
-        public VehicleService(IRepository _repository)
-        {
-            repository = _repository;
-        }
-
         public Task AddVehicleAsync(VehicleCreationServiceModel vehicle)
         {
             throw new NotImplementedException();
