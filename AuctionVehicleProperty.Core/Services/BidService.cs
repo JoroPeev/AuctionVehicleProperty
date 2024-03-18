@@ -1,10 +1,18 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
 using AuctionVehicleProperty.Core.Models.Bids;
+using AuctionVehicleProperty.Infrastructure.Data.Common;
 
 namespace AuctionVehicleProperty.Core.Services
 {
     public class BidService : IBidService
     {
+        private readonly IRepository repository;
+
+        public BidService(IRepository _repository)
+        {
+            repository = _repository;
+        }
+
         public Task<bool> AuctionExistsAsync(string auctionId)
         {
             throw new NotImplementedException();
