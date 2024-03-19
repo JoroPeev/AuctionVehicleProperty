@@ -6,9 +6,9 @@ namespace AuctionVehicleProperty.Core.Contracts
     {
         Task<bool> ExistsByIdAsync(string userId);
 
-        Task<bool> UserWithEmailExistsAsync(string email);
+        Task<bool> AgentWithEmailExistsAsync(string email);
 
-        Task<bool> UserHasVehiclesAsync(string userId);
+        Task<bool> AgentHasVehiclesAsync(int agentId);
 
         Task CreateAsync(string userId, string email);
 
@@ -16,11 +16,7 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task<IEnumerable<AgentServiceModel>> GetAllAgentsAsync();
 
-        Task<AgentServiceModel> GetAgentByIdAsync(int agentId);
-
         Task UpdateAgentAsync(int agentId, AgentUpdateServiceModel updatedAgent);
-
-        Task DeleteAgentAsync(int agentId);
 
     }
 }

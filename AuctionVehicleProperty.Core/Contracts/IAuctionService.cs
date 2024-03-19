@@ -18,10 +18,5 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task PlaceBidAsync(int auctionId, string userId, decimal amount);
 
-        Task CloseAuctionAsync(int auctionId);
-
-
-
-
     }
 }

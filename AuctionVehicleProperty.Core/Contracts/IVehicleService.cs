@@ -6,11 +6,11 @@ namespace AuctionVehicleProperty.Core.Contracts
     {
         Task<bool> VehicleExistsByIdAsync(int vehicleId);
 
-        Task<bool> OwnerExistsByIdAsync(string ownerId);
+        Task<bool> OwnerExistsByIdAsync(int ownerId);
 
         Task<IEnumerable<VehicleServiceModel>> GetAllVehiclesAsync();
 
-        Task<IEnumerable<VehicleServiceModel>> GetVehiclesByOwnerIdAsync(string ownerId);
+        Task<IEnumerable<VehicleServiceModel>> GetVehiclesByOwnerIdAsync(int ownerId);
 
         Task<VehicleServiceModel> GetVehicleByIdAsync(int vehicleId);
 
