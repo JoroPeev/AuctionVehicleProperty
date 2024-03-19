@@ -38,10 +38,20 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Common
         {
             return await context.SaveChangesAsync();
         }
+
         public async Task<T?> GetByIdAsync<T>(object id) where T : class
         {
             return await DbSet<T>().FindAsync(id);
         }
-    }
 
+        public async Task DeleteEntity<TEntity>(int id) where TEntity : class
+        {
+            var entity = await context.Set<TEntity>().FindAsync(id);
+            if (entity != null)
+            {
+                context.Set<TEntity>().Remove(entity);
+                await context.SaveChangesAsync();
+            }
+        }
+    }
 }
