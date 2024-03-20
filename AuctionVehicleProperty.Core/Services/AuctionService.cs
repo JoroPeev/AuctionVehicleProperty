@@ -1,6 +1,8 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
 using AuctionVehicleProperty.Core.Models.Auctions;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
+using AuctionVehicleProperty.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -12,9 +14,18 @@ namespace AuctionVehicleProperty.Core.Services
         {
             repository = _repository;
         }
-        public Task<IEnumerable<AuctionIndexServiceModel>> AllAuctionsAsync()
+        public async Task<IEnumerable<AuctionIndexServiceModel>> AllAuctionsAsync()
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Auction>().Select(a => new AuctionIndexServiceModel
+            {
+                VehicleId = a.VehicleId,
+                EndTime = a.EndTime,
+                StartingPrice = a.StartingPrice,
+                StartingTime = a.StartingTime,
+                MinimumBidIncrement = a.MinimumBidIncrement
+
+
+            }).ToListAsync();
         }
 
         public Task<bool> AuctionExistAsync(int auctionId)
