@@ -3,7 +3,6 @@ using AuctionVehicleProperty.Core.Models.Agents;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -25,11 +24,6 @@ namespace AuctionVehicleProperty.Core.Services
             });
 
             await repository.SaveChangesAsync();
-        }
-
-        public Task DeleteAgentAsync(int agentId)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<bool> ExistsByIdAsync(string userId)
@@ -77,20 +71,18 @@ namespace AuctionVehicleProperty.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public async Task<bool> UserHasVehiclesAsync(string userId)
+        public async Task<bool> AgentHasVehiclesAsync(int agentId)
         {
+            var agent = await repository.GetByIdAsync<Agent>(agentId);
 
-            throw new NotImplementedException();
+            return agent != null && agent.Vehicles.Any();
         }
 
-        public Task<bool> UserWithEmailExistsAsync(string email)
+        public async Task<bool> AgentWithEmailExistsAsync(string email)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Agent>()
+                .AnyAsync(a => a.Email == email);
         }
 
-        Task<AgentServiceModel> IAgentService.GetAgentByIdAsync(int agentId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
