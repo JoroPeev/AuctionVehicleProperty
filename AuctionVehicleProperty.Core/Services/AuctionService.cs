@@ -28,15 +28,41 @@ namespace AuctionVehicleProperty.Core.Services
             }).ToListAsync();
         }
 
-        public Task<bool> AuctionExistAsync(int auctionId)
+        public async Task<bool> AuctionExistAsync(int auctionId)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Auction>()
+             .AnyAsync(a => a.Id == auctionId);
         }
 
-        public Task CloseAuctionAsync(int auctionId)
+        public async Task CloseAuctionUserAsync(int auctionId, string winnerId)
         {
-            throw new NotImplementedException();
+            var auction = await repository.GetByIdAsync<Auction>(auctionId);
+
+            if (winnerId != null&&auction!=null)
+            {
+                auction.WinnerIdUser = winnerId;
+
+                await repository.AddAsync(auction);
+
+                await repository.UpdateAsync(auction);
+            }
+
         }
+        public async Task CloseAuctionAgentAsync(int auctionId,int winnerId)
+        {
+            var auction = await repository.GetByIdAsync<Auction>(auctionId);
+            
+            if (winnerId != 0 && auction != null)
+            {
+                auction.WinnerIdAgent= winnerId;
+
+                await repository.AddAsync(auction);
+
+                await repository.UpdateAsync(auction);
+            }
+        
+        }
+
 
         public Task CreateAsync(string userId, string email, AuctionCreationServiceModel auctionData)
         {

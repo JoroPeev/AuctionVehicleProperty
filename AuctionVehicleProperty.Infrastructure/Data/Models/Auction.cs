@@ -37,9 +37,12 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         public decimal MinimumBidIncrement { get; set; }
         
         
-        [Comment("Winner Identyfier")]
-        public int? WinnerID { get; set; }//may be swich to string
+        [Comment("Winner user Identyfier")]
+        public string? WinnerIdUser { get; set; }
 
+
+        [Comment("Winner agent Identyfier")]
+        public int? WinnerIdAgent { get; set; }
 
 
         [Required]
