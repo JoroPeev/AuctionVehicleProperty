@@ -4,6 +4,7 @@ using AuctionVehicleProperty.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuctionVehicleProperty.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240321192632_AddingWinnerInAution")]
+    partial class AddingWinnerInAution
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -95,12 +97,12 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasComment("Vehicle Identyfier");
 
-                    b.Property<int?>("WinnerIdAgent")
-                        .HasColumnType("int")
+                    b.Property<string>("WinnerIdAgent")
+                        .HasColumnType("nvarchar(max)")
                         .HasComment("Winner agent Identyfier");
 
-                    b.Property<string>("WinnerIdUser")
-                        .HasColumnType("nvarchar(max)")
+                    b.Property<int?>("WinnerIdUser")
+                        .HasColumnType("int")
                         .HasComment("Winner user Identyfier");
 
                     b.HasKey("Id");
@@ -480,15 +482,15 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "77b681eb-b04d-4092-adbe-a40ed959925d",
+                            ConcurrencyStamp = "a63a14fa-cf8b-46f2-985a-a8cd8965d505",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEDFy5U0jq/cIGnwUjs0rY2Xb7RDm+vgx5CQLNZKzAu34ZVabTitB51KqJl8W9ytuZQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAoNthGyZZ8o6JGDt2dt+GbauqZVzsu6asCCOnSMkPvJkahSDNxqbmwi+9y/W27PCA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "91d436ef-ba48-4e6e-bd09-4b2deb4ad474",
+                            SecurityStamp = "33a45a9f-d0c9-4c1e-b375-281c5007e2fd",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -496,15 +498,15 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7b82cfbd-32f3-4670-b231-4b78b5f19a18",
+                            ConcurrencyStamp = "b8993df7-ea92-4caa-b2ec-065d6991ad1a",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAyxqUe+1fWt1DLTXofpIlaEHL+I9xQ5fnnM6L4vIt8yo+GTn5mck+SJpBJ6YQHLtA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKIQVLr5hcIuDZwSwuzkiVXbiaSalcfQh+iiDLT439CMb+dwaKNi8NFCtoVJU+zg4w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6ffc8bd1-3272-44ce-a693-afc6caca080c",
+                            SecurityStamp = "781ae882-fa11-47fd-bf79-5607ba9eeb28",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -512,14 +514,14 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b5fe9ca7-a5b2-44e4-a499-9d1c9497ec37",
+                            ConcurrencyStamp = "68771807-5be3-4e75-ad1a-e3616431c6cb",
                             Email = "Secondguest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "Secondguest@mail.com",
                             NormalizedUserName = "Secondguest@mail.com",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d1f86e1a-7256-458b-b13f-46acb7253b15",
+                            SecurityStamp = "57797835-3946-4c13-988f-97d987252e91",
                             TwoFactorEnabled = false,
                             UserName = "Secondguest@mail.com"
                         });
