@@ -71,9 +71,12 @@ namespace AuctionVehicleProperty.Core.Services
             return vehicle;
         }
 
-        public Task<IEnumerable<VehicleServiceModel>> GetVehiclesByOwnerIdAsync(int ownerId)
+        public async Task<IEnumerable<VehicleServiceModel>> GetVehiclesByOwnerIdAsync(int ownerId)
         {
-            throw new NotImplementedException();
+            return await repository
+                .AllReadOnly<VehicleServiceModel>()
+                .Where(e => e.OwnerId == ownerId)
+                .ToListAsync();
         }
 
         public Task<bool> OwnerExistsByIdAsync(int ownerId)
