@@ -64,9 +64,19 @@ namespace AuctionVehicleProperty.Core.Services
         }
 
 
-        public Task CreateAsync(string userId, string email, AuctionCreationServiceModel auctionData)
+        public async Task CreateAsync(string userId, string email, AuctionCreationServiceModel auctionData)
         {
-            throw new NotImplementedException();
+            await repository.AddAsync(new Auction()
+            {
+               Id = auctionData.Id,
+               StartingPrice = auctionData.StartingPrice,
+               EndTime = auctionData.EndTime,
+               StartingTime = auctionData.StartingTime,
+               MinimumBidIncrement = auctionData.MinimumBidIncrement,
+               VehicleId = auctionData.VehicleId,
+            });
+
+            await repository.SaveChangesAsync();
         }
 
         public Task<IEnumerable<AuctionIndexServiceModel>> CurrentAuctionsAsync()
