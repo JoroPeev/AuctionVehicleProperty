@@ -1,4 +1,7 @@
-﻿using AuctionVehicleProperty.Infrastructure.Data;
+﻿using AuctionVehicleProperty.Core.Contracts;
+using AuctionVehicleProperty.Core.Services;
+using AuctionVehicleProperty.Infrastructure.Data;
+using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +11,11 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddAplicationServices(this IServiceCollection services) 
         {
+            services.AddScoped<IAuctionService, AuctionService>();
+            services.AddScoped<IBidService, BidService>();
+            services.AddScoped<IAgentService, AgentService>();
+            services.AddScoped<IVehicleService, VehicleService>();
+
             return services;
         }
         public static IServiceCollection AddAplicationDbContext(this IServiceCollection services,IConfiguration config)
