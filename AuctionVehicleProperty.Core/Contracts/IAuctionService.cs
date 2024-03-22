@@ -8,7 +8,7 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task<IEnumerable<AuctionIndexServiceModel>> AllAuctionsAsync();
 
-        Task CreateAsync(string userId, string email, AuctionCreationServiceModel auctionData);
+        Task CreateAsync(AuctionCreationServiceModel auctionData);
 
         Task<bool> AuctionExistAsync(int auctionId);
 

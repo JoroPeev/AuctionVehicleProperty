@@ -64,7 +64,7 @@ namespace AuctionVehicleProperty.Core.Services
         }
 
 
-        public async Task CreateAsync(string userId, string email, AuctionCreationServiceModel auctionData)
+        public async Task CreateAsync(AuctionCreationServiceModel auctionData)
         {
             await repository.AddAsync(new Auction()
             {
