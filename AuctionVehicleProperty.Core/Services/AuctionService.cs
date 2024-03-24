@@ -3,6 +3,7 @@ using AuctionVehicleProperty.Core.Models.Auctions;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.CompilerServices;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -79,9 +80,21 @@ namespace AuctionVehicleProperty.Core.Services
             await repository.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<AuctionIndexServiceModel>> CurrentAuctionsAsync()
+        public async  Task<IEnumerable<AuctionIndexServiceModel>> CurrentAuctionsAsync()
         {
-            throw new NotImplementedException();
+            var auctions = await repository.AllReadOnly<Auction>().ToListAsync();
+            
+            var auctionIndexServiceModels = auctions.Select(a =>
+                new AuctionIndexServiceModel
+                {
+                   EndTime = a.EndTime,
+                   StartingTime = a.StartingTime,
+                   MinimumBidIncrement = a.MinimumBidIncrement,
+                   StartingPrice = a.StartingPrice,
+                   VehicleId = a.VehicleId
+                });
+
+            return auctionIndexServiceModels;
         }
 
         public Task<IEnumerable<AuctionBidServiceModel>> GetAuctionBidsAsync(int auctionId)
