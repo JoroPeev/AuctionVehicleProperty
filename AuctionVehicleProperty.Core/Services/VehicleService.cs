@@ -1,8 +1,10 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
+using AuctionVehicleProperty.Core.Exeptions;
 using AuctionVehicleProperty.Core.Models.Vehicles;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using static AuctionVehicleProperty.Core.Exeptions.ExeptionMessages;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -65,7 +67,7 @@ namespace AuctionVehicleProperty.Core.Services
 
             if (vehicle == null)
             {
-                throw new InvalidDataException("Invalid Vehicle");
+                throw new VehicleExeption(VehicleNotFound);
             }
 
             return vehicle;
@@ -79,19 +81,45 @@ namespace AuctionVehicleProperty.Core.Services
                 .ToListAsync();
         }
 
-        public Task<bool> OwnerExistsByIdAsync(int ownerId)
+        public async Task<bool> OwnerExistsByIdAsync(int ownerId)
         {
-            throw new NotImplementedException();
+           var owner = await repository.GetByIdAsync<Agent>(ownerId);
+
+            if (owner!=null)
+            {
+                return true;
+            }
+
+            return false;
+
         }
 
-        public Task UpdateVehicleAsync(int vehicleId, VehicleUpdateServiceModel updatedVehicle)
+        public async Task UpdateVehicleAsync(int vehicleId, VehicleUpdateServiceModel updatedVehicle)
         {
-            throw new NotImplementedException();
+            var vehicle = await repository.GetByIdAsync<Vehicle>(vehicleId);
+
+            if (vehicle != null)
+            {
+                vehicle.Title = updatedVehicle.Title;
+            }
+            else
+            {
+                throw new VehicleExeption(VehicleNotFound);
+            }
+
+            await repository.SaveChangesAsync();
         }
 
-        public Task<bool> VehicleExistsByIdAsync(int vehicleId)
+        public async Task<bool> VehicleExistsByIdAsync(int vehicleId)
         {
-            throw new NotImplementedException();
+            var vehicle = await repository.GetByIdAsync<Vehicle>(vehicleId);
+
+            if (vehicle != null)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
