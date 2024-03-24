@@ -1,6 +1,7 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
 using AuctionVehicleProperty.Core.Models.Bids;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
+using AuctionVehicleProperty.Infrastructure.Data.Models;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -13,9 +14,17 @@ namespace AuctionVehicleProperty.Core.Services
             repository = _repository;
         }
 
-        public Task<bool> AuctionExistsAsync(string auctionId)
+        public async Task<bool> AuctionExistsAsync(string auctionId)
         {
-            throw new NotImplementedException();
+            var vehicle = await repository.GetByIdAsync<Auction>(auctionId);
+
+            if (vehicle != null)
+            {
+                return true;
+            }
+         
+            return false;
+        
         }
 
         public Task<bool> CanPlaceBidAsync(string userId, string auctionId, decimal amount)
