@@ -1,9 +1,9 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
 using AuctionVehicleProperty.Core.Models.Auctions;
+using AuctionVehicleProperty.Core.Models.Bids;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -39,7 +39,7 @@ namespace AuctionVehicleProperty.Core.Services
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
 
-            if (winnerId != null&&auction!=null)
+            if (winnerId != null && auction != null)
             {
                 auction.WinnerIdUser = winnerId;
 
@@ -49,19 +49,19 @@ namespace AuctionVehicleProperty.Core.Services
             }
 
         }
-        public async Task CloseAuctionAgentAsync(int auctionId,int winnerId)
+        public async Task CloseAuctionAgentAsync(int auctionId, int winnerId)
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
-            
+
             if (winnerId != 0 && auction != null)
             {
-                auction.WinnerIdAgent= winnerId;
+                auction.WinnerIdAgent = winnerId;
 
                 await repository.AddAsync(auction);
 
                 await repository.UpdateAsync(auction);
             }
-        
+
         }
 
 
@@ -69,52 +69,114 @@ namespace AuctionVehicleProperty.Core.Services
         {
             await repository.AddAsync(new Auction()
             {
-               Id = auctionData.Id,
-               StartingPrice = auctionData.StartingPrice,
-               EndTime = auctionData.EndTime,
-               StartingTime = auctionData.StartingTime,
-               MinimumBidIncrement = auctionData.MinimumBidIncrement,
-               VehicleId = auctionData.VehicleId,
+                Id = auctionData.Id,
+                StartingPrice = auctionData.StartingPrice,
+                EndTime = auctionData.EndTime,
+                StartingTime = auctionData.StartingTime,
+                MinimumBidIncrement = auctionData.MinimumBidIncrement,
+                VehicleId = auctionData.VehicleId,
             });
 
             await repository.SaveChangesAsync();
         }
 
-        public async  Task<IEnumerable<AuctionIndexServiceModel>> CurrentAuctionsAsync()
+        public async Task<IEnumerable<AuctionIndexServiceModel>> CurrentAuctionsAsync()
         {
             var auctions = await repository.AllReadOnly<Auction>().ToListAsync();
-            
+
             var auctionIndexServiceModels = auctions.Select(a =>
                 new AuctionIndexServiceModel
                 {
-                   EndTime = a.EndTime,
-                   StartingTime = a.StartingTime,
-                   MinimumBidIncrement = a.MinimumBidIncrement,
-                   StartingPrice = a.StartingPrice,
-                   VehicleId = a.VehicleId
+                    EndTime = a.EndTime,
+                    StartingTime = a.StartingTime,
+                    MinimumBidIncrement = a.MinimumBidIncrement,
+                    StartingPrice = a.StartingPrice,
+                    VehicleId = a.VehicleId
                 });
 
             return auctionIndexServiceModels;
         }
 
-        public Task<IEnumerable<AuctionBidServiceModel>> GetAuctionBidsAsync(int auctionId)
+        public async Task<ICollection<Bid>> GetAuctionBidsAsync(int auctionId)
         {
-            throw new NotImplementedException();
+            var auction = await repository.GetByIdAsync<Auction>(auctionId);
+
+            return auction.Bids;
+
         }
 
-        public Task<AuctionCreationServiceModel> GetAuctionDetailsAsync(int auctionId)
+        public async Task<AuctionCreationServiceModel> GetAuctionDetailsAsync(int auctionId)
         {
-            throw new NotImplementedException();
+            var a = await repository.GetByIdAsync<Auction>(auctionId);
+
+            var auctionIndexServiceModels = new AuctionCreationServiceModel
+            {
+                EndTime = a.EndTime,
+                StartingTime = a.StartingTime,
+                MinimumBidIncrement = a.MinimumBidIncrement,
+                StartingPrice = a.StartingPrice,
+                VehicleId = a.VehicleId,
+                Bids = a.Bids,
+                Id = a.Id,
+                WinnerAgentID = a.WinnerIdAgent,
+                WinnerUserID = a.WinnerIdUser
+
+            };
+
+            return auctionIndexServiceModels;
         }
 
-        public Task<IEnumerable<AuctionIndexServiceModel>> LatestAuctionsAsync()
+        public async Task<IEnumerable<AuctionIndexServiceModel>> LatestAuctionsAsync()
         {
-            throw new NotImplementedException();
+            var auctionIndices = await repository.AllReadOnly<Auction>()
+                .Select(h => new AuctionIndexServiceModel()
+                {
+                    VehicleId = h.VehicleId,
+                    StartingPrice = h.StartingPrice,
+                    StartingTime = h.StartingTime,
+                    EndTime = h.EndTime,
+                    MinimumBidIncrement = h.MinimumBidIncrement
+
+                }).ToListAsync();
+
+            return auctionIndices;
+
         }
 
-        public Task PlaceBidAsync(int auctionId, string userId, decimal amount)
+        public async Task PlaceBidAsync(int auctionId, string userId, decimal amount)
         {
-            throw new NotImplementedException();
+            var auction = await repository.GetByIdAsync<Auction>(auctionId);
+
+            if (auction == null)
+            {
+                throw new InvalidOperationException($"Auction with ID {auctionId} not found.");
+            }
+
+            var currentHighestBid = await repository.AllReadOnly<Bid>()
+                                         .Where(e => e.AuctionId == auctionId)
+                                         .Select(e => e.Amount)
+                                         .DefaultIfEmpty()
+                                         .MaxAsync();
+
+
+            if (amount <= currentHighestBid)
+            {
+                throw new InvalidOperationException($"Bid amount must be greater than ${currentHighestBid}.");
+            }
+
+            var bid = new Bid()
+            {
+                Amount = amount,
+                BidTime = DateTime.Now,
+                CustomerId = userId,
+                AuctionId = auctionId,
+
+            };
+
+            auction.Bids.Add(bid);
+
+            await repository.UpdateAsync(auction);
+
         }
     }
 }
