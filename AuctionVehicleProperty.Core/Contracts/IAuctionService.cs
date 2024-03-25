@@ -1,4 +1,5 @@
 ﻿using AuctionVehicleProperty.Core.Models.Auctions;
+using AuctionVehicleProperty.Infrastructure.Data.Models;
 
 namespace AuctionVehicleProperty.Core.Contracts
 {
@@ -18,7 +19,7 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task<AuctionCreationServiceModel> GetAuctionDetailsAsync(int auctionId);
 
-        Task<IEnumerable<AuctionBidServiceModel>> GetAuctionBidsAsync(int auctionId);
+        Task<ICollection<Bid>> GetAuctionBidsAsync(int auctionId);
 
         Task<IEnumerable<AuctionIndexServiceModel>> LatestAuctionsAsync();
         
