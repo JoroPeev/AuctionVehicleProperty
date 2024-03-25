@@ -21,7 +21,9 @@ namespace AuctionVehicleProperty.Core.Models.Auctions
         public decimal MinimumBidIncrement { get; set; }
 
         [Display(Name = "Winner")]
-        public int? WinnerID { get; set; }
+        public int? WinnerAgentID { get; set; }
+
+        public string? WinnerUserID { get; set; }
 
         public int VehicleId { get; set; }
 
