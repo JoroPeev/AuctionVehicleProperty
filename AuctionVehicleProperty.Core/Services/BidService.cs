@@ -1,7 +1,11 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
+using AuctionVehicleProperty.Core.Exeptions;
 using AuctionVehicleProperty.Core.Models.Bids;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using static AuctionVehicleProperty.Core.Exeptions.ExeptionMessages;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -16,9 +20,9 @@ namespace AuctionVehicleProperty.Core.Services
 
         public async Task<bool> AuctionExistsAsync(string auctionId)
         {
-            var vehicle = await repository.GetByIdAsync<Auction>(auctionId);
+            var auction = await repository.GetByIdAsync<Auction>(auctionId);
 
-            if (vehicle != null)
+            if (auction != null)
             {
                 return true;
             }
@@ -27,24 +31,80 @@ namespace AuctionVehicleProperty.Core.Services
         
         }
 
-        public Task<bool> CanPlaceBidAsync(string userId, string auctionId, decimal amount)
+        public async Task<bool> CanPlaceBidAsync(string userId, int auctionId, decimal amount)
+        {
+            var user = await repository.GetByIdAsync<IdentityUser>(userId);
+
+            if (user==null)
+            {
+                throw new UserNotFoundExeption(UserNotFound);
+            }
+
+            if (user.EmailConfirmed)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public Task<IEnumerable<BidHistoryServiceModel>> GetBidHistoryAsync(int auctionId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<BidHistoryServiceModel>> GetBidHistoryAsync(string auctionId)
+        public async Task<decimal?> GetHighestBidAsync(int auctionId)
         {
-            throw new NotImplementedException();
+            var auction = await repository.GetByIdAsync<Auction>(auctionId);
+
+            if (auction == null)
+            {
+                throw new AuctionExeption(AuctionNotFound);
+            }
+
+            
+           var bid = auction.Bids.Max(e=>e.Amount);
+
+            return bid;
+
+
         }
 
-        public Task<decimal?> GetHighestBidAsync(string auctionId)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task PlaceBidAsync(string userId, string auctionId, decimal amount)
+        public async Task PlaceBidAsync(int auctionId, string userId, decimal amount)
         {
-            throw new NotImplementedException();
+            var auction = await repository.GetByIdAsync<Auction>(auctionId);
+
+            if (auction == null)
+            {
+                throw new InvalidOperationException(AuctionNotFound);
+            }
+
+            var currentHighestBid = await repository.AllReadOnly<Bid>()
+                                         .Where(e => e.AuctionId == auctionId)
+                                         .Select(e => e.Amount)
+                                         .DefaultIfEmpty()
+                                         .MaxAsync();
+
+
+            if (amount <= currentHighestBid)
+            {
+                throw new InvalidOperationException(AuctionBiding);
+            }
+
+            var bid = new Bid()
+            {
+                Amount = amount,
+                BidTime = DateTime.Now,
+                CustomerId = userId,
+                AuctionId = auctionId,
+
+            };
+
+            auction.Bids.Add(bid);
+
+            await repository.UpdateAsync(auction);
+
         }
 
         public Task<bool> UserExistsAsync(string userId)
@@ -52,7 +112,7 @@ namespace AuctionVehicleProperty.Core.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> VehicleExistsAsync(string vehicleId)
+        public Task<bool> VehicleExistsAsync(int vehicleId)
         {
             throw new NotImplementedException();
         }

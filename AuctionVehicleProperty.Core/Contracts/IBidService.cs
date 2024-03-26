@@ -8,14 +8,14 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task<bool> UserExistsAsync(string userId);
 
-        Task<bool> VehicleExistsAsync(string vehicleId);
+        Task<bool> VehicleExistsAsync(int vehicleId);
 
-        Task<decimal?> GetHighestBidAsync(string auctionId);
+        Task<decimal?> GetHighestBidAsync(int auctionId);
 
-        Task<IEnumerable<BidHistoryServiceModel>> GetBidHistoryAsync(string auctionId);
+        Task<IEnumerable<BidHistoryServiceModel>> GetBidHistoryAsync(int auctionId);
 
-        Task PlaceBidAsync(string userId, string auctionId, decimal amount);
+        Task PlaceBidAsync(int auctionId, string userId, decimal amount);
 
-        Task<bool> CanPlaceBidAsync(string userId, string auctionId, decimal amount);
+        Task<bool> CanPlaceBidAsync(string userId, int auctionId, decimal amount);
     }
 }
