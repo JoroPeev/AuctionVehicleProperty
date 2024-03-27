@@ -48,11 +48,6 @@ namespace AuctionVehicleProperty.Core.Services
             return false;
         }
 
-        public Task<IEnumerable<BidHistoryServiceModel>> GetBidHistoryAsync(int auctionId)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<decimal?> GetHighestBidAsync(int auctionId)
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
@@ -107,14 +102,38 @@ namespace AuctionVehicleProperty.Core.Services
 
         }
 
-        public Task<bool> UserExistsAsync(string userId)
+        public async Task<IEnumerable<BidHistoryServiceModel>> GetBidHistoryAsync(int auctionId)
         {
-            throw new NotImplementedException();
+            var auction = await repository.GetByIdAsync<Auction>(auctionId);
+
+            if (auction != null)
+            {
+                var bidHistory = auction.Bids.Select(bid => new BidHistoryServiceModel
+                {
+                    Amount = bid.Amount,
+                    BidTime = bid.BidTime,
+                    UserId = bid.CustomerId,
+                });
+
+                return bidHistory;
+            }
+            else
+            {
+                throw new InvalidOperationException(AuctionBiding);
+            }
         }
 
-        public Task<bool> VehicleExistsAsync(int vehicleId)
+
+        public async Task<bool> UserExistsAsync(string userId)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<IdentityUser>()
+             .AnyAsync(a => a.Id == userId);
+        }
+
+        public async Task<bool> VehicleExistsAsync(int vehicleId)
+        {
+            return await repository.AllReadOnly<Vehicle>()
+             .AnyAsync(a => a.Id == vehicleId);
         }
     }
 }
