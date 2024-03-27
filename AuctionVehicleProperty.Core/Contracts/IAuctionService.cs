@@ -23,7 +23,5 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task<IEnumerable<AuctionIndexServiceModel>> LatestAuctionsAsync();
         
-        Task PlaceBidAsync(int auctionId, string userId, decimal amount);
-
     }
 }
