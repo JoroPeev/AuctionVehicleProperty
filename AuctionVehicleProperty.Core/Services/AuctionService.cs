@@ -4,6 +4,7 @@ using AuctionVehicleProperty.Core.Models.Bids;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using static AuctionVehicleProperty.Core.Exeptions.ExeptionMessages;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -140,42 +141,6 @@ namespace AuctionVehicleProperty.Core.Services
                 }).ToListAsync();
 
             return auctionIndices;
-
-        }
-
-        public async Task PlaceBidAsync(int auctionId, string userId, decimal amount)
-        {
-            var auction = await repository.GetByIdAsync<Auction>(auctionId);
-
-            if (auction == null)
-            {
-                throw new InvalidOperationException($"Auction with ID {auctionId} not found.");
-            }
-
-            var currentHighestBid = await repository.AllReadOnly<Bid>()
-                                         .Where(e => e.AuctionId == auctionId)
-                                         .Select(e => e.Amount)
-                                         .DefaultIfEmpty()
-                                         .MaxAsync();
-
-
-            if (amount <= currentHighestBid)
-            {
-                throw new InvalidOperationException($"Bid amount must be greater than ${currentHighestBid}.");
-            }
-
-            var bid = new Bid()
-            {
-                Amount = amount,
-                BidTime = DateTime.Now,
-                CustomerId = userId,
-                AuctionId = auctionId,
-
-            };
-
-            auction.Bids.Add(bid);
-
-            await repository.UpdateAsync(auction);
 
         }
     }
