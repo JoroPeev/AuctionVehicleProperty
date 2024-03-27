@@ -13,7 +13,6 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         [Comment("Agent identifier")]
         public int Id { get; set; }
 
-
         [Required]
         [EmailAddress]
         [Comment("Agent's Email")]
