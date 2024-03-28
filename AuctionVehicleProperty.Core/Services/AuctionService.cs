@@ -1,6 +1,6 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
+using AuctionVehicleProperty.Core.Exeptions;
 using AuctionVehicleProperty.Core.Models.Auctions;
-using AuctionVehicleProperty.Core.Models.Bids;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
@@ -102,7 +102,12 @@ namespace AuctionVehicleProperty.Core.Services
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
 
-            return auction.Bids;
+            if (auction != null)
+            {
+                return auction.Bids;
+            }
+
+            throw new AuctionExeption(AuctionNotFound);
 
         }
 
