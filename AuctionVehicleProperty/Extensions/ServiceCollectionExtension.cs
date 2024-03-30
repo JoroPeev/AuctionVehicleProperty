@@ -11,10 +11,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddAplicationServices(this IServiceCollection services) 
         {
-            services.AddScoped<IAuctionService, AuctionService>();
-            services.AddScoped<IBidService, BidService>();
-            services.AddScoped<IVehicleService, VehicleService>();
-            services.AddScoped<IAgentService, AgentService>();
+
 
             return services;
         }
