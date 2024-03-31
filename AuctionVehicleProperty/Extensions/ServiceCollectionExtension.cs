@@ -1,6 +1,7 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
 using AuctionVehicleProperty.Core.Services;
 using AuctionVehicleProperty.Infrastructure.Data;
+using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,8 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IServiceCollection AddAplicationServices(this IServiceCollection services) 
         {
-
+            services.AddScoped<IRepository, Repository>();
+            services.AddScoped<IVehicleService, VehicleService>();
 
             return services;
         }
