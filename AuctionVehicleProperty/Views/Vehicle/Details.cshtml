@@ -1,0 +1,37 @@
+﻿@using AuctionVehicleProperty.Core.Contracts
+@model VehicleServiceModel
+@inject IVehicleService houseService
+
+@{
+    ViewBag.Title = "Vehicle Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="col-4">
+            <img class="card-img-top" style="width: 20rem;"
+                    src="@Model.ImageUrls" alt="Vehicle Image">
+        </div>
+        <div class="card col-8 border-0">
+            <p style="font-size:25px;"><u>@Model.Title</u></p>
+            <p>Located in: <b>@Model.Location</b></p>
+            <p>
+               Starting Price:
+                <b>@String.Format("{0:f2}", Model.Price) BGN</b>
+            </p>
+            <p>@Model.Details</p>
+            <p>Make: <b>@Model.Make</b></p>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    @* <h5 class="card-title">Agent Info</h5> *@
+                    @* <p class="card-text">Full Name:  @Model.Agent.FullName</p> *@
+                    @* <p class="card-text">Email:  @Model.Agent.Email</p> *@
+                    @* <p class="card-text">Phone Number: @Model.Agent.PhoneNumber</p> *@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
