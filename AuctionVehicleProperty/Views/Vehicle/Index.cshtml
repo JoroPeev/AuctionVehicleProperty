@@ -1,0 +1,18 @@
+﻿@model IEnumerable<VehicleServiceModel>
+
+
+<body>
+    <div class="container">
+        <h1>Vehicle Details</h1>
+        @foreach (var vehicle in Model)
+        {
+            <div class="card" style="width: 18rem;">
+                <img src=@vehicle.ImageUrls class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@vehicle.Title</h5>
+                    <a asp-action="Details" class="btn btn-primary">View</a>
+                </div>
+            </div>
+        }
+    </div>
+</body>
