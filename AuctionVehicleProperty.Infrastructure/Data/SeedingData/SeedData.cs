@@ -153,7 +153,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
             {
                 Id = 2,
                 Title = "2024 Ford Kuga III ST-Line 2.5 (243 кс) Plug-in Hybrid CVT",
-                ImageUrls = "https://www.auto-data.net/en/ford-kuga-iii-facelift-2024-st-line-2.5-243hp-plug-in-hybrid-cvt-51008#image1",
+                ImageUrls = "https://autobild.bg/wp-content/uploads/2024/01/image-125-720x404.png",
                 VehicleTypeId = 1,
                 Make = "Ford",
                 Model = "Kuga III facelift",
