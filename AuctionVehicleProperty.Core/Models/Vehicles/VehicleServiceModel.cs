@@ -34,6 +34,9 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
         public string Location { get; set; } = string.Empty;
 
         public int OwnerId { get; set; }
+         
+        public Agent Owner { get; set; } = null!;
+        public string Details { get; set; } = string.Empty;
 
 
 
