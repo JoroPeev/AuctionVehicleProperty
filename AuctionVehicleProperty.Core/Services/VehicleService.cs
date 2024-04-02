@@ -72,7 +72,27 @@ namespace AuctionVehicleProperty.Core.Services
 
             return vehicle;
         }
-
+        public async Task<VehicleServiceModel> VehicleDetailsByIdAsync(int id)
+        {
+            return await repository.AllReadOnly<Vehicle>()
+                .Where(h => h.Id == id)
+                .Select(h => new VehicleServiceModel()
+                {
+                    Id = h.Id,
+                    Details = h.Details,
+                    ImageUrls= h.ImageUrls,
+                    Location = h.Location,
+                    Make = h.Make,
+                    Mileage = h.Mileage,
+                    Model = h.Model, 
+                    Owner = h.Owner,
+                    Price = h.Price,
+                    Title = h.Title,
+                    VehicleTypeId = h.VehicleTypeId,
+                    Year = h.Year,
+                })
+                .FirstAsync();
+        }
         public async Task<IEnumerable<VehicleServiceModel>> GetVehiclesByOwnerIdAsync(int ownerId)
         {
             return await repository

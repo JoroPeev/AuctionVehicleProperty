@@ -18,6 +18,9 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task UpdateVehicleAsync(int vehicleId, VehicleUpdateServiceModel updatedVehicle);
 
+        Task<VehicleServiceModel> VehicleDetailsByIdAsync(int id);
+
+
         Task DeleteVehicleAsync(int vehicleId);
     }
 }
