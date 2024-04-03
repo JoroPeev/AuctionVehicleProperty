@@ -14,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IVehicleService, VehicleService>();
+            services.AddScoped<IAgentService, AgentService>();
 
             return services;
         }
@@ -31,6 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddDefaultIdentity<IdentityUser>(options =>
             {
+                options.User.RequireUniqueEmail= true;
                 options.SignIn.RequireConfirmedAccount = false;
 
             })
