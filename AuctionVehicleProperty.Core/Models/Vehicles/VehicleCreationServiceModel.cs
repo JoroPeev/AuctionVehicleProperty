@@ -25,6 +25,8 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
 
         public int Mileage { get; set; }
 
+        public Category VehicleType { get; set; } = null!;
+
         public int? AverageDivingRange { get; set; }
 
         public int Power { get; set; }
