@@ -27,6 +27,8 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
 
         public DateTime Year { get; set; }
 
+        public Category VehicleType { get; set; } = null!;
+
         public int Mileage { get; set; }
 
         public decimal Price { get; set; }
