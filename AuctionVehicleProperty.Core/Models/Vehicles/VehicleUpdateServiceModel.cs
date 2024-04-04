@@ -1,4 +1,6 @@
-﻿namespace AuctionVehicleProperty.Core.Models.Vehicles
+﻿using AuctionVehicleProperty.Infrastructure.Data.Models;
+
+namespace AuctionVehicleProperty.Core.Models.Vehicles
 {
     public class VehicleUpdateServiceModel
     {
@@ -14,6 +16,7 @@
 
         public DateTime Year { get; set; }
 
+        public Category VehicleType { get; set; } = null!;
         public int Mileage { get; set; }
 
         public int? AverageDivingRange { get; set; }
