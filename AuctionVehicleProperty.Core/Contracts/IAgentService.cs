@@ -10,7 +10,7 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task<bool> AgentHasVehiclesAsync(int agentId);
 
-        Task CreateAsync(string userId, string email);
+        Task CreateAsync(string userId, string email,string location);
 
         Task<int?> GetAgentIdAsync(string userId);
 

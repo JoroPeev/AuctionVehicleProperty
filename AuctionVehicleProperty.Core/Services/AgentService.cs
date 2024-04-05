@@ -15,12 +15,14 @@ namespace AuctionVehicleProperty.Core.Services
             repository = _repository;
         }
 
-        public async Task CreateAsync(string userId, string email)
+        public async Task CreateAsync(string userId, string email, string location)
         {
             await repository.AddAsync(new Agent()
             {
                 UserId = userId,
-                Email = email
+                Email = email,
+                Location = location
+                
             });
 
             await repository.SaveChangesAsync();
