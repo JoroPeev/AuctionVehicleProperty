@@ -2,6 +2,7 @@
 using AuctionVehicleProperty.Core.Models.Agents;
 using AuctionVehicleProperty.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using static AuctionVehicleProperty.Core.Constants.MessageConstants;
 
 namespace AuctionVehicleProperty.Controllers
 {
@@ -15,7 +16,7 @@ namespace AuctionVehicleProperty.Controllers
         }
 
 
-        [HttpGet] 
+        [HttpGet]
         [NotAnSeller]
         public IActionResult Become()
         {
@@ -28,9 +29,9 @@ namespace AuctionVehicleProperty.Controllers
         [NotAnSeller]
         public async Task<IActionResult> Become(AgentServiceModel model)
         {
-            if (await agentService.GetAgentIdAsync(model.UserId)==null)
+            if (await agentService.ExistsByIdAsync(model.UserId))
             {
-                ModelState.AddModelError(nameof(VehicleController.Index), "Agent");
+                ModelState.AddModelError(nameof(model.Email), EmailExists);
             }
 
             if (ModelState.IsValid == false)
@@ -38,9 +39,9 @@ namespace AuctionVehicleProperty.Controllers
                 return View(model);
             }
 
-            await agentService.CreateAsync(model.UserId,model.Email);
+            await agentService.CreateAsync(User.Id(), model.Email, model.Location);
 
-            return RedirectToAction(nameof(VehicleController.Index), "Agent");
+            return RedirectToAction(nameof(VehicleController.Index), "Vehicle");
         }
 
 
