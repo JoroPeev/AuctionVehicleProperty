@@ -1,10 +1,17 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@using AuctionVehicleProperty.Core.Contracts
+@using AuctionVehicleProperty.Extensions
+@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+@inject IAgentService agentService
 
-<ul class="navbar-nav">
+<ul class="navbar-nav"> 
 @if (SignInManager.IsSignedIn(User))
-{
+    {
+
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Become">Become Seller</a>
+    </li>
     <li class="nav-item">
         <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity?.Name!</a>
     </li>
@@ -16,6 +23,7 @@
 }
 else
 {
+        
     <li class="nav-item">
         <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
     </li>
