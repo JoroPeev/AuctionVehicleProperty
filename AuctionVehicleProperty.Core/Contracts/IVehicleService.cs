@@ -1,4 +1,5 @@
-﻿using AuctionVehicleProperty.Core.Models.Vehicles;
+﻿using AuctionVehicleProperty.Core.Enumerations;
+using AuctionVehicleProperty.Core.Models.Vehicles;
 
 namespace AuctionVehicleProperty.Core.Contracts
 {
@@ -8,13 +9,22 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task<bool> OwnerExistsByIdAsync(int ownerId);
 
-        Task<IEnumerable<VehicleServiceModel>> GetAllVehiclesAsync();
+        Task<VehicleIndexQueryModel> AllAsync(
+           string? category = null,
+           string? searchTerm = null,
+           VehicleFiltering sorting = VehicleFiltering.Newest,
+           int currentPage = 1,
+           int housesPerPage = 1);
 
         Task<IEnumerable<VehicleServiceModel>> GetVehiclesByOwnerIdAsync(int ownerId);
 
+        Task<IEnumerable<VehicleCategoryServiceModel>> AllCategoriesAsync();
+
         Task<VehicleServiceModel> GetVehicleByIdAsync(int vehicleId);
 
-        Task AddVehicleAsync(VehicleCreationServiceModel vehicle);
+        Task<int> AddVehicleAsync(VehicleCreationServiceModel vehicle, int agentId);
+
+        Task<bool> CategoryExistsAsync(int categoryId);
 
         Task UpdateVehicleAsync(int vehicleId, VehicleUpdateServiceModel updatedVehicle);
 

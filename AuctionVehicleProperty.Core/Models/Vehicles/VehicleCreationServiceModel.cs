@@ -15,7 +15,6 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
 
         public string ImageUrl { get; set; } = string.Empty;
 
-        public int VehicleTypeId { get; set; }
 
         public string Make { get; set; } = null!;
 
@@ -24,8 +23,10 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
         public DateTime Year { get; set; }
 
         public int Mileage { get; set; }
+        public int VehicleTypeId { get; set; }
 
-        public Category VehicleType { get; set; } = null!;
+        public IEnumerable<VehicleCategoryServiceModel> VehicleType { get; set; } =
+            new List<VehicleCategoryServiceModel>();
 
         public int? AverageDivingRange { get; set; }
 

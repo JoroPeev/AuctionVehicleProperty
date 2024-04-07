@@ -1,4 +1,5 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
+using AuctionVehicleProperty.Core.Enumerations;
 using AuctionVehicleProperty.Core.Exeptions;
 using AuctionVehicleProperty.Core.Models.Vehicles;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
@@ -17,10 +18,52 @@ namespace AuctionVehicleProperty.Core.Services
         {
             repository = _repository;
         }
-
-        public async Task AddVehicleAsync(VehicleCreationServiceModel vehicle)
+        public async Task<VehicleIndexQueryModel> AllAsync(string? category = null,
+            string? searchTerm = null,
+            VehicleFiltering sorting = VehicleFiltering.Newest
+            , int currentPage = 1, int vehiclesPerPage = 1)
         {
-            await repository.AddAsync(new Vehicle
+            var vehicles = repository.AllReadOnly<Vehicle>();
+
+            if (category != null)
+            {
+                vehicles = vehicles.Where(e => e.VehicleType.Name == category);
+            }
+
+            if (searchTerm != null)
+            {
+                string normalizedSearchTerm = searchTerm.ToLower();
+                vehicles = vehicles
+                    .Where(h => (h.Title.ToLower().Contains(normalizedSearchTerm) ||
+                                h.Location.ToLower().Contains(normalizedSearchTerm) ||
+                                h.Details.ToLower().Contains(normalizedSearchTerm)));
+            }
+
+            vehicles = sorting switch
+            {
+                VehicleFiltering.Price => vehicles.OrderBy(e => e.Price),
+                VehicleFiltering.VehicleType => vehicles.Where(e => e.VehicleType.Name == category),
+                _ => vehicles
+                     .OrderByDescending(h => h.Id)
+            };
+
+            var vehicle = await vehicles
+               .Skip((currentPage - 1) * vehiclesPerPage)
+               .Take(vehiclesPerPage)
+               .ProjectToVehicleServiceModel()
+               .ToListAsync();
+
+            int totalVehicles = await vehicles.CountAsync();
+
+            return new VehicleIndexQueryModel()
+            {
+                Vehicles = vehicle,
+                TotalVehiclesCount = totalVehicles
+            };
+        }
+        public async Task<int> AddVehicleAsync(VehicleCreationServiceModel vehicle, int agentId)
+        {
+            Vehicle car = new Vehicle
             {
                 Title = vehicle.Title,
                 ImageUrls = vehicle.ImageUrl,
@@ -35,18 +78,35 @@ namespace AuctionVehicleProperty.Core.Services
                 Location = vehicle.Location,
                 Details = vehicle.Details,
                 Id = vehicle.Id,
-                OwnerId = vehicle.OwnerId,
-                Color = vehicle.Color
-            });
+                OwnerId = agentId,
+                Color = vehicle.Color,
+            };
 
             await repository.SaveChangesAsync();
+            return car.Id;
         }
 
         public async Task DeleteVehicleAsync(int vehicleId)
         {
             await repository.DeleteEntity<Vehicle>(vehicleId);
         }
+        public async Task<bool> CategoryExistsAsync(int categoryId)
+        {
+            return await repository.AllReadOnly<Category>()
+                .AnyAsync(c => c.Id == categoryId);
+        }
 
+        public async Task<IEnumerable<VehicleCategoryServiceModel>> AllCategoriesAsync()
+        {
+            return await repository.AllReadOnly<Category>()
+                .Select(c => new VehicleCategoryServiceModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name,
+                })
+                .ToListAsync();
+
+        }
         public async Task<IEnumerable<VehicleServiceModel>> GetAllVehiclesAsync()
         {
             return await repository.AllReadOnly<Vehicle>().Select(v => new VehicleServiceModel
@@ -80,15 +140,15 @@ namespace AuctionVehicleProperty.Core.Services
                 {
                     Id = h.Id,
                     Details = h.Details,
-                    ImageUrls= h.ImageUrls,
+                    ImageUrls = h.ImageUrls,
                     Location = h.Location,
                     Make = h.Make,
                     Mileage = h.Mileage,
-                    Model = h.Model, 
+                    Model = h.Model,
                     Owner = h.Owner,
                     Price = h.Price,
                     Title = h.Title,
-                    VehicleTypeId = h.VehicleTypeId,
+                    VehicleType = h.VehicleType.Name,
                     Year = h.Year,
                 })
                 .FirstAsync();
@@ -103,9 +163,9 @@ namespace AuctionVehicleProperty.Core.Services
 
         public async Task<bool> OwnerExistsByIdAsync(int ownerId)
         {
-           var owner = await repository.GetByIdAsync<Agent>(ownerId);
+            var owner = await repository.GetByIdAsync<Agent>(ownerId);
 
-            if (owner!=null)
+            if (owner != null)
             {
                 return true;
             }
@@ -141,5 +201,7 @@ namespace AuctionVehicleProperty.Core.Services
 
             return false;
         }
+
+
     }
 }

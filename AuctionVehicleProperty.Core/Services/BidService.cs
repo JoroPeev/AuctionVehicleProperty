@@ -26,25 +26,19 @@ namespace AuctionVehicleProperty.Core.Services
             {
                 return true;
             }
-         
+
             return false;
-        
+
         }
 
         public async Task<bool> CanPlaceBidAsync(string userId, int auctionId, decimal amount)
         {
             var user = await repository.GetByIdAsync<IdentityUser>(userId);
 
-            if (user==null)
-            {
-                throw new UserNotFoundExeption(UserNotFound);
-            }
-
-            if (user.EmailConfirmed)
+            if (user != null)
             {
                 return true;
             }
-
             return false;
         }
 
@@ -57,8 +51,8 @@ namespace AuctionVehicleProperty.Core.Services
                 throw new AuctionExeption(AuctionNotFound);
             }
 
-            
-           var bid = auction.Bids.Max(e=>e.Amount);
+
+            var bid = auction.Bids.Max(e => e.Amount);
 
             return bid;
 
@@ -70,38 +64,37 @@ namespace AuctionVehicleProperty.Core.Services
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
 
-            if (auction == null)
+            if (auction != null)
             {
-                throw new InvalidOperationException(AuctionNotFound);
+                var currentHighestBid = await repository.AllReadOnly<Bid>()
+                                          .Where(e => e.AuctionId == auctionId)
+                                          .Select(e => e.Amount)
+                                          .DefaultIfEmpty()
+                                          .MaxAsync();
+                if (amount > currentHighestBid)
+                {
+                    var bid = new Bid()
+                    {
+                        Amount = amount,
+                        BidTime = DateTime.Now,
+                        CustomerId = userId,
+                        AuctionId = auctionId,
+
+                    };
+
+                    auction.Bids.Add(bid);
+
+                    await repository.UpdateAsync(auction);
+                }
             }
-
-            var currentHighestBid = await repository.AllReadOnly<Bid>()
-                                         .Where(e => e.AuctionId == auctionId)
-                                         .Select(e => e.Amount)
-                                         .DefaultIfEmpty()
-                                         .MaxAsync();
-
-
-            if (amount <= currentHighestBid)
-            {
-                throw new InvalidOperationException(AuctionBiding);
-            }
-
-            var bid = new Bid()
-            {
-                Amount = amount,
-                BidTime = DateTime.Now,
-                CustomerId = userId,
-                AuctionId = auctionId,
-
-            };
-
-            auction.Bids.Add(bid);
-
-            await repository.UpdateAsync(auction);
 
         }
-
+        /// <summary>
+        /// Handle exeption when using
+        /// </summary>
+        /// <param name="auctionId"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         public async Task<IEnumerable<BidHistoryServiceModel>> GetBidHistoryAsync(int auctionId)
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);

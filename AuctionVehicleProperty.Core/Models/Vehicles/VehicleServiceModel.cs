@@ -19,15 +19,13 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
 
         public string ImageUrls { get; set; } = string.Empty;
 
-        public int VehicleTypeId { get; set; }
-
         public string Make { get; set; } = null!;
 
         public string Model { get; set; } = string.Empty;
 
         public DateTime Year { get; set; }
 
-        public Category VehicleType { get; set; } = null!;
+        public string VehicleType { get; set; } = null!;
 
         public int Mileage { get; set; }
 
