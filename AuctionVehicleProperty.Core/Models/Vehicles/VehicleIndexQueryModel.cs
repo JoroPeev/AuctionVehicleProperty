@@ -23,7 +23,7 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
 
         public int TotalVehiclesCount { get; set; }
 
-        public IEnumerable<string> Categories { get; set; } = null!;
+        public IEnumerable<VehicleCategoryServiceModel> Categories { get; set; } = null!;
 
         public IEnumerable<VehicleServiceModel> Vehicles { get; set; } = new List<VehicleServiceModel>();
 

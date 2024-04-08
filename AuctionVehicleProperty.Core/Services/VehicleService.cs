@@ -77,11 +77,10 @@ namespace AuctionVehicleProperty.Core.Services
                 Price = vehicle.Price,
                 Location = vehicle.Location,
                 Details = vehicle.Details,
-                Id = vehicle.Id,
                 OwnerId = agentId,
                 Color = vehicle.Color,
             };
-
+            await repository.AddAsync(car);
             await repository.SaveChangesAsync();
             return car.Id;
         }
@@ -120,7 +119,7 @@ namespace AuctionVehicleProperty.Core.Services
             }).ToListAsync();
         }
 
-        public async Task<VehicleServiceModel> GetVehicleByIdAsync(int vehicleId)//Do not forget to implement try catch
+        public async Task<VehicleServiceModel> GetVehicleByIdAsync(int vehicleId)
         {
 
             var vehicle = await repository.GetByIdAsync<VehicleServiceModel>(vehicleId);
