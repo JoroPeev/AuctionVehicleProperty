@@ -80,7 +80,7 @@ namespace AuctionVehicleProperty.Controllers
 
             int newVehicleId = await vehicleService.AddVehicleAsync(vehicle,agentId ?? 0);
 
-            return RedirectToAction(nameof(Details));
+            return RedirectToAction(nameof(VehicleController.Index), "Vehicle");
         }
 
 
