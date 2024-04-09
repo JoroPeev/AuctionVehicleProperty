@@ -4,6 +4,7 @@ using AuctionVehicleProperty.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuctionVehicleProperty.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240409203119_AddingType")]
+    partial class AddingType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -334,6 +336,24 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             Title = "2024 Renault 5 E-Tech 52 kWh (150 hp) Electric",
                             VehicleTypeId = 3,
                             Year = new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AverageDivingRange = 290,
+                            Color = "Green",
+                            Details = "The e-208 comes with various features for comfort, convenience, and safety, similar to other Peugeot models. These may include:Advanced infotainment system with touchscreen interfaceDriver assistance technologies such as adaptive cruise control and lane-keeping assistComfort features like climate control and heated seats Safety features including multiple airbags, anti-lock braking system (ABS), and electronic stability control (ESC)",
+                            ImageUrls = "https://ev-database.org/img/auto/Peugeot_e-208_2024/Peugeot_e-208_2024-01.jpg",
+                            Location = "3189 Duke Lane, Newark, NJ, 07102",
+                            Make = "Peugeot",
+                            Mileage = 0,
+                            Model = "e-208",
+                            OwnerId = 1,
+                            Power = 134,
+                            Price = 37610.00m,
+                            Title = "Peugeot e-208 50 kWh",
+                            VehicleTypeId = 3,
+                            Year = new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -463,15 +483,15 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "06dbe20c-85be-4693-8324-2c737d6cdba4",
+                            ConcurrencyStamp = "a02cd3cd-8eb3-48fe-88d5-e9fcdbb6abb6",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK1rEEDxV4Oxok9LLfq1uGfapG1LnAcUOMj6xh9BwFQEcv9baYmNwxRkLaENdSBZ5A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECO/qbJdD36RfBs0jktYkf3T3ZFrsa39p1X2WI/ooKutFiQ8kPiexr7Qi7USbeVU8w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b6feec5c-1a8d-4364-9c34-8fdeb464fba4",
+                            SecurityStamp = "845ba8ef-0cc0-4ce0-b0e4-d044e5fbfab3",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -479,15 +499,15 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "12cde8f1-b0f3-4bce-be91-21858132472d",
+                            ConcurrencyStamp = "375c5eb0-43c6-4797-be96-806b36863acb",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAECSrZ9pf8FHjBmJ3pLavUTyeRL7iGz8TBmLtnXOsMnTouKyTNJZFLIuuMqcR16AlWQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEN2PAVHeI2qxWv75NUAuQwM5MTwXSnzsTWgDpcx//kRcMvg9M/It+B122nK8uDDkFQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c38754c4-2947-4321-9a38-0bc2f00d7088",
+                            SecurityStamp = "006ffdad-abc6-4d81-9b0e-934d2d479e63",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -495,14 +515,14 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d1df227c-fe8c-4430-a658-f845aba26a4f",
+                            ConcurrencyStamp = "4764c925-3a01-42b8-bcd6-4da13e2ab3d2",
                             Email = "Secondguest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "Secondguest@mail.com",
                             NormalizedUserName = "Secondguest@mail.com",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c769b517-bd92-406f-ae76-18152f15a7aa",
+                            SecurityStamp = "41fa3b10-e310-46ec-838a-4b39546dcd4c",
                             TwoFactorEnabled = false,
                             UserName = "Secondguest@mail.com"
                         });

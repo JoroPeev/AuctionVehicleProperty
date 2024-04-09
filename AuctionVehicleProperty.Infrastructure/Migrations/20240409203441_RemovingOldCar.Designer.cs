@@ -4,6 +4,7 @@ using AuctionVehicleProperty.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuctionVehicleProperty.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240409203441_RemovingOldCar")]
+    partial class RemovingOldCar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -334,6 +336,24 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             Title = "2024 Renault 5 E-Tech 52 kWh (150 hp) Electric",
                             VehicleTypeId = 3,
                             Year = new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AverageDivingRange = 330,
+                            Color = "Yellow",
+                            Details = "Fuel Type: Electricity, Acceleration: 0 - 100 km/h: 8 sec, Maximum speed: 150 km/h (93.21 mph), Weight-to-power ratio: 9.7 kg/Hp, 103.4 Hp/tonne, Weight-to-torque ratio: 5.9 kg/Nm, 169 Nm",
+                            ImageUrls = "https://www.auto-data.net/images/f46/Renault-5-E-Tech_1.jpg",
+                            Location = "3118 Thunder Road, San Jose, CA, 95134",
+                            Make = "Renault",
+                            Mileage = 0,
+                            Model = "5 E-Tech",
+                            OwnerId = 1,
+                            Power = 150,
+                            Price = 32000.00m,
+                            Title = "2024 Renault 5 E-Tech 52 kWh (150 hp) Electric",
+                            VehicleTypeId = 3,
+                            Year = new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -463,15 +483,15 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "06dbe20c-85be-4693-8324-2c737d6cdba4",
+                            ConcurrencyStamp = "aacc9d70-953a-4967-b96b-59060f2a88fc",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK1rEEDxV4Oxok9LLfq1uGfapG1LnAcUOMj6xh9BwFQEcv9baYmNwxRkLaENdSBZ5A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDQh5cUNaO9hNvnyfm2NCnMx1Vk0j3TrL9yOzvqjNqb7/O7Ije5vR41yEtpTA0EOgQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b6feec5c-1a8d-4364-9c34-8fdeb464fba4",
+                            SecurityStamp = "5378d9a2-4824-42a6-97bd-ce38e5e9d753",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -479,15 +499,15 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "12cde8f1-b0f3-4bce-be91-21858132472d",
+                            ConcurrencyStamp = "c2fc1cf8-00fb-412f-a643-9ffe295e6c48",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAECSrZ9pf8FHjBmJ3pLavUTyeRL7iGz8TBmLtnXOsMnTouKyTNJZFLIuuMqcR16AlWQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBS3WhQZEM+DBHsumwaeLCmoDDKWiJbedVIabJiKveRo+6ROKhCYkyQtYKFn3rQrGA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c38754c4-2947-4321-9a38-0bc2f00d7088",
+                            SecurityStamp = "7602393c-5543-4ac5-895d-954f124fdd42",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -495,14 +515,14 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d1df227c-fe8c-4430-a658-f845aba26a4f",
+                            ConcurrencyStamp = "b78eda4f-d566-482b-bb9c-e0ef8bb48ef0",
                             Email = "Secondguest@mail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedEmail = "Secondguest@mail.com",
                             NormalizedUserName = "Secondguest@mail.com",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c769b517-bd92-406f-ae76-18152f15a7aa",
+                            SecurityStamp = "b437e63a-9727-4cbc-9f86-68eaaac3e0c8",
                             TwoFactorEnabled = false,
                             UserName = "Secondguest@mail.com"
                         });
