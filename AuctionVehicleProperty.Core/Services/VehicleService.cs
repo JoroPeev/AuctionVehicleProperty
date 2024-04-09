@@ -61,6 +61,7 @@ namespace AuctionVehicleProperty.Core.Services
                 TotalVehiclesCount = totalVehicles
             };
         }
+
         public async Task<int> AddVehicleAsync(VehicleCreationServiceModel vehicle, int agentId)
         {
             Vehicle car = new Vehicle
@@ -106,18 +107,6 @@ namespace AuctionVehicleProperty.Core.Services
                 .ToListAsync();
 
         }
-        public async Task<IEnumerable<VehicleServiceModel>> GetAllVehiclesAsync()
-        {
-            return await repository.AllReadOnly<Vehicle>().Select(v => new VehicleServiceModel
-            {
-                Id = v.Id,
-                Make = v.Make,
-                Model = v.Make,
-                Title = v.Title,
-                ImageUrls = v.ImageUrls
-
-            }).ToListAsync();
-        }
 
         public async Task<VehicleServiceModel> GetVehicleByIdAsync(int vehicleId)
         {
@@ -152,12 +141,37 @@ namespace AuctionVehicleProperty.Core.Services
                 })
                 .FirstAsync();
         }
-        public async Task<IEnumerable<VehicleServiceModel>> GetVehiclesByOwnerIdAsync(int ownerId)
+        public async Task<VehicleCreationServiceModel> GetVehicleByOwnerIdAsync(int ownerId)
         {
-            return await repository
-                .AllReadOnly<VehicleServiceModel>()
+            var vehicle = await repository
+                .AllReadOnly<Vehicle>()
                 .Where(e => e.OwnerId == ownerId)
-                .ToListAsync();
+                .Select(h => new VehicleCreationServiceModel()
+                {
+                    Details = h.Details,
+                    ImageUrl = h.ImageUrls,
+                    Location = h.Location,
+                    Make = h.Make,
+                    Mileage = h.Mileage,
+                    Model = h.Model,
+                    OwnerId = h.OwnerId,
+                    Price = h.Price,
+                    Title = h.Title,
+                    VehicleTypeId = h.VehicleTypeId,
+                    Year = h.Year,
+
+
+                })
+                .FirstOrDefaultAsync();
+
+
+            if (vehicle!=null)
+            {
+               vehicle.VehicleType = await AllCategoriesAsync();
+            }
+
+
+            return vehicle;
         }
 
         public async Task<bool> OwnerExistsByIdAsync(int ownerId)
@@ -172,18 +186,29 @@ namespace AuctionVehicleProperty.Core.Services
             return false;
 
         }
-
-        public async Task UpdateVehicleAsync(int vehicleId, VehicleUpdateServiceModel updatedVehicle)
+        public async Task<bool> HasAgentWithIdAsync(int vehicleId, string userId)
+        {
+            return await repository.AllReadOnly<Vehicle>()
+                .AnyAsync(h => h.Id == vehicleId && h.Owner.UserId == userId);
+        }
+        public async Task UpdateVehicleAsync(int vehicleId, VehicleCreationServiceModel updatedVehicle)
         {
             var vehicle = await repository.GetByIdAsync<Vehicle>(vehicleId);
 
-            if (vehicle != null)
+            if (vehicle!=null)
             {
                 vehicle.Title = updatedVehicle.Title;
-            }
-            else
-            {
-                throw new VehicleExeption(VehicleNotFound);
+                vehicle.ImageUrls = updatedVehicle.ImageUrl;
+                vehicle.Year = updatedVehicle.Year;
+                vehicle.Make = updatedVehicle.Make;
+                vehicle.Model = updatedVehicle.Model;
+                vehicle.Mileage = updatedVehicle.Mileage;
+                vehicle.Location = updatedVehicle.Location;
+                vehicle.AverageDivingRange = updatedVehicle.AverageDivingRange;
+                vehicle.Price = updatedVehicle.Price;
+                vehicle.Power = updatedVehicle.Power;
+                vehicle.Details = updatedVehicle.Details;
+                vehicle.VehicleTypeId = updatedVehicle.VehicleTypeId;
             }
 
             await repository.SaveChangesAsync();
@@ -201,6 +226,12 @@ namespace AuctionVehicleProperty.Core.Services
             return false;
         }
 
-
+        public async Task<IEnumerable<VehicleServiceModel>> AllVehiclesByAgentIdAsync(int ownerId)
+        {
+            return await repository.AllReadOnly<Vehicle>()
+                  .Where(h => h.OwnerId == ownerId)
+                  .ProjectToVehicleServiceModel()
+                  .ToListAsync();
+        }
     }
 }

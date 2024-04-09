@@ -16,21 +16,23 @@ namespace AuctionVehicleProperty.Core.Contracts
            int currentPage = 1,
            int housesPerPage = 1);
 
-        Task<IEnumerable<VehicleServiceModel>> GetVehiclesByOwnerIdAsync(int ownerId);
+        Task<VehicleCreationServiceModel> GetVehicleByOwnerIdAsync(int ownerId);
 
         Task<IEnumerable<VehicleCategoryServiceModel>> AllCategoriesAsync();
 
         Task<VehicleServiceModel> GetVehicleByIdAsync(int vehicleId);
 
-        Task<int> AddVehicleAsync(VehicleCreationServiceModel vehicle, int agentId);
+        Task<int> AddVehicleAsync(VehicleCreationServiceModel vehicle, int ownerId);
 
         Task<bool> CategoryExistsAsync(int categoryId);
 
-        Task UpdateVehicleAsync(int vehicleId, VehicleUpdateServiceModel updatedVehicle);
+        Task UpdateVehicleAsync(int vehicleId, VehicleCreationServiceModel updatedVehicle);
 
         Task<VehicleServiceModel> VehicleDetailsByIdAsync(int id);
 
+        Task<IEnumerable<VehicleServiceModel>> AllVehiclesByAgentIdAsync(int ownerId);
 
+        Task<bool> HasAgentWithIdAsync(int vehicleId, string userId);
         Task DeleteVehicleAsync(int vehicleId);
     }
 }

@@ -66,7 +66,7 @@ namespace AuctionVehicleProperty.Controllers
         {
             if (await vehicleService.CategoryExistsAsync(vehicle.VehicleTypeId) == false)
             {
-                ModelState.AddModelError(nameof(vehicle.VehicleTypeId), "Category does not exist");
+                ModelState.AddModelError(nameof(vehicle.VehicleTypeId), "Vehicle type does not exist");
             }
 
             if (ModelState.IsValid == false)
@@ -82,7 +82,68 @@ namespace AuctionVehicleProperty.Controllers
 
             return RedirectToAction(nameof(VehicleController.Index), "Vehicle");
         }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (await vehicleService.OwnerExistsByIdAsync(id) == false)
+            {
+                return BadRequest();
+            }
 
+            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false)
+
+            {
+                return Unauthorized();
+            }
+
+            var model = await vehicleService.GetVehicleByOwnerIdAsync(id);
+
+            return View(model);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Mine()
+        {
+            var userId = User.Id();
+            IEnumerable<VehicleServiceModel> model = Enumerable.Empty<VehicleServiceModel>();
+
+            if (await agentService.ExistsByIdAsync(userId))
+            {
+                int agentId = await agentService.GetAgentIdAsync(userId) ?? 0;
+                model = await vehicleService.AllVehiclesByAgentIdAsync(agentId);
+            }
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, VehicleCreationServiceModel car)
+        {
+            if (await vehicleService.VehicleExistsByIdAsync(id) == false)
+            {
+
+                return BadRequest();
+            }
+
+            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            if (await vehicleService.CategoryExistsAsync(car.VehicleTypeId) == false)
+            {
+                ModelState.AddModelError(nameof(car.VehicleTypeId), "Vehicle type does not exist");
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                car.VehicleType = await vehicleService.AllCategoriesAsync();
+
+                return View(car);
+            }
+
+            await vehicleService.UpdateVehicleAsync(id, car);
+
+            return RedirectToAction(nameof(VehicleController.Index), "Vehicle");
+        }
 
     }
 }
