@@ -24,7 +24,6 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         public Category ConvertibleCategory { get; set; }
 
         public Vehicle ElectricVehicle { get; set; }
-        public Vehicle HybridVehicle { get; set; }
 
         public SeedData()
         {
@@ -148,31 +147,6 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 " Weight-to-torque ratio: 5.9 kg/Nm, 169 Nm",
                 OwnerId = 1,
                 Price = 32000.00M,
-            };
-            HybridVehicle = new Vehicle()
-            {
-                Id = 2,
-                Title = "2024 Ford Kuga III ST-Line 2.5 (243 кс) Plug-in Hybrid CVT",
-                ImageUrls = "https://autobild.bg/wp-content/uploads/2024/01/image-125-720x404.png",
-                VehicleTypeId = 1,
-                Make = "Ford",
-                Model = "Kuga III facelift",
-                Year = date,
-                Mileage = 0,
-                Power = 243,
-                Color = "Blue",
-                Location = "3189 Duke Lane, Newark, NJ, 07102",
-                Details = "Modification (Engine): ST-Line 2.5 (243 Hp) Plug-in Hybrid CVT," +
-                " Powertrain Architecture: PHEV (Plug-in Hybrid Electric Vehicle)," +
-                " Combined fuel consumption: 0.9-1.2 l/100 km," +
-                " CO2 emissions: 20-28 g/km," +
-                " Fuel Type: Petrol / electricity," +
-                " Acceleration 0 - 100 km/h: 7.3 sec," +
-                " Acceleration 0 - 62 mph: 7.3 sec," +
-                " Maximum speed: 200 km/h (124.27 mph)," +
-                " Emission standard: Euro 6d.",
-                OwnerId = 1,
-                Price = 37610.00M,
             };
         }
         private void SeedAuction()
