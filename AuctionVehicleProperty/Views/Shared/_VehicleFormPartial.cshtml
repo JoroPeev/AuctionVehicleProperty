@@ -58,10 +58,9 @@
                 <textarea asp-for="Details" rows="4" class="form-control" placeholder="Details..."></textarea>
                 <span asp-validation-for="Details" class="small text-danger"></span>
             </div>
-            <div class="mb-3">
-                <label asp-for="@Model.VehicleTypeId" class="form-label-add-edit">Select Category</label>
-                <select asp-for="@Model.VehicleTypeId" class="form-control" aria-required="true">
-                    <option disabled selected value="">Select Category...</option>
+            <div class="form-group">
+                <label asp-for="@Model.VehicleTypeId"></label>
+                <select asp-for="@Model.VehicleTypeId" class="form-control">
                     @foreach (var category in Model.VehicleType)
                     {
                         <option value="@category.Id">@category.Name</option>
