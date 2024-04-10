@@ -141,11 +141,11 @@ namespace AuctionVehicleProperty.Core.Services
                 })
                 .FirstAsync();
         }
-        public async Task<VehicleCreationServiceModel> GetVehicleByOwnerIdAsync(int ownerId)
+        public async Task<VehicleCreationServiceModel> GetVehicleByOwnerIdAsync(int vehicleId)
         {
             var vehicle = await repository
                 .AllReadOnly<Vehicle>()
-                .Where(e => e.OwnerId == ownerId)
+                .Where(e => e.Id == vehicleId)
                 .Select(h => new VehicleCreationServiceModel()
                 {
                     Details = h.Details,
@@ -153,7 +153,9 @@ namespace AuctionVehicleProperty.Core.Services
                     Location = h.Location,
                     Make = h.Make,
                     Mileage = h.Mileage,
+                    Power = h.Power,
                     Model = h.Model,
+                    AverageDivingRange = h.AverageDivingRange,
                     OwnerId = h.OwnerId,
                     Price = h.Price,
                     Title = h.Title,
@@ -161,15 +163,14 @@ namespace AuctionVehicleProperty.Core.Services
                     Year = h.Year,
 
 
+
                 })
                 .FirstOrDefaultAsync();
-
-
-            if (vehicle!=null)
+           
+            if (vehicle != null)
             {
-               vehicle.VehicleType = await AllCategoriesAsync();
+                vehicle.VehicleType = await AllCategoriesAsync();
             }
-
 
             return vehicle;
         }
@@ -195,7 +196,7 @@ namespace AuctionVehicleProperty.Core.Services
         {
             var vehicle = await repository.GetByIdAsync<Vehicle>(vehicleId);
 
-            if (vehicle!=null)
+            if (vehicle != null)
             {
                 vehicle.Title = updatedVehicle.Title;
                 vehicle.ImageUrls = updatedVehicle.ImageUrl;
@@ -209,9 +210,10 @@ namespace AuctionVehicleProperty.Core.Services
                 vehicle.Power = updatedVehicle.Power;
                 vehicle.Details = updatedVehicle.Details;
                 vehicle.VehicleTypeId = updatedVehicle.VehicleTypeId;
+
+                await repository.SaveChangesAsync();
             }
 
-            await repository.SaveChangesAsync();
         }
 
         public async Task<bool> VehicleExistsByIdAsync(int vehicleId)

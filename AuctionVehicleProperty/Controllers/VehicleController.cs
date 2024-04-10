@@ -145,5 +145,52 @@ namespace AuctionVehicleProperty.Controllers
             return RedirectToAction(nameof(VehicleController.Index), "Vehicle");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (await vehicleService.VehicleExistsByIdAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            var vehicle = await vehicleService.VehicleDetailsByIdAsync(id);
+
+            var model = new VehicleDetailsModel()
+            {
+                Id = id,
+                Title = vehicle.Title,
+                ImageUrls = vehicle.ImageUrls,
+                Make = vehicle.Make,
+                Model = vehicle.Model,
+                Price = vehicle.Price,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(VehicleDetailsModel model)
+        {
+            if (await vehicleService.VehicleExistsByIdAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await vehicleService.HasAgentWithIdAsync(model.Id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            await vehicleService.DeleteVehicleAsync(model.Id);
+
+            return RedirectToAction(nameof(Index));
+        }
+        
+
     }
 }
