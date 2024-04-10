@@ -13,7 +13,7 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
     public class VehicleCreationServiceModel
     {
         public int Id { get; set; }
-        
+
         [Required(ErrorMessage = RequiredMessage)]
         [StringLength(VehicleTitleMax,
            MinimumLength = VehicleTitleMin,
@@ -34,15 +34,13 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
            MinimumLength = VehicleModelMin,
            ErrorMessage = LengthMessage)]
         public string Model { get; set; } = string.Empty;
-       
-        [Required(ErrorMessage = RequiredMessage)]
-        public DateTime Year { get; set; }
 
         [Required(ErrorMessage = RequiredMessage)]
-        [StringLength(VehicleMilageMax,
-           MinimumLength = VehicleMilageMin,
-           ErrorMessage = LengthMessage)]
+        public DateTime Year { get; set; }
+        
+        [Required(ErrorMessage = RequiredMessage)]
         public int Mileage { get; set; }
+
         public int VehicleTypeId { get; set; }
 
         public IEnumerable<VehicleCategoryServiceModel> VehicleType { get; set; } =
@@ -51,13 +49,10 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
         public int? AverageDivingRange { get; set; }
 
         [Required(ErrorMessage = RequiredMessage)]
-        [StringLength(5,
-           MinimumLength = 2,
-           ErrorMessage = LengthMessage)]
         public int Power { get; set; }
 
         public string Color { get; set; } = string.Empty;
-        
+
         [Required(ErrorMessage = RequiredMessage)]
         public decimal Price { get; set; }
 

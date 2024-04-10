@@ -21,7 +21,7 @@
         public const int VehicleMakeMin = 3;
         public const int VehicleMakeMax = 100;
 
-        public const int VehicleModelMin = 5;
+        public const int VehicleModelMin = 3;
         public const int VehicleModelMax = 70;
 
         public const int VehicleMilageMin = 0;
