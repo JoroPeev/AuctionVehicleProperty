@@ -16,6 +16,7 @@ namespace AuctionVehicleProperty.Controllers
             agentService = _agentService;
             vehicleService = _vehicleService;
         }
+        
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Index([FromQuery] VehicleIndexQueryModel model)
