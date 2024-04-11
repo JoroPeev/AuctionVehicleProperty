@@ -1,18 +1,35 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AuctionVehicleProperty.Core.Contracts;
+using AuctionVehicleProperty.Core.Models.Auctions;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionVehicleProperty.Controllers
 {
     public class AuctionController : Controller
     {
-       
+        private readonly IVehicleService vehicleService;
+        private readonly IAgentService agentService;
+        private readonly IAuctionService actionService;
+        public AuctionController(IVehicleService _vehicleService, IAgentService _agentService, IAuctionService _actionService)
+        {
+            agentService = _agentService;
+            vehicleService = _vehicleService;
+            actionService = _actionService;
+        }
         public IActionResult Index()
         {
             
             return View();
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
+            if (await actionService.AuctionExistAsync(id))
+            {
+                return BadRequest();
+            }
+
+            var auction = actionService.
+
             return View();
         }
 

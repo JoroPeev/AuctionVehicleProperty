@@ -5,9 +5,9 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuctionVehicleProperty", "AuctionVehicleProperty\AuctionVehicleProperty.csproj", "{C95A2C32-6336-4844-A72E-30B106723EDE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionVehicleProperty.Core", "AuctionVehicleProperty.Core\AuctionVehicleProperty.Core.csproj", "{1053423B-2AF1-48CC-AC24-40694F4415B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuctionVehicleProperty.Core", "AuctionVehicleProperty.Core\AuctionVehicleProperty.Core.csproj", "{1053423B-2AF1-48CC-AC24-40694F4415B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionVehicleProperty.Infrastructure", "AuctionVehicleProperty.Infrastructure\AuctionVehicleProperty.Infrastructure.csproj", "{FA6EA975-F3B5-478A-B33E-F32895A5C6BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuctionVehicleProperty.Infrastructure", "AuctionVehicleProperty.Infrastructure\AuctionVehicleProperty.Infrastructure.csproj", "{FA6EA975-F3B5-478A-B33E-F32895A5C6BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
