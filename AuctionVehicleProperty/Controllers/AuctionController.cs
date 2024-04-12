@@ -15,10 +15,10 @@ namespace AuctionVehicleProperty.Controllers
             vehicleService = _vehicleService;
             actionService = _actionService;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            
-            return View();
+            var auction = await actionService.AllAuctionsAsync();
+            return View(auction);
         }
 
         public async Task<IActionResult> Details(int id)
@@ -28,7 +28,7 @@ namespace AuctionVehicleProperty.Controllers
                 return BadRequest();
             }
 
-            var auction = actionService.
+          
 
             return View();
         }
