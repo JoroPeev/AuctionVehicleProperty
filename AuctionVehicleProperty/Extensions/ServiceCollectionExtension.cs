@@ -15,6 +15,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IAgentService, AgentService>();
+            services.AddScoped<IAuctionService, AuctionService>();
 
             return services;
         }
