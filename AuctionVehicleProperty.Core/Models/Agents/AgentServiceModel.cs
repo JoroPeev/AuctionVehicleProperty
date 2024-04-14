@@ -11,6 +11,9 @@ namespace AuctionVehicleProperty.Core.Models.Agents
     public class AgentServiceModel
     {
         public int Id { get; set; }
+        
+        [Display(Name = "Full Name")]
+        public string FullName { get; set; } = null!;
 
         public string UserId { get; set; } = String.Empty;
 
