@@ -35,7 +35,6 @@ namespace AuctionVehicleProperty.Core.Services
                 string normalizedSearchTerm = searchTerm.ToLower();
                 vehicles = vehicles
                     .Where(h => (h.Title.ToLower().Contains(normalizedSearchTerm) ||
-                                h.Location.ToLower().Contains(normalizedSearchTerm) ||
                                 h.Details.ToLower().Contains(normalizedSearchTerm)));
             }
 

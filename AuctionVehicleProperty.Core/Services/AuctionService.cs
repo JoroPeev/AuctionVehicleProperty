@@ -20,7 +20,8 @@ namespace AuctionVehicleProperty.Core.Services
         {
             return await repository.AllReadOnly<Auction>().Select(a => new AuctionIndexServiceModel
             {
-                VehicleId = a.VehicleId,
+                Id = a.Id,
+                Vehicle = a.Vehicle,
                 EndTime = a.EndTime,
                 StartingPrice = a.StartingPrice,
                 StartingTime = a.StartingTime,
