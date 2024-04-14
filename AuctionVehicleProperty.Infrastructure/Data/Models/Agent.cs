@@ -22,6 +22,8 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         [Comment("Agent's Location")]
         public string Location { get; set; } = string.Empty;
 
+        public bool IsAdmin { get; set; }
+
         [Required]
         [Comment("User Identifier")]
         public string UserId { get; set; } = string.Empty;
@@ -29,7 +31,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
         [Comment("Identity User Property")]
         [ForeignKey(nameof(UserId))]
-        public IdentityUser User { get; set; } = null!;
+        public AppUser User { get; set; } = null!;
 
 
         [Comment("Agent Collection of Vehicles")]

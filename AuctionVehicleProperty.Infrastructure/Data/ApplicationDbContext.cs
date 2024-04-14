@@ -6,7 +6,7 @@ using System.Reflection.Emit;
 
 namespace AuctionVehicleProperty.Infrastructure.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

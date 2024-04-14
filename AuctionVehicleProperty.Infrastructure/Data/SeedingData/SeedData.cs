@@ -5,15 +5,16 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
 {
     internal class SeedData
     {
-        public IdentityUser AgentUser { get; set; }
-        public IdentityUser GuestUser { get; set; }
-        public IdentityUser SecondGuestUser { get; set; }
+        public AppUser AgentUser { get; set; }
+        public AppUser GuestUser { get; set; }
+        public AppUser SecondGuestUser { get; set; }
+        public AppUser AdminUser { get; set; }
 
+        public Agent AdminAgent { get; set; }
         public Agent Agent { get; set; }
 
         public Bid GuestBid { get; set; }
         public Bid SecondGuestBid { get; set; }
-
         public Auction CarAuction { get; set; }
 
         public Category SUVCategory { get; set; }
@@ -36,33 +37,49 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         }
         private void SeedUsers()
         {
-            var hasher = new PasswordHasher<IdentityUser>();
+            var hasher = new PasswordHasher<AppUser>();
 
-            AgentUser = new IdentityUser()
+            AgentUser = new AppUser()
             {
                 Id = "dea12856-c198-4129-b3f3-b893d8395082",
                 UserName = "agent@mail.com",
                 NormalizedUserName = "agent@mail.com",
                 Email = "agent@mail.com",
-                NormalizedEmail = "agent@mail.com"
+                NormalizedEmail = "agent@mail.com",
+                FirstName = "Agent",
+                LastName = "Agentov"
             };
 
             AgentUser.PasswordHash =
                  hasher.HashPassword(AgentUser, "agent123");
 
-            GuestUser = new IdentityUser()
+            GuestUser = new AppUser()
             {
                 Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                 UserName = "guest@mail.com",
                 NormalizedUserName = "guest@mail.com",
                 Email = "guest@mail.com",
-                NormalizedEmail = "guest@mail.com"
+                NormalizedEmail = "guest@mail.com",
+                FirstName = "Guest",
+                LastName = "Guestov"
             };
-
+            AdminUser = new AppUser()
+            {
+                Id = "e43ce836-997d-4927-ac59-74e8c41bbfd3",
+                UserName = "admin@mail.com",
+                NormalizedUserName = "ADMIN@MAIL.COM",
+                Email = "admin@mail.com",
+                NormalizedEmail = "ADMIN@MAIL.COM",
+                FirstName = "Great",
+                LastName = "Admin"
+            };
+            AdminUser.PasswordHash =
+            hasher.HashPassword(AdminUser, "admin123");
+            
             GuestUser.PasswordHash =
             hasher.HashPassword(AgentUser, "guest123");
 
-            SecondGuestUser = new IdentityUser()
+            SecondGuestUser = new AppUser()
             {
                 Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s",
                 UserName = "Secondguest@mail.com",
@@ -81,7 +98,15 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 Id = 1,
                 Email = "yuliusap@pertoys.shop",
                 Location = "San Jose 3118 Thunder Road",
-                UserId = AgentUser.Id
+                UserId = AgentUser.Id,
+                IsAdmin = true,
+                
+            };
+            AdminAgent = new Agent()
+            {
+                Id = 123,
+                Email = "Kolio@gmail.com",
+                UserId = AdminUser.Id
             };
         }
         private void SeedCategories()

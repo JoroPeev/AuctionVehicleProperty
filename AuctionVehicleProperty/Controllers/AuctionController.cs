@@ -28,9 +28,10 @@ namespace AuctionVehicleProperty.Controllers
                 return BadRequest();
             }
 
+           var auction = actionService.GetAuctionDetailsAsync(id);
           
 
-            return View();
+            return View(auction);
         }
 
         public IActionResult Create()

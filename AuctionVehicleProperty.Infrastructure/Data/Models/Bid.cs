@@ -27,7 +27,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
         [ForeignKey(nameof(CustomerId))]
         [Comment("User Bidding")]
-        public IdentityUser User { get; set; } = null!;
+        public AppUser User { get; set; } = null!;
 
 
         [Column(TypeName = "decimal(12,2)")]
@@ -39,7 +39,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         public DateTime BidTime { get; set; }
 
 
-        public List<IdentityUser> Users { get; set; } = new List<IdentityUser>();
+        public List<AppUser> Users { get; set; } = new List<AppUser>();
 
     }
 }

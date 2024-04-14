@@ -12,13 +12,13 @@
             </h6>
 
             <br/>
-            <a asp-controller="Vehicle" asp-action="Details" asp-route-id="@Model.Id"
+            <a asp-area="" asp-controller="Vehicle" asp-action="Details" asp-route-id="@Model.Id"
                class="btn btn-success">Details</a>
-            @if (this.User.Identity.IsAuthenticated)
+            @if (this.User.Identity.IsAuthenticated || this.User.IsAdmin())
             {
-                <a asp-controller="Vehicle" asp-action="Edit" asp-route-id="@Model.Id"
+                <a asp-area="" asp-controller="Vehicle" asp-action="Edit" asp-route-id="@Model.Id"
                    class="btn btn-warning">Edit</a>
-                <a asp-controller="Vehicle" asp-action="Delete" asp-route-id="@Model.Id"
+                <a asp-area="" asp-controller="Vehicle" asp-action="Delete" asp-route-id="@Model.Id"
                    class="btn btn-danger">Delete</a>
             }
         </div>

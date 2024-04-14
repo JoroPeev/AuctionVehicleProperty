@@ -1,4 +1,6 @@
 
+using AuctionVehicleProperty.Extensions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddAplicationDbContext(builder.Configuration);
@@ -31,9 +33,27 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "House Details",
+        pattern: "/House/Details/{id}",
+        defaults: new { Controller = "House", Action = "Details" }
+    );
+    endpoints.MapControllerRoute(
+            name: "areas",
+            pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+    );
+    endpoints.MapDefaultControllerRoute();
+    endpoints.MapRazorPages();
+});
+
 app.MapRazorPages();
 
-app.Run();
+await app.CreateAdminRoleAsync(); 
+
+await app.RunAsync();

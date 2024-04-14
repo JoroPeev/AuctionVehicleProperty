@@ -2,7 +2,7 @@
 
 namespace AuctionVehicleProperty.Controllers
 {
-    public class BidController : Controller
+    public class BidController : BaseController
     {
         public IActionResult Index()
         {

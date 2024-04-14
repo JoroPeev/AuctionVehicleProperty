@@ -2,6 +2,12 @@
 {
     public static class DataConstants
     {
+        public const int UserFirstNameMinLength = 2;
+        public const int UserFirstNameMaxLength = 20;
+
+        public const int UserLastNameMinLength = 2;
+        public const int UserLastNameMaxLength = 20;
+
         public const int AuctionBudIncrementMin = 10;
         public const int AuctionBudIncrementMax = 10_000_000;
 

@@ -6,7 +6,7 @@ using static AuctionVehicleProperty.Core.Constants.MessageConstants;
 
 namespace AuctionVehicleProperty.Controllers
 {
-    public class AgentController : Controller
+    public class AgentController : BaseController
     {
         private readonly IAgentService agentService;
 

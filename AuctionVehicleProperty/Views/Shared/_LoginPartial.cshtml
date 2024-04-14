@@ -1,10 +1,19 @@
 ﻿@using AuctionVehicleProperty.Core.Contracts
 @using AuctionVehicleProperty.Extensions
+@using AuctionVehicleProperty.Infrastructure.Data.Models
 @using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
 @inject IAgentService agentService
+@{
+    string userName = string.Empty;
 
+    if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.FindByIdAsync(User.Id());
+        userName = $"{user.FirstName} {user.LastName}";
+    }
+}
 <ul class="navbar-nav"> 
 @if (SignInManager.IsSignedIn(User))
     {

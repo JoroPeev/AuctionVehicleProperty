@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionVehicleProperty.Controllers
 {
-    public class VehicleController : Controller
+    public class VehicleController : BaseController
     {
         private readonly IVehicleService vehicleService;
         private readonly IAgentService agentService;
@@ -86,12 +86,14 @@ namespace AuctionVehicleProperty.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            if (await vehicleService.OwnerExistsByIdAsync(id) == false)
+            if (await vehicleService.OwnerExistsByIdAsync(id) == false 
+                && User.IsAdmin() == false)
             {
                 return BadRequest();
             }
 
-            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false)
+            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false 
+                && User.IsAdmin() == false)
 
             {
                 return Unauthorized();
@@ -107,6 +109,11 @@ namespace AuctionVehicleProperty.Controllers
             var userId = User.Id();
             IEnumerable<VehicleServiceModel> model = Enumerable.Empty<VehicleServiceModel>();
 
+            if (User.IsAdmin())
+            {
+                return RedirectToAction("Mine", "House", new { area = "Admin" });
+            }
+
             if (await agentService.ExistsByIdAsync(userId))
             {
                 int agentId = await agentService.GetAgentIdAsync(userId) ?? 0;
@@ -118,6 +125,7 @@ namespace AuctionVehicleProperty.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(int id, VehicleCreationServiceModel car)
         {
+
             if (await vehicleService.VehicleExistsByIdAsync(id) == false)
             {
 
@@ -149,12 +157,14 @@ namespace AuctionVehicleProperty.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await vehicleService.VehicleExistsByIdAsync(id) == false)
+            if (await vehicleService.VehicleExistsByIdAsync(id) == false 
+                && User.IsAdmin() == false)
             {
                 return BadRequest();
             }
 
-            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false)
+            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false 
+                && User.IsAdmin() == false)
             {
                 return Unauthorized();
             }
@@ -177,12 +187,14 @@ namespace AuctionVehicleProperty.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(VehicleDetailsModel model)
         {
-            if (await vehicleService.VehicleExistsByIdAsync(model.Id) == false)
+            if (await vehicleService.VehicleExistsByIdAsync(model.Id) == false 
+                && User.IsAdmin() == false)
             {
                 return BadRequest();
             }
 
-            if (await vehicleService.HasAgentWithIdAsync(model.Id, User.Id()) == false)
+            if (await vehicleService.HasAgentWithIdAsync(model.Id, User.Id()) == false 
+                && User.IsAdmin() == false)
             {
                 return Unauthorized();
             }

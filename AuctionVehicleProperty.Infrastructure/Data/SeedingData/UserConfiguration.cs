@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
 {
-    internal class UserConfiguration : IEntityTypeConfiguration<IdentityUser>
+    internal class UserConfiguration : IEntityTypeConfiguration<AppUser>
     {
-        public void Configure(EntityTypeBuilder<IdentityUser> builder)
+        public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             var data = new SeedData();
 
-            builder.HasData(new IdentityUser[] { data.AgentUser, data.GuestUser ,data.SecondGuestUser});
+            builder.HasData(new AppUser[] { data.AgentUser, data.GuestUser ,data.SecondGuestUser, data.AdminUser });
         }
     }
 }

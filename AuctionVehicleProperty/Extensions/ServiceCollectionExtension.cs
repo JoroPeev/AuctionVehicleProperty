@@ -16,7 +16,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IAuctionService, AuctionService>();
-
+            services.AddScoped<IUserService, UserService>();
             return services;
         }
         public static IServiceCollection AddAplicationDbContext(this IServiceCollection services,IConfiguration config)
@@ -31,12 +31,12 @@ namespace Microsoft.Extensions.DependencyInjection
         }
         public static IServiceCollection AddAplicationIdentity(this IServiceCollection services, IConfiguration config)
         {
-            services.AddDefaultIdentity<IdentityUser>(options =>
+            services.AddDefaultIdentity<AppUser>(options =>
             {
                 options.User.RequireUniqueEmail= true;
                 options.SignIn.RequireConfirmedAccount = false;
 
-            })
+            }).AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
             return services;
