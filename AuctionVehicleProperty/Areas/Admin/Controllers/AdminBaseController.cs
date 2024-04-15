@@ -5,7 +5,7 @@ using static AuctionVehicleProperty.Core.Constants.RoleConstants;
 namespace AuctionVehicleProperty.Areas.Admin.Controllers
 {
 
-    namespace HouseRentingSystem.Areas.Admin.Controllers
+    namespace AuctionVehicleProperty.Areas.Admin.Controllers
     {
         [Area("Admin")]
         [Authorize(Roles = AdminRole)]

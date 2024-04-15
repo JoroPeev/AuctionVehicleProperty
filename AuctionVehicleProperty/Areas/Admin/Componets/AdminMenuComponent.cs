@@ -2,7 +2,7 @@
 
 namespace AuctionVehicleProperty.Areas.Admin.Componets
 {
-    namespace HouseRentingSystem.Areas.Admin.Components
+    namespace AuctionVehicleProperty.Areas.Admin.Components
     {
         public class AdminMenuComponent : ViewComponent
         {
