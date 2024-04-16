@@ -1,4 +1,5 @@
-﻿using AuctionVehicleProperty.Infrastructure.Data.Models;
+﻿using AuctionVehicleProperty.Core.Models.Vehicles;
+using AuctionVehicleProperty.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 

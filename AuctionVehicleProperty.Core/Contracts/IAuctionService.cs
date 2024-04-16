@@ -17,7 +17,7 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task CloseAuctionAgentAsync(int auctionId, int winnerId);
 
-        Task<AuctionCreationServiceModel> GetAuctionDetailsAsync(int auctionId);
+        Task<AuctionDetailsModel> GetAuctionDetailsAsync(int auctionId);
 
         Task<ICollection<Bid>> GetAuctionBidsAsync(int auctionId);
 

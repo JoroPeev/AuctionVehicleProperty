@@ -14,7 +14,7 @@ namespace AuctionVehicleProperty.Core.Contracts
            string? searchTerm = null,
            VehicleFiltering sorting = VehicleFiltering.Newest,
            int currentPage = 1,
-           int housesPerPage = 1);
+           int vehiclesPerPage = 1);
 
         Task<VehicleCreationServiceModel> GetVehicleByOwnerIdAsync(int ownerId);
 
