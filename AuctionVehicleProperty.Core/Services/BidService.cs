@@ -1,11 +1,9 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
-using AuctionVehicleProperty.Core.Exeptions;
 using AuctionVehicleProperty.Core.Models.Bids;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using static AuctionVehicleProperty.Core.Exeptions.ExeptionMessages;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -46,16 +44,9 @@ namespace AuctionVehicleProperty.Core.Services
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
 
-            if (auction == null)
-            {
-                throw new AuctionExeption(AuctionNotFound);
-            }
-
-
             var bid = auction.Bids.Max(e => e.Amount);
 
             return bid;
-
 
         }
 
@@ -89,31 +80,20 @@ namespace AuctionVehicleProperty.Core.Services
             }
 
         }
-        /// <summary>
-        /// Handle exeption when using
-        /// </summary>
-        /// <param name="auctionId"></param>
-        /// <returns></returns>
-        /// <exception cref="InvalidOperationException"></exception>
+
         public async Task<IEnumerable<BidHistoryServiceModel>> GetBidHistoryAsync(int auctionId)
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
 
-            if (auction != null)
+            var bidHistory = auction.Bids.Select(bid => new BidHistoryServiceModel
             {
-                var bidHistory = auction.Bids.Select(bid => new BidHistoryServiceModel
-                {
-                    Amount = bid.Amount,
-                    BidTime = bid.BidTime,
-                    UserId = bid.CustomerId,
-                });
+                Amount = bid.Amount,
+                BidTime = bid.BidTime,
+                UserId = bid.CustomerId,
+            });
 
-                return bidHistory;
-            }
-            else
-            {
-                throw new InvalidOperationException(AuctionBiding);
-            }
+            return bidHistory;
+
         }
 
 

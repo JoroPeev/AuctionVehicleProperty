@@ -34,12 +34,6 @@ namespace AuctionVehicleProperty.Core.Services
                 .AnyAsync(a => a.UserId == userId);
         }
 
-        public async Task<int?> GetAgentByIdAsync(int agentId)
-        {
-            return (await repository.AllReadOnly<Agent>()
-            .FirstOrDefaultAsync(a => a.Id == agentId))?.Id;
-        }
-
         public async Task<int?> GetAgentIdAsync(string userId)
         {
             return (await repository.AllReadOnly<Agent>()

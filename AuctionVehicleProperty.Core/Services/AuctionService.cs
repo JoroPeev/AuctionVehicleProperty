@@ -74,7 +74,7 @@ namespace AuctionVehicleProperty.Core.Services
                 Id = auctionData.Id,
                 StartingPrice = auctionData.StartingPrice,
                 EndTime = auctionData.EndTime,
-                StartingTime = auctionData.StartingTime,
+                StartingTime = DateTime.Now,
                 MinimumBidIncrement = auctionData.MinimumBidIncrement,
                 VehicleId = auctionData.VehicleId,
             });
@@ -103,20 +103,15 @@ namespace AuctionVehicleProperty.Core.Services
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
 
-            if (auction != null)
-            {
-                return auction.Bids;
-            }
-
-            throw new AuctionExeption(AuctionNotFound);
+            return auction.Bids;
 
         }
 
-        public async Task<AuctionCreationServiceModel> GetAuctionDetailsAsync(int auctionId)
+        public async Task<AuctionDetailsModel> GetAuctionDetailsAsync(int auctionId)
         {
             var a = await repository.GetByIdAsync<Auction>(auctionId);
 
-            var auctionIndexServiceModels = new AuctionCreationServiceModel
+            var auctionIndexServiceModels = new AuctionDetailsModel
             {
                 EndTime = a.EndTime,
                 StartingTime = a.StartingTime,
@@ -125,9 +120,7 @@ namespace AuctionVehicleProperty.Core.Services
                 VehicleId = a.VehicleId,
                 Bids = a.Bids,
                 Id = a.Id,
-                WinnerAgentID = a.WinnerIdAgent,
-                WinnerUserID = a.WinnerIdUser
-
+                Vehicle = a.Vehicle
             };
 
             return auctionIndexServiceModels;

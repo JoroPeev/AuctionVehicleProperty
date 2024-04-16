@@ -165,7 +165,7 @@ namespace AuctionVehicleProperty.Core.Services
 
                 })
                 .FirstOrDefaultAsync();
-           
+
             if (vehicle != null)
             {
                 vehicle.VehicleType = await AllCategoriesAsync();
