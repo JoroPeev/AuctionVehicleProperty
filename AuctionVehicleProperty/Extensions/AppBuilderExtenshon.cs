@@ -1,7 +1,7 @@
 ﻿using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using static AuctionVehicleProperty.Core.Constants.RoleConstants;
-namespace AuctionVehicleProperty.Extensions
+namespace Microsoft.AspNetCore.Builder
 {
     public static class AppBuilderExtenshon
     {

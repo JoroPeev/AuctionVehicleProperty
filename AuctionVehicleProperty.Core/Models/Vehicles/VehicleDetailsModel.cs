@@ -16,5 +16,7 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
 
         public decimal Price { get; set; }
 
+        public string Description { get; set; } = string.Empty;
+
     }
 }
