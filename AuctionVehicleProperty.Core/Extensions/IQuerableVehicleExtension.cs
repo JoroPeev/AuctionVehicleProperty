@@ -19,7 +19,9 @@ namespace System.Linq
                     Location = h.Location,
                     ImageUrls = h.ImageUrls,
                     Price = h.Price,
-                    Title = h.Title
+                    Title = h.Title,
+                    OwnerId = h.OwnerId,
+                    
                 });
         }
     }
