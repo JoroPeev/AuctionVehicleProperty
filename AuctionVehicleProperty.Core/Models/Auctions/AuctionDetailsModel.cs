@@ -25,6 +25,8 @@ namespace AuctionVehicleProperty.Core.Models.Auctions
 
         public int? WinnerIdAgent { get; set; }
 
+        public int CreatorId { get; set; }
+
         public int VehicleId { get; set; }
 
         public Vehicle Vehicle { get; set; } = null!;

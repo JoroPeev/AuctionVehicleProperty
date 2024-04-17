@@ -15,6 +15,8 @@ namespace AuctionVehicleProperty.Core.Models.Auctions
 
         public decimal StartingPrice { get; set; }
 
+        public int CreatorId { get; set; }
+
         public int VehicleId { get; set; }
 
         public Vehicle Vehicle { get; set; } = null!;

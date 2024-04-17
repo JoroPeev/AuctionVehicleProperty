@@ -26,7 +26,11 @@ namespace AuctionVehicleProperty.Core.Models.Auctions
 
         public string? WinnerUserID { get; set; }
 
+        public int CreatorId { get; set; }
+
         public int VehicleId { get; set; }
+
+        public IEnumerable<Vehicle> Vehicles { get; set; } = new List<Vehicle>();
 
         public ICollection<Bid> Bids { get; set; } = new List<Bid>();
 
