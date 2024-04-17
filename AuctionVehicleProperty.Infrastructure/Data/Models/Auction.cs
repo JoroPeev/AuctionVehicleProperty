@@ -43,7 +43,9 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
         [Comment("Winner agent Identyfier")]
         public int? WinnerIdAgent { get; set; }
-
+        
+        [Comment("Creator agent Identyfier")]
+        public int CreatorId { get; set; }
 
         [Required]
         [Comment("Vehicle Identyfier")]

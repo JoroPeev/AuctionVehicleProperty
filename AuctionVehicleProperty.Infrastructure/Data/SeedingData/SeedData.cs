@@ -186,6 +186,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 StartingPrice = 25000.00M,
                 MinimumBidIncrement = 500.00M,
                 VehicleId = 1,
+                CreatorId = 1
             };
         }
         private void SeedBid()
