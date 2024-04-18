@@ -111,7 +111,7 @@ namespace AuctionVehicleProperty.Controllers
 
             if (User.IsAdmin())
             {
-                return RedirectToAction("Mine", "House", new { area = "Admin" });
+                return RedirectToAction("Mine", "Vehicle", new { area = "Admin" });
             }
 
             if (await agentService.ExistsByIdAsync(userId))

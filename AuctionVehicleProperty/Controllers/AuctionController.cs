@@ -1,10 +1,13 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
 using AuctionVehicleProperty.Core.Models.Auctions;
+using AuctionVehicleProperty.Extensions;
+using AuctionVehicleProperty.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuctionVehicleProperty.Controllers
 {
-    public class AuctionController : Controller
+    public class AuctionController : BaseController
     {
         private readonly IVehicleService vehicleService;
         private readonly IAgentService agentService;
@@ -15,77 +18,119 @@ namespace AuctionVehicleProperty.Controllers
             vehicleService = _vehicleService;
             actionService = _actionService;
         }
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var auction = await actionService.AllAuctionsAsync();
             return View(auction);
         }
-
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
-            if (await actionService.AuctionExistAsync(id))
+            if (!await actionService.AuctionExistAsync(id))
             {
                 return BadRequest();
             }
 
-           var auction = actionService.GetAuctionDetailsAsync(id);
-          
+            var auction = await actionService.GetAuctionDetailsAsync(id);
+
 
             return View(auction);
         }
-
-        public IActionResult Create()
+        [HttpGet]
+        [MustBeSeller]
+        public async Task<IActionResult> Create(int ownerId)
         {
-            return View();
+            int? id = await agentService.GetAgentIdAsync(User.Id());
+
+            if (id != ownerId)
+            {
+                return Unauthorized();
+            }
+
+            var vehicles = await vehicleService.GetAllAsync(ownerId);
+
+            var model = new AuctionCreationServiceModel
+            {
+                Vehicles = vehicles,
+                CreatorId = ownerId,
+                
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Create(FormCollection collection)
+        [MustBeSeller]
+        public async Task<IActionResult> Create(AuctionCreationServiceModel auction)
         {
-            try
+            if (!(await vehicleService.HasAgentWithIdAsync(auction.VehicleId, User.Id())))
             {
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                return BadRequest();
 
-        public IActionResult Edit(int id)
+            }
+            if (await actionService.VehicleExistsInOtherAuctionsAsync(auction.VehicleId))
+            {
+                return BadRequest();
+            }
+            if (await actionService.AuctionExistAsync(auction.Id))
+            {
+                return BadRequest();
+            }
+            await actionService.CreateAsync(auction);
+
+            return RedirectToAction(nameof(AuctionController.Index));
+        }
+        [HttpGet]
+        [Route("Auction/Delete/{auctionId:int}")]
+        public async Task<IActionResult> Delete(int auctionId)
         {
-            return View();
+            if (await actionService.AuctionExistAsync(auctionId) == false)
+            {
+                return BadRequest();
+            }
+            var auction = await actionService.GetAuctionDetailsAsync(auctionId);
+
+            if (await actionService.AuctionValidationCreator(auctionId, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+
+            var model = new AuctionDetailsModel()
+            {
+                Id = auctionId,
+                StartingPrice = auction.StartingPrice,
+                StartingTime = auction.StartingTime,
+                CreatorId = auction.CreatorId,
+                EndTime = auction.EndTime,
+                Bids = auction.Bids,
+                MinimumBidIncrement = auction.MinimumBidIncrement,
+                Vehicle = auction.Vehicle,
+                VehicleId = auction.VehicleId,
+                WinnerIdAgent = auction.WinnerIdAgent
+
+            };
+
+            return View(model);
         }
 
         [HttpPost]
-        public IActionResult Edit(int id, FormCollection collection)
+        public async Task<IActionResult> Delete(AuctionDetailsModel model)
         {
-            try
+            if (await actionService.AuctionExistAsync(model.Id) == false)
             {
-                return RedirectToAction("Index");
+                return BadRequest();
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        public IActionResult Delete(int id)
-        {
-            return View();
-        }
+            if (await actionService.AuctionValidationCreator(model.Id, User.Id()) == false)
+            {
+                return Unauthorized();  
+            }
 
-        [HttpPost]
-        public IActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+            await actionService.DeleteAuctionAsync(model.Id);
+
+            return RedirectToAction(nameof(Index));
         }
 
 
