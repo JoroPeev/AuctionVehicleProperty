@@ -7,13 +7,15 @@ namespace AuctionVehicleProperty.Core.Contracts
     {
         Task<IEnumerable<AuctionIndexServiceModel>> CurrentAuctionsAsync();
 
+        Task<bool> AuctionValidationCreator(int auctionId, string creatorId);
+
         Task<IEnumerable<AuctionIndexServiceModel>> AllAuctionsAsync();
+
+        Task<bool> VehicleExistsInOtherAuctionsAsync(int vehicleId);
 
         Task CreateAsync(AuctionCreationServiceModel auctionData);
 
         Task<bool> AuctionExistAsync(int auctionId);
-
-        Task CloseAuctionUserAsync(int auctionId, string winnerId);
 
         Task CloseAuctionAgentAsync(int auctionId, int winnerId);
 
@@ -22,6 +24,8 @@ namespace AuctionVehicleProperty.Core.Contracts
         Task<ICollection<Bid>> GetAuctionBidsAsync(int auctionId);
 
         Task<IEnumerable<AuctionIndexServiceModel>> LatestAuctionsAsync();
-        
+        Task DeleteAuctionAsync(int auctionId);
+
+
     }
 }

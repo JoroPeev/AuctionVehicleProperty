@@ -1,10 +1,14 @@
 ﻿using AuctionVehicleProperty.Core.Enumerations;
 using AuctionVehicleProperty.Core.Models.Vehicles;
+using AuctionVehicleProperty.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuctionVehicleProperty.Core.Contracts
 {
     public interface IVehicleService
     {
+        Task<IEnumerable<Vehicle>> GetAllAsync(int agentId);
+        
         Task<bool> VehicleExistsByIdAsync(int vehicleId);
 
         Task<bool> OwnerExistsByIdAsync(int ownerId);

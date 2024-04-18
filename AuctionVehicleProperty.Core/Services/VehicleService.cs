@@ -18,6 +18,7 @@ namespace AuctionVehicleProperty.Core.Services
         {
             repository = _repository;
         }
+
         public async Task<VehicleIndexQueryModel> AllAsync(string? category = null,
             string? searchTerm = null,
             VehicleFiltering sorting = VehicleFiltering.Newest
@@ -89,6 +90,7 @@ namespace AuctionVehicleProperty.Core.Services
         {
             await repository.DeleteEntity<Vehicle>(vehicleId);
         }
+
         public async Task<bool> CategoryExistsAsync(int categoryId)
         {
             return await repository.AllReadOnly<Category>()
@@ -119,6 +121,7 @@ namespace AuctionVehicleProperty.Core.Services
 
             return vehicle;
         }
+
         public async Task<VehicleServiceModel> VehicleDetailsByIdAsync(int id)
         {
             return await repository.AllReadOnly<Vehicle>()
@@ -140,6 +143,7 @@ namespace AuctionVehicleProperty.Core.Services
                 })
                 .FirstAsync();
         }
+
         public async Task<VehicleCreationServiceModel> GetVehicleByOwnerIdAsync(int vehicleId)
         {
             var vehicle = await repository
@@ -186,11 +190,13 @@ namespace AuctionVehicleProperty.Core.Services
             return false;
 
         }
+
         public async Task<bool> HasAgentWithIdAsync(int vehicleId, string userId)
         {
             return await repository.AllReadOnly<Vehicle>()
                 .AnyAsync(h => h.Id == vehicleId && h.Owner.UserId == userId);
         }
+
         public async Task UpdateVehicleAsync(int vehicleId, VehicleCreationServiceModel updatedVehicle)
         {
             var vehicle = await repository.GetByIdAsync<Vehicle>(vehicleId);
@@ -233,6 +239,11 @@ namespace AuctionVehicleProperty.Core.Services
                   .Where(h => h.OwnerId == ownerId)
                   .ProjectToVehicleServiceModel()
                   .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Vehicle>> GetAllAsync(int agentId)
+        {
+            return await repository.AllReadOnly<Vehicle>().Where(e=>e.OwnerId==agentId).ToListAsync();
         }
     }
 }

@@ -71,7 +71,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 Email = "admin@mail.com",
                 NormalizedEmail = "ADMIN@MAIL.COM",
                 FirstName = "Great",
-                LastName = "Admin"
+                LastName = "Admin",
             };
             AdminUser.PasswordHash =
             hasher.HashPassword(AdminUser, "admin123");

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuctionVehicleProperty.Core
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuctionVehicleProperty.Infrastructure", "AuctionVehicleProperty.Infrastructure\AuctionVehicleProperty.Infrastructure.csproj", "{FA6EA975-F3B5-478A-B33E-F32895A5C6BC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuctionVehicleProperty.Test", "AuctionVehicleProperty.Test\AuctionVehicleProperty.Test.csproj", "{F8004841-5CF0-42BA-9199-6DF46DA18831}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FA6EA975-F3B5-478A-B33E-F32895A5C6BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA6EA975-F3B5-478A-B33E-F32895A5C6BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA6EA975-F3B5-478A-B33E-F32895A5C6BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8004841-5CF0-42BA-9199-6DF46DA18831}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8004841-5CF0-42BA-9199-6DF46DA18831}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8004841-5CF0-42BA-9199-6DF46DA18831}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8004841-5CF0-42BA-9199-6DF46DA18831}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
