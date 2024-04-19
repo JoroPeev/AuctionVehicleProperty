@@ -1,0 +1,20 @@
+﻿@model MyVehiclesViewModel
+
+
+@{
+    ViewBag.Title = "My Vehicles";
+}
+<h2 class="text-center">@ViewBag.Title</h2>
+
+<hr />
+<h4>My Added Vehicles</h4>
+@if (!Model.AddedVehicles.Any())
+{
+    <h2 class="text-center">You have no added vehicles yet!</h2>
+}
+<div class="row">
+    @foreach (var house in Model.AddedVehicles)
+    {
+        @await Html.PartialAsync("~/Views/Shared/_VehiclePartial.cshtml", house)
+    }
+</div>
