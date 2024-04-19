@@ -1,20 +1,21 @@
 ﻿@model AuctionIndexServiceModel
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="@Model.Vehicle.ImageUrls" class="img-fluid rounded-start" alt="...">
 
-<a href="@Url.Action("Details", "Auction", new { id = Model.Id })" class="auction-card-link">
-    <div class="card mb-3" style="max-width: 540px;">
-        <div class="row g-0">
-            <div class="col-md-4">
-                <img src="@Model.Vehicle.ImageUrls" class="img-fluid rounded-start" alt="...">
+            <a href="@Url.Action("Details", "Auction", new { id = Model.Id })" class="auction-card-link">
+
                 <button class="btn btn-primary btn-sm">Details</button>
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title">@Model.Vehicle.Make, @Model.Vehicle.Model</h5>
-                    <p class="card-text">@Model.Vehicle.Title</p>
-                    <p class="card-text"><small class="text-body-secondary">@Model.StartingPrice BGN</small></p>
-                    <div class="u-typography-h7 u-color-mid-gray"><time class="u-typography-h7 u-color-mid-gray">Starting At: @Model.StartingTime</time></div>
-                </div>
+            </a>
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Vehicle.Make, @Model.Vehicle.Model</h5>
+                <p class="card-text">@Model.Vehicle.Title</p>
+                <p class="card-text"><small class="text-body-secondary">@Model.StartingPrice BGN</small></p>
+                <div class="u-typography-h7 u-color-mid-gray"><time class="u-typography-h7 u-color-mid-gray">Starting At: @Model.StartingTime</time></div>
             </div>
         </div>
     </div>
-</a>
+</div>
