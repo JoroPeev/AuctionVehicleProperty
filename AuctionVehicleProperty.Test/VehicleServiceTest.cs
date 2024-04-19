@@ -8,6 +8,7 @@ using Xunit;
 using AuctionVehicleProperty.Infrastructure.Data;
 using AuctionVehicleProperty.Core.Contracts;
 using Microsoft.Extensions.Configuration;
+using NUnit.Framework.Internal;
 
 
 namespace AuctionVehicleProperty.Test;
@@ -110,10 +111,58 @@ public class VehicleServiceTest
 
         Assert.IsFalse(result);
     }
-    
+    [Test]
+    public async Task GetVehicleByOwnerIdAsync_Returns_Correct_Vehicle()
+    {
+        // Arrange
+        int existingVehicleId = 1;
+        var testVehicle = new Vehicle
+        {
+            Id = existingVehicleId,
+            Details = "Test details",
+            ImageUrls = "Test image URL",
+            Location = "Test location",
+            Make = "Test make",
+            Mileage = 10000,
+            Power = 150,
+            Model = "Test model",
+            AverageDivingRange = 500,
+            OwnerId = 123, 
+            Price = 50000,
+            Title = "Test title",
+            VehicleTypeId = 456, 
+            Year = DateTime.MinValue
+        };
+
+        var testVehicleType = new Category { Id = testVehicle.VehicleTypeId, Name = "Test Vehicle Type" };
+
+      
+        dbContext.Vehicles.Add(testVehicle);
+        dbContext.Categories.Add(testVehicleType);
+        await dbContext.SaveChangesAsync();
+
+        var vehicleService = new VehicleService(repository);
+
+ 
+        var result = await vehicleService.GetVehicleByOwnerIdAsync(existingVehicleId);
 
 
-
+        Assert.IsNotNull(result);
+        Assert.That(result.Id, Is.EqualTo(existingVehicleId));
+        Assert.That(result.Details, Is.EqualTo("Test details"));
+        Assert.That(result.ImageUrl, Is.EqualTo("Test image URL"));
+        Assert.That(result.Location, Is.EqualTo("Test location"));
+        Assert.That(result.Make, Is.EqualTo("Test make"));
+        Assert.That(result.Mileage, Is.EqualTo(10000));
+        Assert.That(result.Power, Is.EqualTo(150));
+        Assert.That(result.Model, Is.EqualTo("Test model"));
+        Assert.That(result.AverageDivingRange, Is.EqualTo(500));
+        Assert.That(result.OwnerId, Is.EqualTo(123));
+        Assert.That(result.Price, Is.EqualTo(50000));
+        Assert.That(result.Title, Is.EqualTo("Test title"));
+        Assert.That(result.VehicleTypeId, Is.EqualTo(testVehicleType.Id));
+        Assert.That(result.Year, Is.EqualTo(DateTime.MinValue));
+    }
 
     [TearDown]
     public void TearDown()

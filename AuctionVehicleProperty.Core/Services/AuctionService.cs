@@ -41,7 +41,12 @@ namespace AuctionVehicleProperty.Core.Services
         public async Task<bool> AuctionValidationCreator(int auctionId, string creatorId)
         {
             var owner =  repository.AllReadOnly<Agent>().FirstOrDefault(e=>e.UserId==creatorId);
-            
+
+            if (owner==null)
+            {
+                return false;
+            }
+
             return await repository.AllReadOnly<Auction>().Where(e => e.CreatorId == owner.Id)
                  .AnyAsync(a => a.Id == auctionId);
         }

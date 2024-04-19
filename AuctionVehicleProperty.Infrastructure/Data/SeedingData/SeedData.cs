@@ -95,7 +95,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         {
             Agent = new Agent()
             {
-                Id = 1,
+                Id = 2,
                 Email = "yuliusap@pertoys.shop",
                 Location = "San Jose 3118 Thunder Road",
                 UserId = AgentUser.Id,
@@ -104,7 +104,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
             };
             AdminAgent = new Agent()
             {
-                Id = 123,
+                Id = 1,
                 Email = "Kolio@gmail.com",
                 UserId = AdminUser.Id
             };
