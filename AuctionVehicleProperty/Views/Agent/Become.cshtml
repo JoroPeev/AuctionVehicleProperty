@@ -15,7 +15,7 @@
 
 <div class="row">
     <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
-        <form method="post">
+        <form method="post" asp-controller="Agent" asp-action="Become">
             <div class="form-group">
                 <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" placeholder="example@@domain.com">
@@ -25,7 +25,7 @@
                 <span asp-validation-for="Location" class="small text-danger"></span>
             </div>
             <div class="text-center">
-                <input class="btn btn-primary mt-3 " type="submit" value="Save" />
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
             </div>
         </form>
     </div>
