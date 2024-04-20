@@ -115,7 +115,7 @@ public class VehicleServiceTest
     public async Task GetVehicleByOwnerIdAsync_Returns_Correct_Vehicle()
     {
         // Arrange
-        int existingVehicleId = 1;
+        int existingVehicleId = 5;
         var testVehicle = new Vehicle
         {
             Id = existingVehicleId,
@@ -136,10 +136,11 @@ public class VehicleServiceTest
 
         var testVehicleType = new Category { Id = testVehicle.VehicleTypeId, Name = "Test Vehicle Type" };
 
-      
-        dbContext.Vehicles.Add(testVehicle);
-        dbContext.Categories.Add(testVehicleType);
-        await dbContext.SaveChangesAsync();
+        await repository.AddAsync(testVehicle);
+
+        await repository.AddAsync(testVehicleType);
+
+        await repository.SaveChangesAsync();
 
         var vehicleService = new VehicleService(repository);
 
