@@ -29,14 +29,9 @@ namespace AuctionVehicleProperty.Controllers
         [NotAnSeller]
         public async Task<IActionResult> Become(AgentServiceModel model)
         {
-            if (await agentService.ExistsByIdAsync(model.UserId))
+            if (!await agentService.ExistsByIdAsync(model.UserId))
             {
-                ModelState.AddModelError(nameof(model.Email), EmailExists);
-            }
-
-            if (ModelState.IsValid == false)
-            {
-                return View(model);
+                return Unauthorized();
             }
 
             await agentService.CreateAsync(User.Id(), model.Email, model.Location);
