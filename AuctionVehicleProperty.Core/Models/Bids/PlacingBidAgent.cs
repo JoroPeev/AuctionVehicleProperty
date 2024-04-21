@@ -14,6 +14,7 @@ namespace AuctionVehicleProperty.Core.Models.Bids
 
         public DateTime BidTime { get; set; }
 
+        public int AuctionId { get; set; }
 
     }
 }

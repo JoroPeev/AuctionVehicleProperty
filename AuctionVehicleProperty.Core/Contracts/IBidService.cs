@@ -14,8 +14,8 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task<IEnumerable<BidHistoryServiceModel>> GetBidHistoryAsync(int auctionId);
 
-        Task PlaceBidAsync(int auctionId, string userId, decimal amount);
+        Task PlaceBidAsync(int auctionId, int agentId, decimal amount);
 
-        Task<bool> CanPlaceBidAsync(string userId, int auctionId, decimal amount);
+        Task<bool> CanPlaceBidAsync(int agentId);
     }
 }

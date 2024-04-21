@@ -63,7 +63,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2,
                             Email = "yuliusap@pertoys.shop",
                             IsAdmin = true,
                             Location = "San Jose 3118 Thunder Road",
@@ -71,7 +71,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = 123,
+                            Id = 1,
                             Email = "Kolio@gmail.com",
                             IsAdmin = false,
                             Location = "",
@@ -85,9 +85,6 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BidId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -146,8 +143,6 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BidId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -163,7 +158,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "46a495bf-6e61-42e7-877b-d674650fbc82",
+                            ConcurrencyStamp = "bf3c372f-f20a-4633-ad09-7a7be89ace76",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Agent",
@@ -171,9 +166,9 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHp9HsOFw6o+gX82IMO5/naLjULJPxe1sZCxk44EeBnQcCMKVr7kk5egRgM7kXPqgw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMODwfo7rYLc48+ucFXoqDP/GFD8hU/uK1dfyV+BcHGcPWYmafhvOun8bIkjs2Sh2w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0ce5a63b-535d-4e07-8b3f-5c3109ab64aa",
+                            SecurityStamp = "13dc337e-62b7-42ef-b526-fa9b03bb816c",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -181,7 +176,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "85749043-accc-43c2-9766-b5ea7fec98bd",
+                            ConcurrencyStamp = "91985b6f-483d-4480-97a2-149965157b05",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Guest",
@@ -189,9 +184,9 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKae+KnUITg/zKAhq06qhyzJZMRnOw0kjpqj60Jv1rSv5zum0hq9kCwwJfsvaJtSYQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHWKEfMEXF+PfijtNDJVEprifDDvz8n2eHU0VVBvSm/hP+mVQ56ZnB5PhkUY6VSPJg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "16c653fa-2592-4d2a-8963-efc6b3b4bce9",
+                            SecurityStamp = "59e695e8-9ca1-42e8-917a-e2e4c812fed5",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -199,7 +194,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "10bca9bf-e44d-4961-be56-f6e7bf51490c",
+                            ConcurrencyStamp = "3413e11f-6d6a-4bc6-b029-af14ecf2ab00",
                             Email = "Secondguest@mail.com",
                             EmailConfirmed = false,
                             FirstName = "",
@@ -208,7 +203,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             NormalizedEmail = "Secondguest@mail.com",
                             NormalizedUserName = "Secondguest@mail.com",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "85a04555-0801-4faf-83da-54d4a4b25a66",
+                            SecurityStamp = "119ba768-e6ef-4078-9644-f6b28ea87ee2",
                             TwoFactorEnabled = false,
                             UserName = "Secondguest@mail.com"
                         },
@@ -216,7 +211,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "e43ce836-997d-4927-ac59-74e8c41bbfd3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "37370d3f-ba3e-4fe1-9f69-d1e93ab5b96e",
+                            ConcurrencyStamp = "c34d52cc-10fb-42a8-b696-57ad6f83fa64",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Great",
@@ -224,9 +219,9 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.COM",
                             NormalizedUserName = "ADMIN@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAECp2NKdZxetC8QcfniQNCJvFUUIsr60nJOXCtCp4pITabvOznQBd42Eq6z6N3BNITw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEO7fAYKPbwmVdsSJEOEtlfcTwBRPsG4LqX+LZXT5xzfj/h7WN1sVP2gIbPM/EmjoFg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "730c8598-9101-485a-af89-a7555d82d1f7",
+                            SecurityStamp = "1e502f5b-39dd-4d50-9cd7-7dfed2645fb2",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
                         });
@@ -243,7 +238,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
 
                     b.Property<int>("CreatorId")
                         .HasColumnType("int")
-                        .HasComment("Winner agent Identyfier");
+                        .HasComment("Creator agent Identyfier");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2")
@@ -300,6 +295,10 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AgentId")
+                        .HasColumnType("int")
+                        .HasComment("Agent Identifier");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(12,2)")
                         .HasComment("Bid Amount");
@@ -312,16 +311,11 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("Bid Date and Time");
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasComment("Customer Identifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AuctionId");
+                    b.HasIndex("AgentId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("AuctionId");
 
                     b.ToTable("Bids");
 
@@ -329,18 +323,18 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            AgentId = 1,
                             Amount = 26000.00m,
                             AuctionId = 1,
-                            BidTime = new DateTime(2024, 4, 25, 12, 42, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e"
+                            BidTime = new DateTime(2024, 4, 25, 12, 42, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
+                            AgentId = 2,
                             Amount = 27000.00m,
                             AuctionId = 1,
-                            BidTime = new DateTime(2024, 4, 25, 12, 43, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s"
+                            BidTime = new DateTime(2024, 4, 25, 12, 43, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -656,13 +650,6 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.AppUser", b =>
-                {
-                    b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.Bid", null)
-                        .WithMany("Users")
-                        .HasForeignKey("BidId");
-                });
-
             modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Auction", b =>
                 {
                     b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.Vehicle", "Vehicle")
@@ -676,21 +663,21 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
 
             modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Bid", b =>
                 {
+                    b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.Agent", "Agent")
+                        .WithMany()
+                        .HasForeignKey("AgentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.Auction", "Auction")
                         .WithMany("Bids")
                         .HasForeignKey("AuctionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Agent");
 
                     b.Navigation("Auction");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Vehicle", b =>
@@ -780,11 +767,6 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
             modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Auction", b =>
                 {
                     b.Navigation("Bids");
-                });
-
-            modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Bid", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Category", b =>

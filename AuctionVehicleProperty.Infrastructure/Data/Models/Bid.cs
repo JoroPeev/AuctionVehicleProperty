@@ -21,13 +21,13 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
 
 
         [Required]
-        [Comment("Customer Identifier")]
-        public string CustomerId { get; set; } = string.Empty;
+        [Comment("Agent Identifier")]
+        public int AgentId { get; set; }
 
 
-        [ForeignKey(nameof(CustomerId))]
+        [ForeignKey(nameof(AgentId))]
         [Comment("User Bidding")]
-        public AppUser User { get; set; } = null!;
+        public Agent Agent { get; set; } = null!;
 
 
         [Column(TypeName = "decimal(12,2)")]
@@ -38,8 +38,6 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Models
         [Comment("Bid Date and Time")]
         public DateTime BidTime { get; set; }
 
-
-        public List<AppUser> Users { get; set; } = new List<AppUser>();
 
     }
 }

@@ -196,7 +196,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
             {
                 Id = 1,
                 AuctionId = 1,
-                CustomerId = GuestUser.Id,
+                AgentId = AdminAgent.Id,
                 Amount = 26000.00M,
                 BidTime = date.AddMinutes(12),
             };
@@ -204,8 +204,8 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
             {
                 Id = 2,
                 AuctionId = 1,
-                CustomerId = SecondGuestUser.Id,
-                Amount = 27000.00M,
+                AgentId = Agent.Id,
+                Amount = 27000.00M, 
                 BidTime = date.AddMinutes(13),
             };
 

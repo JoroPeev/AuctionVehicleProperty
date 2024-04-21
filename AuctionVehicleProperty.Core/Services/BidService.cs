@@ -29,7 +29,7 @@ namespace AuctionVehicleProperty.Core.Services
 
         }
 
-        public async Task<bool> CanPlaceBidAsync(string userId, int auctionId, decimal amount)
+        public async Task<bool> CanPlaceBidAsync(int userId)
         {
             var user = await repository.GetByIdAsync<IdentityUser>(userId);
 
@@ -51,7 +51,7 @@ namespace AuctionVehicleProperty.Core.Services
         }
 
 
-        public async Task PlaceBidAsync(int auctionId, string userId, decimal amount)
+        public async Task PlaceBidAsync(int auctionId, int agentId, decimal amount)
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
 
@@ -68,7 +68,7 @@ namespace AuctionVehicleProperty.Core.Services
                     {
                         Amount = amount,
                         BidTime = DateTime.Now,
-                        CustomerId = userId,
+                        AgentId = agentId,
                         AuctionId = auctionId,
 
                     };
@@ -89,7 +89,7 @@ namespace AuctionVehicleProperty.Core.Services
             {
                 Amount = bid.Amount,
                 BidTime = bid.BidTime,
-                UserId = bid.CustomerId,
+                UserId = bid.AgentId,
             });
 
             return bidHistory;
