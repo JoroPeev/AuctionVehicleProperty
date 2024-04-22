@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AuctionVehicleProperty.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240409203119_AddingType")]
-    partial class AddingType
+    [Migration("20240422185833_Inishalizing")]
+    partial class Inishalizing
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,6 +38,9 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         .HasColumnType("nvarchar(450)")
                         .HasComment("Agent's Email");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Location")
                         .IsRequired()
                         .HasMaxLength(70)
@@ -54,17 +57,175 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Agents");
 
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = 2,
                             Email = "yuliusap@pertoys.shop",
+                            IsAdmin = true,
                             Location = "San Jose 3118 Thunder Road",
                             UserId = "dea12856-c198-4129-b3f3-b893d8395082"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            Email = "Kolio@gmail.com",
+                            IsAdmin = false,
+                            Location = "",
+                            UserId = "e43ce836-997d-4927-ac59-74e8c41bbfd3"
+                        });
+                });
+
+            modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.AppUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "0ef1bdcd-8a58-4a90-a49d-d7b1ed8d3882",
+                            Email = "agent@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Agent",
+                            LastName = "Agentov",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "agent@mail.com",
+                            NormalizedUserName = "agent@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPqo+8qmdLSYgqHbbKi6TWDbhwx2Fqydrz9SZmTtJZ2q5tLXxdftotajPCrEtoo1xg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "27318305-7411-45eb-aa66-3199e19f4af2",
+                            TwoFactorEnabled = false,
+                            UserName = "agent@mail.com"
+                        },
+                        new
+                        {
+                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4c55ac48-1324-45f3-a3bf-4d4653cf5908",
+                            Email = "guest@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Guest",
+                            LastName = "Guestov",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "guest@mail.com",
+                            NormalizedUserName = "guest@mail.com",
+                            PasswordHash = "AQAAAAEAACcQAAAAELJ9gQRgdlaOQLPy4EqpKJ1fHmS8CPO4lI201FPEhQErqdjzK2lWPYPZQbFSVFv3oQ==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "fe135a08-2aa2-4acf-9fbd-924207b136d8",
+                            TwoFactorEnabled = false,
+                            UserName = "guest@mail.com"
+                        },
+                        new
+                        {
+                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "d3855109-7bcb-485c-960b-efef4334a4be",
+                            Email = "Secondguest@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "",
+                            LastName = "",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "Secondguest@mail.com",
+                            NormalizedUserName = "Secondguest@mail.com",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "2826b42c-9c4e-41a7-92e2-d63b245030df",
+                            TwoFactorEnabled = false,
+                            UserName = "Secondguest@mail.com"
+                        },
+                        new
+                        {
+                            Id = "e43ce836-997d-4927-ac59-74e8c41bbfd3",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "18c8c8c3-c7f8-4d12-813a-8b92e94785e5",
+                            Email = "admin@mail.com",
+                            EmailConfirmed = false,
+                            FirstName = "Great",
+                            LastName = "Admin",
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@MAIL.COM",
+                            NormalizedUserName = "ADMIN@MAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAECR409kbNTP6h1nvcVxalM3QDxIFAS6a9PjfKuBB4mPrQCOYBhXxdpzxas9tyt4c8w==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "f76f72fe-ee73-416e-b9b8-682f186bb8e2",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@mail.com"
                         });
                 });
 
@@ -76,6 +237,10 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         .HasComment("Auction Identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int")
+                        .HasComment("Creator agent Identyfier");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime2")
@@ -115,6 +280,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            CreatorId = 1,
                             EndTime = new DateTime(2024, 4, 25, 14, 30, 0, 0, DateTimeKind.Unspecified),
                             MinimumBidIncrement = 500.00m,
                             StartingPrice = 25000.00m,
@@ -131,6 +297,10 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AgentId")
+                        .HasColumnType("int")
+                        .HasComment("Agent Identifier");
+
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(12,2)")
                         .HasComment("Bid Amount");
@@ -143,16 +313,11 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasComment("Bid Date and Time");
 
-                    b.Property<string>("CustomerId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasComment("Customer Identifier");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AuctionId");
+                    b.HasIndex("AgentId");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("AuctionId");
 
                     b.ToTable("Bids");
 
@@ -160,18 +325,18 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         new
                         {
                             Id = 1,
+                            AgentId = 1,
                             Amount = 26000.00m,
                             AuctionId = 1,
-                            BidTime = new DateTime(2024, 4, 25, 12, 42, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e"
+                            BidTime = new DateTime(2024, 4, 25, 12, 42, 0, 0, DateTimeKind.Unspecified)
                         },
                         new
                         {
                             Id = 2,
+                            AgentId = 2,
                             Amount = 27000.00m,
                             AuctionId = 1,
-                            BidTime = new DateTime(2024, 4, 25, 12, 43, 0, 0, DateTimeKind.Unspecified),
-                            CustomerId = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s"
+                            BidTime = new DateTime(2024, 4, 25, 12, 43, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -336,24 +501,6 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             Title = "2024 Renault 5 E-Tech 52 kWh (150 hp) Electric",
                             VehicleTypeId = 3,
                             Year = new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AverageDivingRange = 290,
-                            Color = "Green",
-                            Details = "The e-208 comes with various features for comfort, convenience, and safety, similar to other Peugeot models. These may include:Advanced infotainment system with touchscreen interfaceDriver assistance technologies such as adaptive cruise control and lane-keeping assistComfort features like climate control and heated seats Safety features including multiple airbags, anti-lock braking system (ABS), and electronic stability control (ESC)",
-                            ImageUrls = "https://ev-database.org/img/auto/Peugeot_e-208_2024/Peugeot_e-208_2024-01.jpg",
-                            Location = "3189 Duke Lane, Newark, NJ, 07102",
-                            Make = "Peugeot",
-                            Mileage = 0,
-                            Model = "e-208",
-                            OwnerId = 1,
-                            Power = 134,
-                            Price = 37610.00m,
-                            Title = "Peugeot e-208 50 kWh",
-                            VehicleTypeId = 3,
-                            Year = new DateTime(2024, 12, 23, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -407,125 +554,6 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
-                });
-
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("BidId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BidId");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex")
-                        .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "dea12856-c198-4129-b3f3-b893d8395082",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "a02cd3cd-8eb3-48fe-88d5-e9fcdbb6abb6",
-                            Email = "agent@mail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "agent@mail.com",
-                            NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAECO/qbJdD36RfBs0jktYkf3T3ZFrsa39p1X2WI/ooKutFiQ8kPiexr7Qi7USbeVU8w==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "845ba8ef-0cc0-4ce0-b0e4-d044e5fbfab3",
-                            TwoFactorEnabled = false,
-                            UserName = "agent@mail.com"
-                        },
-                        new
-                        {
-                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "375c5eb0-43c6-4797-be96-806b36863acb",
-                            Email = "guest@mail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "guest@mail.com",
-                            NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEN2PAVHeI2qxWv75NUAuQwM5MTwXSnzsTWgDpcx//kRcMvg9M/It+B122nK8uDDkFQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "006ffdad-abc6-4d81-9b0e-934d2d479e63",
-                            TwoFactorEnabled = false,
-                            UserName = "guest@mail.com"
-                        },
-                        new
-                        {
-                            Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s",
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "4764c925-3a01-42b8-bcd6-4da13e2ab3d2",
-                            Email = "Secondguest@mail.com",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "Secondguest@mail.com",
-                            NormalizedUserName = "Secondguest@mail.com",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "41fa3b10-e310-46ec-838a-4b39546dcd4c",
-                            TwoFactorEnabled = false,
-                            UserName = "Secondguest@mail.com"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -615,9 +643,9 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
 
             modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Agent", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                    b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.AppUser", "User")
+                        .WithOne("Agent")
+                        .HasForeignKey("AuctionVehicleProperty.Infrastructure.Data.Models.Agent", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -637,21 +665,21 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
 
             modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Bid", b =>
                 {
+                    b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.Agent", "Agent")
+                        .WithMany()
+                        .HasForeignKey("AgentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.Auction", "Auction")
                         .WithMany("Bids")
                         .HasForeignKey("AuctionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Agent");
 
                     b.Navigation("Auction");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Vehicle", b =>
@@ -686,16 +714,9 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
-                {
-                    b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.Bid", null)
-                        .WithMany("Users")
-                        .HasForeignKey("BidId");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -704,7 +725,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -719,7 +740,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -728,7 +749,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
+                    b.HasOne("AuctionVehicleProperty.Infrastructure.Data.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -740,14 +761,14 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                     b.Navigation("Vehicles");
                 });
 
+            modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.AppUser", b =>
+                {
+                    b.Navigation("Agent");
+                });
+
             modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Auction", b =>
                 {
                     b.Navigation("Bids");
-                });
-
-            modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Bid", b =>
-                {
-                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("AuctionVehicleProperty.Infrastructure.Data.Models.Category", b =>

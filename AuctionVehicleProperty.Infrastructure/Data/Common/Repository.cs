@@ -8,11 +8,6 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Common
     {
         private readonly DbContext context;
 
-        public Repository()
-        {
-                
-        }
-
         public Repository(ApplicationDbContext _context)
         {
             context = _context;

@@ -158,7 +158,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "dea12856-c198-4129-b3f3-b893d8395082",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "bf3c372f-f20a-4633-ad09-7a7be89ace76",
+                            ConcurrencyStamp = "0ef1bdcd-8a58-4a90-a49d-d7b1ed8d3882",
                             Email = "agent@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Agent",
@@ -166,9 +166,9 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "agent@mail.com",
                             NormalizedUserName = "agent@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEMODwfo7rYLc48+ucFXoqDP/GFD8hU/uK1dfyV+BcHGcPWYmafhvOun8bIkjs2Sh2w==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPqo+8qmdLSYgqHbbKi6TWDbhwx2Fqydrz9SZmTtJZ2q5tLXxdftotajPCrEtoo1xg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "13dc337e-62b7-42ef-b526-fa9b03bb816c",
+                            SecurityStamp = "27318305-7411-45eb-aa66-3199e19f4af2",
                             TwoFactorEnabled = false,
                             UserName = "agent@mail.com"
                         },
@@ -176,7 +176,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591e",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "91985b6f-483d-4480-97a2-149965157b05",
+                            ConcurrencyStamp = "4c55ac48-1324-45f3-a3bf-4d4653cf5908",
                             Email = "guest@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Guest",
@@ -184,9 +184,9 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "guest@mail.com",
                             NormalizedUserName = "guest@mail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHWKEfMEXF+PfijtNDJVEprifDDvz8n2eHU0VVBvSm/hP+mVQ56ZnB5PhkUY6VSPJg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAELJ9gQRgdlaOQLPy4EqpKJ1fHmS8CPO4lI201FPEhQErqdjzK2lWPYPZQbFSVFv3oQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "59e695e8-9ca1-42e8-917a-e2e4c812fed5",
+                            SecurityStamp = "fe135a08-2aa2-4acf-9fbd-924207b136d8",
                             TwoFactorEnabled = false,
                             UserName = "guest@mail.com"
                         },
@@ -194,7 +194,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "6d5800ce-d726-4fc8-83d9-d6b3ac1f591s",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "3413e11f-6d6a-4bc6-b029-af14ecf2ab00",
+                            ConcurrencyStamp = "d3855109-7bcb-485c-960b-efef4334a4be",
                             Email = "Secondguest@mail.com",
                             EmailConfirmed = false,
                             FirstName = "",
@@ -203,7 +203,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             NormalizedEmail = "Secondguest@mail.com",
                             NormalizedUserName = "Secondguest@mail.com",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "119ba768-e6ef-4078-9644-f6b28ea87ee2",
+                            SecurityStamp = "2826b42c-9c4e-41a7-92e2-d63b245030df",
                             TwoFactorEnabled = false,
                             UserName = "Secondguest@mail.com"
                         },
@@ -211,7 +211,7 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                         {
                             Id = "e43ce836-997d-4927-ac59-74e8c41bbfd3",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c34d52cc-10fb-42a8-b696-57ad6f83fa64",
+                            ConcurrencyStamp = "18c8c8c3-c7f8-4d12-813a-8b92e94785e5",
                             Email = "admin@mail.com",
                             EmailConfirmed = false,
                             FirstName = "Great",
@@ -219,9 +219,9 @@ namespace AuctionVehicleProperty.Infrastructure.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.COM",
                             NormalizedUserName = "ADMIN@MAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEO7fAYKPbwmVdsSJEOEtlfcTwBRPsG4LqX+LZXT5xzfj/h7WN1sVP2gIbPM/EmjoFg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECR409kbNTP6h1nvcVxalM3QDxIFAS6a9PjfKuBB4mPrQCOYBhXxdpzxas9tyt4c8w==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1e502f5b-39dd-4d50-9cd7-7dfed2645fb2",
+                            SecurityStamp = "f76f72fe-ee73-416e-b9b8-682f186bb8e2",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.com"
                         });
