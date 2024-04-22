@@ -1,12 +1,11 @@
-﻿using AuctionVehicleProperty.Core.Models.Vehicles;
+﻿using AuctionVehicleProperty.Core.Contracts;
+using AuctionVehicleProperty.Core.Enumerations;
+using AuctionVehicleProperty.Core.Models.Vehicles;
 using AuctionVehicleProperty.Core.Services;
-using AuctionVehicleProperty.Infrastructure.Data.Models;
-using AuctionVehicleProperty.Infrastructure.Data.Common;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using Xunit;
 using AuctionVehicleProperty.Infrastructure.Data;
-using AuctionVehicleProperty.Core.Contracts;
+using AuctionVehicleProperty.Infrastructure.Data.Common;
+using AuctionVehicleProperty.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework.Internal;
 
@@ -49,6 +48,7 @@ public class VehicleServiceTest
         // Arrange
         var vehicle = new VehicleCreationServiceModel
         {
+            Id = 1,
             Title = "Test Vehicle",
             ImageUrl = "test_image_url",
             VehicleTypeId = 1,
@@ -73,6 +73,181 @@ public class VehicleServiceTest
         Assert.That(result, Is.Not.EqualTo(0));
     }
     [Test]
+    public async Task AllAsync_Returns_Correct_Vehicles_When_Filtering_By_Category()
+    {
+        // Arrange
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+        };
+
+        var testVehicle = new Vehicle
+        {
+            Details = "Test details ",
+            Location = "Test location ",
+            Mileage = 20000,
+            Power = 200,
+            Make = "TestVehicle",
+            Model = "Test model ",
+            AverageDivingRange = 600,
+            Price = 60000,
+            Owner = agent,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+        };
+        var testVehicle2 = new Vehicle
+        {
+            Details = "Test details 2",
+            Location = "Test location 2",
+            Mileage = 20000,
+            Power = 200,
+            Make = "TestVehicle2",
+            Model = "Test model 2",
+            AverageDivingRange = 600,
+            Price = 60000,
+            Owner = agent,
+            VehicleTypeId = 2,
+            Year = DateTime.MinValue,
+        };
+        await repository.AddAsync(testVehicle);
+        await repository.AddAsync(testVehicle2);
+        await repository.SaveChangesAsync();
+
+        var result = await vehicleService.AllAsync("Coupe");
+
+        Assert.NotNull(result);
+        Assert.That(result.Vehicles.Count(), Is.EqualTo(1));
+        Assert.That(result.TotalVehiclesCount, Is.EqualTo(1));
+    }
+    [Test]
+    public async Task AllAsync_Returns_Vehicles_Sorted_By_Price()
+    {
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+        };
+
+        var SUVCategory = new Category()
+        {
+            Name = "Sport utility vehicle (SUV)"
+        };
+        var coupe = new Category()
+        {
+            Name = "Coupe"
+        };
+
+        var testVehicle = new Vehicle
+        {
+            Details = "Test details ",
+            Location = "Test location ",
+            Mileage = 123,
+            Power = 200,
+            Make = "TestVehicle",
+            Model = "Test model ",
+            AverageDivingRange = 600,
+            Price = 123,
+            Owner = agent,
+            VehicleTypeId = 1,
+            VehicleType = SUVCategory,
+            Year = DateTime.MinValue,
+        };
+        var testVehicle2 = new Vehicle
+        {
+            Details = "Test details 2",
+            Location = "Test location 2",
+            Mileage = 12345,
+            Power = 200,
+            Make = "TestVehicle2",
+            Model = "Test model 2",
+            AverageDivingRange = 600,
+            Price = 12345,
+            Owner = agent,
+            VehicleTypeId = 2,
+            VehicleType = coupe,
+            Year = DateTime.MinValue,
+        }; 
+        var testVehicle3 = new Vehicle
+        {
+            Details = "Test details 2",
+            Location = "Test location 2",
+            Mileage = 1234567,
+            Power = 200,
+            Make = "TestVehicle2",
+            Model = "Test model 2",
+            AverageDivingRange = 600,
+            Price = 1234567,
+            Owner = agent,
+            VehicleTypeId = 2,
+            VehicleType = coupe,
+            Year = DateTime.MinValue,
+        };
+        await repository.AddAsync(testVehicle);
+        await repository.AddAsync(testVehicle2);
+        await repository.AddAsync(testVehicle3);
+        await repository.SaveChangesAsync();
+
+        List<Vehicle> vehicles = new List<Vehicle>
+        {
+            testVehicle,
+            testVehicle2,
+            testVehicle3
+        };
+
+        var result = await vehicleService.AllAsync(sorting: VehicleFiltering.Price);
+
+        var resulttype = await vehicleService.AllAsync(sorting: VehicleFiltering.VehicleType);
+
+        Assert.NotNull(result);
+        Assert.That(result.TotalVehiclesCount-1, Is.EqualTo(vehicles.Count));
+    }
+
+    [Test]
+    public async Task AllAsync_Returns_Correct_Vehicles_When_Searching_By_Term()
+    {
+        // Arrange
+        var searchTerm = "test";
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+        };
+
+        var testVehicle = new Vehicle
+        {
+            Title = "Test",
+            Details = "Test details ",
+            Location = "Test location ",
+            Mileage = 20000,
+            Power = 200,
+            Make = "TestVehicle",
+            Model = "Test model ",
+            AverageDivingRange = 600,
+            Price = 60000,
+            Owner = agent,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+        };
+
+        await repository.AddAsync(testVehicle);
+        await repository.SaveChangesAsync();
+
+        var result = await vehicleService.AllAsync(searchTerm: searchTerm);
+
+        Assert.NotNull(result);
+        Assert.That(result.Vehicles.Count(), Is.EqualTo(1));
+        Assert.That(result.TotalVehiclesCount, Is.EqualTo(1));
+
+    }
+
+
+
+
+    [Test]
     public async Task AllAsync_Returns_All_Vehicles_When_No_Filters_Applied()
     {
 
@@ -82,19 +257,10 @@ public class VehicleServiceTest
     }
 
     [Test]
-    public async Task AllAsync_Returns_Correct_Number_Of_Vehicles_When_Filtered_By_Category()
-    {
-        string category = "SUV";
-
-        var result = await vehicleService.AllAsync(category: category);
-
-        Assert.IsTrue(result.Vehicles.All(v => v.VehicleType == category));
-    }
-    [Test]
     public async Task CategoryExistsAsync_Returns_True_When_Category_Exists()
     {
         int existingCategoryId = 1;
-        var existingCategory = new Category { Id = existingCategoryId};
+        var existingCategory = new Category { Id = existingCategoryId };
         await dbContext.Categories.AddAsync(existingCategory);
 
         var result = await vehicleService.CategoryExistsAsync(existingCategoryId);
@@ -111,58 +277,406 @@ public class VehicleServiceTest
 
         Assert.IsFalse(result);
     }
+
     [Test]
     public async Task GetVehicleByOwnerIdAsync_Returns_Correct_Vehicle()
     {
-        // Arrange
-        int existingVehicleId = 5;
         var testVehicle = new Vehicle
         {
-            Id = existingVehicleId,
+
             Details = "Test details",
-            ImageUrls = "Test image URL",
             Location = "Test location",
             Make = "Test make",
             Mileage = 10000,
             Power = 150,
             Model = "Test model",
             AverageDivingRange = 500,
-            OwnerId = 123, 
+            OwnerId = 1,
             Price = 50000,
             Title = "Test title",
-            VehicleTypeId = 456, 
+            VehicleTypeId = 1,
             Year = DateTime.MinValue
         };
 
-        var testVehicleType = new Category { Id = testVehicle.VehicleTypeId, Name = "Test Vehicle Type" };
-
         await repository.AddAsync(testVehicle);
-
-        await repository.AddAsync(testVehicleType);
-
         await repository.SaveChangesAsync();
 
-        var vehicleService = new VehicleService(repository);
+        // Act
+        var result = await vehicleService.GetVehicleByOwnerIdAsync(testVehicle.Id);
 
- 
-        var result = await vehicleService.GetVehicleByOwnerIdAsync(existingVehicleId);
+        // Assert
+        Assert.AreEqual("Test details", result.Details);
+        Assert.AreEqual("Test location", result.Location);
+        Assert.AreEqual("Test make", result.Make);
+        Assert.AreEqual(10000, result.Mileage);
+        Assert.AreEqual(150, result.Power);
+        Assert.AreEqual("Test model", result.Model);
+        Assert.AreEqual(500, result.AverageDivingRange);
+        Assert.AreEqual(1, result.OwnerId);
+        Assert.AreEqual(50000, result.Price);
+        Assert.AreEqual("Test title", result.Title);
+        Assert.That(result.Year, Is.EqualTo(DateTime.MinValue));
+    }
+
+    [Test]
+    public async Task Delete_Vehicle_Async_Works_Propertly()
+    {
+        var testVehicle = new Vehicle
+        {
+            Details = "Test details",
+            Location = "Test location",
+            Make = "Test make",
+            Mileage = 10000,
+            Power = 150,
+            Model = "Test model",
+            AverageDivingRange = 500,
+            OwnerId = 1,
+            Price = 50000,
+            Title = "Test title",
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue
+        };
+
+        await repository.AddAsync(testVehicle);
+        await repository.SaveChangesAsync();
+
+        await vehicleService.DeleteVehicleAsync(testVehicle.Id);
+
+        Vehicle vehicle = await repository.GetByIdAsync<Vehicle>(testVehicle.Id);
+
+        Assert.IsNull(vehicle);
+    }
+
+    [Test]
+    public async Task AllCategoriesAsync_ReturnsCategories()
+    {
+        var testCategory = new Category
+        {
+            Name = "Test",
+        };
+
+        await repository.AddAsync(testCategory);
+        await repository.SaveChangesAsync();
+
+        var cat = await vehicleService.AllCategoriesAsync();
+
+        var category = cat.Where(e => e.Name == "Test").FirstOrDefault();
+
+        Assert.That(category.Name, Is.EqualTo("Test"));
+    }
+
+    [Test]
+    public async Task Vehicle_Details_Works_Propertly()
+    {
 
 
-        Assert.IsNotNull(result);
-        Assert.That(result.Id, Is.EqualTo(existingVehicleId));
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+
+        };
+        var testVehicle = new Vehicle
+        {
+            Details = "Test details",
+            Location = "Test location",
+            Make = "Test make",
+            Mileage = 10000,
+            Power = 150,
+            Model = "Test model",
+            AverageDivingRange = 500,
+            Price = 50000,
+            Title = "Test title",
+            Owner = agent,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+            ImageUrls = "ImageUrls",
+
+        };
+        await repository.AddAsync(agent);
+        await repository.AddAsync(testVehicle);
+        await repository.SaveChangesAsync();
+
+        var result = await vehicleService.VehicleDetailsByIdAsync(testVehicle.Id);
+
         Assert.That(result.Details, Is.EqualTo("Test details"));
-        Assert.That(result.ImageUrl, Is.EqualTo("Test image URL"));
         Assert.That(result.Location, Is.EqualTo("Test location"));
         Assert.That(result.Make, Is.EqualTo("Test make"));
         Assert.That(result.Mileage, Is.EqualTo(10000));
-        Assert.That(result.Power, Is.EqualTo(150));
         Assert.That(result.Model, Is.EqualTo("Test model"));
-        Assert.That(result.AverageDivingRange, Is.EqualTo(500));
-        Assert.That(result.OwnerId, Is.EqualTo(123));
         Assert.That(result.Price, Is.EqualTo(50000));
         Assert.That(result.Title, Is.EqualTo("Test title"));
-        Assert.That(result.VehicleTypeId, Is.EqualTo(testVehicleType.Id));
         Assert.That(result.Year, Is.EqualTo(DateTime.MinValue));
+    }
+    [Test]
+    public async Task Owner_Exists_By_Id_Works_Propertly()
+    {
+
+
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+
+        };
+        var testVehicle = new Vehicle
+        {
+            Details = "Test details",
+            Location = "Test location",
+            Make = "Test make",
+            Mileage = 10000,
+            Power = 150,
+            Model = "Test model",
+            AverageDivingRange = 500,
+            Price = 50000,
+            Title = "Test title",
+            Owner = agent,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+            ImageUrls = "ImageUrls",
+
+        };
+        await repository.AddAsync(agent);
+        await repository.AddAsync(testVehicle);
+        await repository.SaveChangesAsync();
+
+        var result = await vehicleService.OwnerExistsByIdAsync(testVehicle.OwnerId);
+
+        Assert.That(result, Is.True);
+    }
+    [Test]
+    public async Task OwnerExistsByIdAsync_Returns_False_When_Owner_Does_Not_Exist()
+    {
+        var nonExistentOwnerId = 999; 
+
+        var result = await vehicleService.OwnerExistsByIdAsync(nonExistentOwnerId);
+
+        Assert.IsFalse(result);
+    }
+    [Test]
+    public async Task HasAgentWithIdAsync_Returns_True_When_Agent_Exists()
+    {
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+
+        };
+        var testVehicle = new Vehicle
+        {
+            Details = "Test details",
+            Location = "Test location",
+            Make = "Test make",
+            Mileage = 10000,
+            Power = 150,
+            Model = "Test model",
+            AverageDivingRange = 500,
+            Price = 50000,
+            Title = "Test title",
+            Owner = agent,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+            ImageUrls = "ImageUrls",
+        };
+        await repository.AddAsync(testVehicle);
+        await repository.SaveChangesAsync();
+
+        var result = await vehicleService.HasAgentWithIdAsync(testVehicle.Id, agent.User.Id);
+
+        Assert.IsTrue(result);
+    }
+    [Test]
+    public async Task UpdateVehicleAsync_Updates_Vehicle_Correctly()
+    {
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+
+        };
+        var testVehicle = new Vehicle
+        {
+            Title = "Test title",
+            ImageUrls = "ImageUrls",
+            Make = "Test make",
+            Details = "Test details",
+            Location = "Test location",
+            Mileage = 10000,
+            Power = 150,
+            Model = "Test model",
+            AverageDivingRange = 500,
+            Price = 50000,
+            Owner = agent,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+        };
+        await repository.AddAsync(testVehicle);
+        await repository.SaveChangesAsync();
+
+        var updatedVehicle = new VehicleCreationServiceModel
+        {
+            Title = "Updated Title",
+            ImageUrl = "Updated ImageUrl",
+            Make = "Updated make",
+            Details = "Updated details",
+            Location = "Updated location",
+            Mileage = 10000,
+            Power = 150,
+            Model = "Updated model",
+            AverageDivingRange = 500,
+            Price = 50000,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+        };
+
+
+        await vehicleService.UpdateVehicleAsync(testVehicle.Id, updatedVehicle);
+
+        var updatedVehicleFromRepo = await repository.GetByIdAsync<Vehicle>(testVehicle.Id);
+
+        Assert.NotNull(updatedVehicleFromRepo);
+        Assert.That(updatedVehicleFromRepo.Title, Is.EqualTo(updatedVehicle.Title));
+        Assert.That(updatedVehicleFromRepo.ImageUrls, Is.EqualTo(updatedVehicle.ImageUrl));
+    }
+    [Test]
+    public async Task AllVehiclesByAgentIdAsync_Returns_All_Vehicles_For_Agent()
+    {
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+        };
+
+        var vehicle = new Vehicle
+        {
+            Details = "Test details",
+            Location = "Test location",
+            Mileage = 10000,
+            Power = 150,
+            Make = "TestVehicle1",
+            Model = "Test model",
+            AverageDivingRange = 500,
+            Price = 50000,
+            Owner = agent,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+        };
+        var vehicle1 = new Vehicle
+        {
+            Details = "Test details 2",
+            Location = "Test location 2",
+            Mileage = 20000,
+            Power = 200,
+            Make = "TestVehicle2",
+            Model = "Test model 2",
+            AverageDivingRange = 600,
+            Price = 60000,
+            Owner = agent,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+        };
+
+        await repository.AddAsync(vehicle);
+        await repository.AddAsync(vehicle1);
+        await repository.SaveChangesAsync();
+
+        var result = await vehicleService.AllVehiclesByAgentIdAsync(agent.Id);
+
+        Assert.NotNull(result);
+        Assert.That(result.Count, Is.EqualTo(2));
+
+    }
+    [Test]
+    public async Task VehicleExistsByIdAsync_Returns_True_When_Vehicle_Exists()
+    {
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+        };
+
+        var testVehicle = new Vehicle
+        {
+            Details = "Test details 2",
+            Location = "Test location 2",
+            Mileage = 20000,
+            Power = 200,
+            Make = "TestVehicle2",
+            Model = "Test model 2",
+            AverageDivingRange = 600,
+            Price = 60000,
+            Owner = agent,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+        };
+        await repository.AddAsync(testVehicle);
+        await repository.SaveChangesAsync();
+
+        // Act
+        var result = await vehicleService.VehicleExistsByIdAsync(testVehicle.Id);
+
+        // Assert
+        Assert.IsTrue(result);
+    }
+
+    [Test]
+    public async Task VehicleExistsByIdAsync_Returns_False_When_Vehicle_Does_Not_Exist()
+    {
+        var vehicleId = 2345;
+
+        var result = await vehicleService.VehicleExistsByIdAsync(vehicleId);
+
+        Assert.IsFalse(result);
+    }
+    [Test]
+    public async Task GetAllAsync_Returns_All_Vehicles_For_Agent()
+    {
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+        };
+
+        var testVehicle = new Vehicle
+        {
+            Details = "Test details 2",
+            Location = "Test location 2",
+            Mileage = 20000,
+            Power = 200,
+            Make = "TestVehicle2",
+            Model = "Test model 2",
+            AverageDivingRange = 600,
+            Price = 60000,
+            Owner = agent,
+            VehicleTypeId = 1,
+            Year = DateTime.MinValue,
+        };
+        await repository.AddAsync(testVehicle);
+        await repository.SaveChangesAsync();
+
+
+        var result = await vehicleService.GetAllAsync(agent.Id);
+
+        Assert.NotNull(result);
+        Assert.That(result.Count(), Is.EqualTo(1));
+    }
+
+    [Test]
+    public async Task GetAllAsync_Returns_Empty_List_When_Agent_Has_No_Vehicles()
+    {
+        var agentId = 76;
+
+        var result = await vehicleService.GetAllAsync(agentId);
+
+        Assert.NotNull(result);
+        Assert.IsFalse(result.Any());
     }
 
     [TearDown]
@@ -170,5 +684,6 @@ public class VehicleServiceTest
     {
         dbContext.Dispose();
     }
+
 }
 
