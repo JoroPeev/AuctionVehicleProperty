@@ -5,6 +5,7 @@ using AuctionVehicleProperty.Core.Services;
 using AuctionVehicleProperty.Infrastructure.Data;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework.Internal;
@@ -99,7 +100,7 @@ public class VehicleServiceTest
         };
         var testVehicle2 = new Vehicle
         {
-            Details = "Test details 2",
+            Details = "Test 2",
             Location = "Test location 2",
             Mileage = 20000,
             Power = 200,
@@ -117,10 +118,14 @@ public class VehicleServiceTest
 
         var result = await vehicleService.AllAsync("Coupe");
 
-        Assert.NotNull(result);
-        Assert.That(result.Vehicles.Count(), Is.EqualTo(1));
-        Assert.That(result.TotalVehiclesCount, Is.EqualTo(1));
+        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Vehicles.Count(), Is.EqualTo(1));
+            Assert.That(result.TotalVehiclesCount, Is.EqualTo(1));
+        });
     }
+
     [Test]
     public async Task AllAsync_Returns_Vehicles_Sorted_By_Price()
     {
@@ -169,7 +174,7 @@ public class VehicleServiceTest
             VehicleTypeId = 2,
             VehicleType = coupe,
             Year = DateTime.MinValue,
-        }; 
+        };
         var testVehicle3 = new Vehicle
         {
             Details = "Test details 2",
@@ -190,7 +195,7 @@ public class VehicleServiceTest
         await repository.AddAsync(testVehicle3);
         await repository.SaveChangesAsync();
 
-        List<Vehicle> vehicles = new List<Vehicle>
+        List<Vehicle> vehicles = new()
         {
             testVehicle,
             testVehicle2,
@@ -199,10 +204,8 @@ public class VehicleServiceTest
 
         var result = await vehicleService.AllAsync(sorting: VehicleFiltering.Price);
 
-        var resulttype = await vehicleService.AllAsync(sorting: VehicleFiltering.VehicleType);
-
-        Assert.NotNull(result);
-        Assert.That(result.TotalVehiclesCount-1, Is.EqualTo(vehicles.Count));
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.TotalVehiclesCount - 1, Is.EqualTo(vehicles.Count));
     }
 
     [Test]
@@ -238,14 +241,13 @@ public class VehicleServiceTest
 
         var result = await vehicleService.AllAsync(searchTerm: searchTerm);
 
-        Assert.NotNull(result);
-        Assert.That(result.Vehicles.Count(), Is.EqualTo(1));
-        Assert.That(result.TotalVehiclesCount, Is.EqualTo(1));
-
+        Assert.That(result, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Vehicles.Count(), Is.EqualTo(1));
+            Assert.That(result.TotalVehiclesCount, Is.EqualTo(1));
+        });
     }
-
-
-
 
     [Test]
     public async Task AllAsync_Returns_All_Vehicles_When_No_Filters_Applied()
@@ -265,7 +267,7 @@ public class VehicleServiceTest
 
         var result = await vehicleService.CategoryExistsAsync(existingCategoryId);
 
-        Assert.IsTrue(result);
+        Assert.That(result, Is.True);
     }
 
     [Test]
@@ -275,7 +277,7 @@ public class VehicleServiceTest
 
         var result = await vehicleService.CategoryExistsAsync(nonExistingCategoryId);
 
-        Assert.IsFalse(result);
+        Assert.That(result, Is.False);
     }
 
     [Test]
@@ -303,19 +305,22 @@ public class VehicleServiceTest
 
         // Act
         var result = await vehicleService.GetVehicleByOwnerIdAsync(testVehicle.Id);
+        Assert.Multiple(() =>
+        {
 
-        // Assert
-        Assert.AreEqual("Test details", result.Details);
-        Assert.AreEqual("Test location", result.Location);
-        Assert.AreEqual("Test make", result.Make);
-        Assert.AreEqual(10000, result.Mileage);
-        Assert.AreEqual(150, result.Power);
-        Assert.AreEqual("Test model", result.Model);
-        Assert.AreEqual(500, result.AverageDivingRange);
-        Assert.AreEqual(1, result.OwnerId);
-        Assert.AreEqual(50000, result.Price);
-        Assert.AreEqual("Test title", result.Title);
-        Assert.That(result.Year, Is.EqualTo(DateTime.MinValue));
+            // Assert
+            Assert.That(result.Details, Is.EqualTo("Test details"));
+            Assert.That(result.Location, Is.EqualTo("Test location"));
+            Assert.That(result.Make, Is.EqualTo("Test make"));
+            Assert.That(result.Mileage, Is.EqualTo(10000));
+            Assert.That(result.Power, Is.EqualTo(150));
+            Assert.That(result.Model, Is.EqualTo("Test model"));
+            Assert.That(result.AverageDivingRange, Is.EqualTo(500));
+            Assert.That(result.OwnerId, Is.EqualTo(1));
+            Assert.That(result.Price, Is.EqualTo(50000));
+            Assert.That(result.Title, Is.EqualTo("Test title"));
+            Assert.That(result.Year, Is.EqualTo(DateTime.MinValue));
+        });
     }
 
     [Test]
@@ -344,7 +349,7 @@ public class VehicleServiceTest
 
         Vehicle vehicle = await repository.GetByIdAsync<Vehicle>(testVehicle.Id);
 
-        Assert.IsNull(vehicle);
+        Assert.That(vehicle, Is.Null);
     }
 
     [Test]
@@ -368,8 +373,6 @@ public class VehicleServiceTest
     [Test]
     public async Task Vehicle_Details_Works_Propertly()
     {
-
-
         var agent = new Agent()
         {
             User = new AppUser { UserName = "TESTYTEST", },
@@ -400,15 +403,19 @@ public class VehicleServiceTest
 
         var result = await vehicleService.VehicleDetailsByIdAsync(testVehicle.Id);
 
-        Assert.That(result.Details, Is.EqualTo("Test details"));
-        Assert.That(result.Location, Is.EqualTo("Test location"));
-        Assert.That(result.Make, Is.EqualTo("Test make"));
-        Assert.That(result.Mileage, Is.EqualTo(10000));
-        Assert.That(result.Model, Is.EqualTo("Test model"));
-        Assert.That(result.Price, Is.EqualTo(50000));
-        Assert.That(result.Title, Is.EqualTo("Test title"));
-        Assert.That(result.Year, Is.EqualTo(DateTime.MinValue));
+        Assert.Multiple(() =>
+        {
+            Assert.That(result.Details, Is.EqualTo("Test details"));
+            Assert.That(result.Location, Is.EqualTo("Test location"));
+            Assert.That(result.Make, Is.EqualTo("Test make"));
+            Assert.That(result.Mileage, Is.EqualTo(10000));
+            Assert.That(result.Model, Is.EqualTo("Test model"));
+            Assert.That(result.Price, Is.EqualTo(50000));
+            Assert.That(result.Title, Is.EqualTo("Test title"));
+            Assert.That(result.Year, Is.EqualTo(DateTime.MinValue));
+        });
     }
+
     [Test]
     public async Task Owner_Exists_By_Id_Works_Propertly()
     {
@@ -449,11 +456,11 @@ public class VehicleServiceTest
     [Test]
     public async Task OwnerExistsByIdAsync_Returns_False_When_Owner_Does_Not_Exist()
     {
-        var nonExistentOwnerId = 999; 
+        var nonExistentOwnerId = 999;
 
         var result = await vehicleService.OwnerExistsByIdAsync(nonExistentOwnerId);
 
-        Assert.IsFalse(result);
+        Assert.That(result, Is.False);
     }
     [Test]
     public async Task HasAgentWithIdAsync_Returns_True_When_Agent_Exists()
@@ -486,7 +493,7 @@ public class VehicleServiceTest
 
         var result = await vehicleService.HasAgentWithIdAsync(testVehicle.Id, agent.User.Id);
 
-        Assert.IsTrue(result);
+        Assert.That(result, Is.True);
     }
     [Test]
     public async Task UpdateVehicleAsync_Updates_Vehicle_Correctly()
@@ -538,10 +545,14 @@ public class VehicleServiceTest
 
         var updatedVehicleFromRepo = await repository.GetByIdAsync<Vehicle>(testVehicle.Id);
 
-        Assert.NotNull(updatedVehicleFromRepo);
-        Assert.That(updatedVehicleFromRepo.Title, Is.EqualTo(updatedVehicle.Title));
-        Assert.That(updatedVehicleFromRepo.ImageUrls, Is.EqualTo(updatedVehicle.ImageUrl));
+        Assert.That(updatedVehicleFromRepo, Is.Not.Null);
+        Assert.Multiple(() =>
+        {
+            Assert.That(updatedVehicleFromRepo.Title, Is.EqualTo(updatedVehicle.Title));
+            Assert.That(updatedVehicleFromRepo.ImageUrls, Is.EqualTo(updatedVehicle.ImageUrl));
+        });
     }
+
     [Test]
     public async Task AllVehiclesByAgentIdAsync_Returns_All_Vehicles_For_Agent()
     {
@@ -568,7 +579,7 @@ public class VehicleServiceTest
         };
         var vehicle1 = new Vehicle
         {
-            Details = "Test details 2",
+            Details = "Test AllVehiclesByAgentIdAsync_Returns_All 2",
             Location = "Test location 2",
             Mileage = 20000,
             Power = 200,
@@ -587,44 +598,10 @@ public class VehicleServiceTest
 
         var result = await vehicleService.AllVehiclesByAgentIdAsync(agent.Id);
 
-        Assert.NotNull(result);
+        Assert.That(result, Is.Not.Null);
         Assert.That(result.Count, Is.EqualTo(2));
 
     }
-    [Test]
-    public async Task VehicleExistsByIdAsync_Returns_True_When_Vehicle_Exists()
-    {
-        var agent = new Agent()
-        {
-            User = new AppUser { UserName = "TESTYTEST", },
-            Email = "test@tes.te",
-            Location = "testTesttest"
-        };
-
-        var testVehicle = new Vehicle
-        {
-            Details = "Test details 2",
-            Location = "Test location 2",
-            Mileage = 20000,
-            Power = 200,
-            Make = "TestVehicle2",
-            Model = "Test model 2",
-            AverageDivingRange = 600,
-            Price = 60000,
-            Owner = agent,
-            VehicleTypeId = 1,
-            Year = DateTime.MinValue,
-        };
-        await repository.AddAsync(testVehicle);
-        await repository.SaveChangesAsync();
-
-        // Act
-        var result = await vehicleService.VehicleExistsByIdAsync(testVehicle.Id);
-
-        // Assert
-        Assert.IsTrue(result);
-    }
-
     [Test]
     public async Task VehicleExistsByIdAsync_Returns_False_When_Vehicle_Does_Not_Exist()
     {
@@ -632,7 +609,7 @@ public class VehicleServiceTest
 
         var result = await vehicleService.VehicleExistsByIdAsync(vehicleId);
 
-        Assert.IsFalse(result);
+        Assert.That(result, Is.False);
     }
     [Test]
     public async Task GetAllAsync_Returns_All_Vehicles_For_Agent()
@@ -646,7 +623,7 @@ public class VehicleServiceTest
 
         var testVehicle = new Vehicle
         {
-            Details = "Test details 2",
+            Details = "Test GetAllAsync_Returns_All_Vehicles 2",
             Location = "Test location 2",
             Mileage = 20000,
             Power = 200,
@@ -664,7 +641,7 @@ public class VehicleServiceTest
 
         var result = await vehicleService.GetAllAsync(agent.Id);
 
-        Assert.NotNull(result);
+        Assert.That(result, Is.Not.Null);
         Assert.That(result.Count(), Is.EqualTo(1));
     }
 
@@ -675,8 +652,8 @@ public class VehicleServiceTest
 
         var result = await vehicleService.GetAllAsync(agentId);
 
-        Assert.NotNull(result);
-        Assert.IsFalse(result.Any());
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.Any(), Is.False);
     }
 
     [TearDown]

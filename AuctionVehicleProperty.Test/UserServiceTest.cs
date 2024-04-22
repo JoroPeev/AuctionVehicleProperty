@@ -85,20 +85,23 @@ public class UserServiceTests
             await repository.AddAsync(user2);
             await repository.SaveChangesAsync();
 
-            List<AppUser> users = new List<AppUser> {user1, user2};
+            List<AppUser> users = new() { user1, user2};
 
 
             var result = await userService.AllAsync();
 
-            Assert.NotNull(result);
+            Assert.That(result, Is.Not.Null);
             Assert.That(result.Count(), Is.EqualTo(repository.All<AppUser>().Count()));
 
             foreach (var user in users)
             {
                 var userModel = result.FirstOrDefault(u => u.Email == user.Email);
                 Assert.That(userModel, Is.Not.Null);
-                Assert.That(userModel.FullName, Is.EqualTo($"{user.FirstName} {user.LastName}"));
-                Assert.That(userModel.IsAgent, Is.EqualTo(user.Agent != null));
+                Assert.Multiple(() =>
+                {
+                    Assert.That(userModel.FullName, Is.EqualTo($"{user.FirstName} {user.LastName}"));
+                    Assert.That(userModel.IsAgent, Is.EqualTo(user.Agent != null));
+                });
             }
         }
     }
