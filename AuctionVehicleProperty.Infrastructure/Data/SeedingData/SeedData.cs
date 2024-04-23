@@ -25,6 +25,9 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         public Category ConvertibleCategory { get; set; }
 
         public Vehicle ElectricVehicle { get; set; }
+        public Vehicle ElectricVehiclePeugeot { get; set; }
+        public Vehicle ElectricVehicleMustang { get; set; }
+        
 
         public SeedData()
         {
@@ -172,6 +175,44 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 " Weight-to-torque ratio: 5.9 kg/Nm, 169 Nm",
                 OwnerId = 1,
                 Price = 32000.00M,
+            };
+            DateTime date208 = new DateTime(2023, 8, 23);
+            ElectricVehiclePeugeot = new Vehicle()
+            {
+                Id = 2,
+                Title = "Peugeot e-208 50 kWh",
+                ImageUrls = "https://ev-database.org/img/auto/Peugeot_e-208_2024/Peugeot_e-208_2024-01.jpg",
+                VehicleTypeId = 3,
+                Make = "Peugeot",
+                Model = "e-208",
+                Year = date208,
+                Mileage = 0,
+                AverageDivingRange = 209,
+                Power = 130,
+                Color = "Green",
+                Location = "679 Grandrose Rd.,Somerset, NJ 08873",
+                Details = "This is the electric version of Peugeot’s 208 supermini. It looks very much like the combustion-engined alternative: this isn’t a car for anyone who wants to show off their zero-emission, planet-saving credentials.",
+                OwnerId = 1,
+                Price = 73000.00M,
+            };
+            DateTime dateFord = new DateTime(2023, 10, 23);
+            ElectricVehicleMustang = new Vehicle()
+            {
+                Id = 3,
+                Title = "Ford Mustang Mach-E ER RWD",
+                ImageUrls = "https://ev-database.org/img/auto/Ford_Mustang_Mach-E/Ford_Mustang_Mach-E-01.jpg",
+                VehicleTypeId = 1,
+                Make = "Ford ",
+                Model = " Mustang Mach-E",
+                Year = dateFord,
+                Mileage = 10000,
+                AverageDivingRange = 350,
+                Power = 280,
+                Color = "Red",
+                Location = "44 Willow Street, Piqua, OH 45356",
+                Details = "The model shown on this page is the successor of the Ford Mustang Mach-E ER AWD, which was available to order from April 2022 until November 2022. The previous model had 40 km less range, 17% faster acceleration and was 9% less energy efficient.",
+                OwnerId = 1,
+                Price = 122000.00M,
             };
         }
         private void SeedAuction()

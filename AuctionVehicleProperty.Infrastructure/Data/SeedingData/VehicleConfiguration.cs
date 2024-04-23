@@ -11,7 +11,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         {
             var data = new SeedData();
 
-            builder.HasData(new Vehicle[] { data.ElectricVehicle });
+            builder.HasData(new Vehicle[] { data.ElectricVehicle,data.ElectricVehiclePeugeot,data.ElectricVehicleMustang });
         }
 
     }
