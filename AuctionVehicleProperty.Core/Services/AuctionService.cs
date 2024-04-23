@@ -30,6 +30,7 @@ namespace AuctionVehicleProperty.Core.Services
 
             }).ToListAsync();
         }
+
         public async Task<bool> VehicleExistsInOtherAuctionsAsync(int vehicleId)
         {
             var otherAuctions = await repository.All<Auction>()
@@ -38,6 +39,7 @@ namespace AuctionVehicleProperty.Core.Services
 
             return otherAuctions.Any();
         }
+
         public async Task<bool> AuctionValidationCreator(int auctionId, string creatorId)
         {
             var owner =  repository.AllReadOnly<Agent>().FirstOrDefault(e=>e.UserId==creatorId);
@@ -57,21 +59,6 @@ namespace AuctionVehicleProperty.Core.Services
              .AnyAsync(a => a.Id == auctionId);
         }
 
-        public async Task CloseAuctionAgentAsync(int auctionId, int winnerId)
-        {
-            var auction = await repository.GetByIdAsync<Auction>(auctionId);
-
-            if (winnerId != 0 && auction != null)
-            {
-                auction.WinnerIdAgent = winnerId;
-
-                await repository.AddAsync(auction);
-
-                await repository.UpdateAsync(auction);
-            }
-
-        }
-
         public async Task CreateAsync(AuctionCreationServiceModel auctionData)
         {
             await repository.AddAsync(new Auction()
@@ -86,23 +73,6 @@ namespace AuctionVehicleProperty.Core.Services
             });
 
             await repository.SaveChangesAsync();
-        }
-        public async Task<IEnumerable<AuctionIndexServiceModel>> CurrentAuctionsAsync()
-        {
-            var auctions = await repository.AllReadOnly<Auction>().ToListAsync();
-
-            var auctionIndexServiceModels = auctions.Select(a =>
-                new AuctionIndexServiceModel
-                {
-                    Id = a.Id,
-                    EndTime = a.EndTime,
-                    StartingTime = a.StartingTime,
-                    MinimumBidIncrement = a.MinimumBidIncrement,
-                    StartingPrice = a.StartingPrice,
-                    VehicleId = a.VehicleId
-                });
-
-            return auctionIndexServiceModels;
         }
 
         public async Task<ICollection<Bid>> GetAuctionBidsAsync(int auctionId)
@@ -136,23 +106,6 @@ namespace AuctionVehicleProperty.Core.Services
             return auctionIndexServiceModels;
         }
 
-        public async Task<IEnumerable<AuctionIndexServiceModel>> LatestAuctionsAsync()
-        {
-            var auctionIndices = await repository.AllReadOnly<Auction>()
-                .Select(h => new AuctionIndexServiceModel()
-                {
-                    Id = h.Id,
-                    VehicleId = h.VehicleId,
-                    StartingPrice = h.StartingPrice,
-                    StartingTime = h.StartingTime,
-                    EndTime = h.EndTime,
-                    MinimumBidIncrement = h.MinimumBidIncrement
-
-                }).ToListAsync();
-
-            return auctionIndices;
-
-        }
         public async Task DeleteAuctionAsync(int auctionId)
         {
             await repository.DeleteEntity<Auction>(auctionId);

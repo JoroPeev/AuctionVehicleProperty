@@ -109,19 +109,6 @@ namespace AuctionVehicleProperty.Core.Services
 
         }
 
-        public async Task<VehicleServiceModel> GetVehicleByIdAsync(int vehicleId)
-        {
-
-            var vehicle = await repository.GetByIdAsync<VehicleServiceModel>(vehicleId);
-
-            if (vehicle == null)
-            {
-                throw new VehicleExeption(VehicleNotFound);
-            }
-
-            return vehicle;
-        }
-
         public async Task<VehicleServiceModel> VehicleDetailsByIdAsync(int id)
         {
             return await repository.AllReadOnly<Vehicle>()

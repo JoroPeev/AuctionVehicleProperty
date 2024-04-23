@@ -8,7 +8,7 @@ namespace AuctionVehicleProperty.Core.Models.Bids
 {
     public class PlacingBidAgent
     {
-        public string UserId { get; set; } = string.Empty;
+        public int UserId { get; set; }
 
         public decimal Amount { get; set; }
 

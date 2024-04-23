@@ -24,8 +24,6 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task<IEnumerable<VehicleCategoryServiceModel>> AllCategoriesAsync();
 
-        Task<VehicleServiceModel> GetVehicleByIdAsync(int vehicleId);
-
         Task<int> AddVehicleAsync(VehicleCreationServiceModel vehicle, int ownerId);
 
         Task<bool> CategoryExistsAsync(int categoryId);

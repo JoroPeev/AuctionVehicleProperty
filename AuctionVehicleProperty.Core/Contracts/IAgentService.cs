@@ -6,17 +6,11 @@ namespace AuctionVehicleProperty.Core.Contracts
     {
         Task<bool> ExistsByIdAsync(string userId);
 
-        Task<bool> AgentWithEmailExistsAsync(string email);
-
-        Task<bool> AgentHasVehiclesAsync(int agentId);
-
         Task CreateAsync(string userId, string email,string location);
 
-        Task<int?> GetAgentIdAsync(string userId);
+        Task<int> GetAgentIdAsync(string userId);
 
         Task<IEnumerable<AgentServiceModel>> GetAllAgentsAsync();
-
-        Task UpdateAgentAsync(int agentId, AgentUpdateServiceModel updatedAgent);
 
     }
 }

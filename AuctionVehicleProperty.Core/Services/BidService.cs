@@ -16,7 +16,7 @@ namespace AuctionVehicleProperty.Core.Services
             repository = _repository;
         }
 
-        public async Task<bool> AuctionExistsAsync(string auctionId)
+        public async Task<bool> AuctionExistsAsync(int auctionId)
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
 
@@ -29,27 +29,33 @@ namespace AuctionVehicleProperty.Core.Services
 
         }
 
-        public async Task<bool> CanPlaceBidAsync(int userId)
+        public async Task<bool> UserExistsAsync(string userId)
         {
-            var user = await repository.GetByIdAsync<IdentityUser>(userId);
-
-            if (user != null)
-            {
-                return true;
-            }
-            return false;
+            return await repository.AllReadOnly<IdentityUser>()
+             .AnyAsync(a => a.Id == userId);
         }
 
-        public async Task<decimal?> GetHighestBidAsync(int auctionId)
+        public async Task<bool> VehicleExistsAsync(int vehicleId)
+        {
+            return await repository.AllReadOnly<Vehicle>()
+             .AnyAsync(a => a.Id == vehicleId);
+        }
+
+        public async Task<decimal> GetHighestBidAsync(int auctionId)
         {
             var auction = await repository.GetByIdAsync<Auction>(auctionId);
 
-            var bid = auction.Bids.Max(e => e.Amount);
+            if (auction == null || auction.Bids == null || !auction.Bids.Any())
+            {
+                return -1.1m;
+            }
+
+
+            var bid =  auction.Bids.Max(e => e.Amount);
 
             return bid;
 
         }
-
 
         public async Task PlaceBidAsync(int auctionId, int agentId, decimal amount)
         {
@@ -96,17 +102,5 @@ namespace AuctionVehicleProperty.Core.Services
 
         }
 
-
-        public async Task<bool> UserExistsAsync(string userId)
-        {
-            return await repository.AllReadOnly<IdentityUser>()
-             .AnyAsync(a => a.Id == userId);
-        }
-
-        public async Task<bool> VehicleExistsAsync(int vehicleId)
-        {
-            return await repository.AllReadOnly<Vehicle>()
-             .AnyAsync(a => a.Id == vehicleId);
-        }
     }
 }

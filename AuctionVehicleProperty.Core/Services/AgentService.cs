@@ -34,10 +34,17 @@ namespace AuctionVehicleProperty.Core.Services
                 .AnyAsync(a => a.UserId == userId);
         }
 
-        public async Task<int?> GetAgentIdAsync(string userId)
+        public async Task<int> GetAgentIdAsync(string userId)
         {
-            return (await repository.AllReadOnly<Agent>()
-            .FirstOrDefaultAsync(a => a.UserId == userId))?.Id;
+            var agent = await repository.AllReadOnly<Agent>()
+         .FirstOrDefaultAsync(a => a.UserId == userId);
+
+            if (agent == null)
+            {
+               return -1;
+            }
+
+            return agent.Id;
         }
 
         public async Task<IEnumerable<AgentServiceModel>> GetAllAgentsAsync()
@@ -51,33 +58,6 @@ namespace AuctionVehicleProperty.Core.Services
                 UserId = a.UserId,
 
             }).ToListAsync();
-        }
-
-        public async Task UpdateAgentAsync(int agentId, AgentUpdateServiceModel updatedAgent)
-        {
-            var agent = await repository.GetByIdAsync<Agent>(agentId);
-
-            if (agent != null)
-            {
-                agent.Email = updatedAgent.Email;
-                agent.Location = updatedAgent.Location;
-                agent.Vehicles = updatedAgent.Vehicles;
-            }
-
-            await repository.SaveChangesAsync();
-        }
-
-        public async Task<bool> AgentHasVehiclesAsync(int agentId)
-        {
-            var agent = await repository.GetByIdAsync<Agent>(agentId);
-
-            return agent != null && agent.Vehicles.Any();
-        }
-
-        public async Task<bool> AgentWithEmailExistsAsync(string email)
-        {
-            return await repository.AllReadOnly<Agent>()
-                .AnyAsync(a => a.Email == email);
         }
 
     }

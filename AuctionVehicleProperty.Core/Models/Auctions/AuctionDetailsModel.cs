@@ -21,6 +21,8 @@ namespace AuctionVehicleProperty.Core.Models.Auctions
 
         public decimal StartingPrice { get; set; }
 
+        public decimal? MaxCurrentPrice { get; set; }
+
         public decimal MinimumBidIncrement { get; set; }
 
         public int? WinnerIdAgent { get; set; }
