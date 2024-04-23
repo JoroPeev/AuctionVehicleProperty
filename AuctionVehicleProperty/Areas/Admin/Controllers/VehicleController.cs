@@ -23,7 +23,13 @@ namespace AuctionVehicleProperty.Areas.Admin.Controllers
         public async Task<IActionResult> Mine()
         {
             var userId = User.Id();
-            int agentId = await agentService.GetAgentIdAsync(userId) ?? 0;
+            int agentId = await agentService.GetAgentIdAsync(userId);
+
+            if (agentId == -1) 
+            {
+                return BadRequest();
+            }
+
             var myVehicles = new MyVehiclesViewModel()
             {
                 AddedVehicles = await vehicleService.AllVehiclesByAgentIdAsync(agentId),
