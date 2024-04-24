@@ -1,22 +1,24 @@
 ﻿@model AuctionCreationServiceModel
-@{
-    ViewData["Title"] = "Edit Auction";
-}
 
-<form asp-action="Update" method="post">
+<h2>Edit Auction</h2>
+
+<form asp-action="Update" asp-route-id="@Model.Id" method="post">
+    <div class="form-group">
+        <label for="StartingPrice">Starting Price</label>
+        <input type="text" id="StartingPrice" name="StartingPrice" class="form-control" value="@Model.StartingPrice" />
     </div>
     <div class="form-group">
-        <label asp-for="StartingPrice">Starting Price:</label>
-        <input asp-for="StartingPrice" class="form-control" />
+        <label for="StartingTime">Starting Time</label>
+        <input type="datetime-local" id="StartingTime" name="StartingTime" class="form-control" value="@Model.StartingTime.ToString("yyyy-MM-ddTHH:mm")" />
     </div>
     <div class="form-group">
-        <label asp-for="EndTime">End Time:</label>
-        <input asp-for="EndTime" class="form-control" />
+        <label for="MinimumBidIncrement">Minimum Bid Increment</label>
+        <input type="text" id="MinimumBidIncrement" name="MinimumBidIncrement" class="form-control" value="@Model.MinimumBidIncrement" />
     </div>
     <div class="form-group">
-        <label asp-for="MinimumBidIncrement">Minimum Bid Increment:</label>
-        <input asp-for="MinimumBidIncrement" class="form-control" />
+        <label for="EndTime">End Time</label>
+        <input type="datetime-local" id="EndTime" name="EndTime" class="form-control" value="@Model.EndTime.ToString("yyyy-MM-ddTHH:mm")" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Create</button>
+    <button type="submit" class="btn btn-primary">Update Auction</button>
 </form>

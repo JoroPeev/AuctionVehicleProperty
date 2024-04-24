@@ -37,7 +37,10 @@
             @if (Model.CreatorId == await service.GetAgentIdAsync(User.Id()))
             {
                 <a asp-area="" asp-controller="Auction" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mr-2">Delete Auction</a>
-                <a asp-area="" asp-controller="Auction" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-outline-success">Update Auction</a>
+                <form asp-controller="Auction" asp-action="Edit" method="post">
+                    <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+                    <button type="submit" class="btn btn-outline-success">Edit Auction</button>
+                </form>
             }
             @if (await service.ExistsByIdAsync(User.Id()))
             {
