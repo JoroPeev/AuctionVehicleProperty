@@ -1,13 +1,6 @@
 ﻿using AuctionVehicleProperty.Infrastructure.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using static AuctionVehicleProperty.Core.Constants.MessageConstants;
 namespace AuctionVehicleProperty.Core.Models.Auctions
 {
     public class AuctionDetailsModel
@@ -21,7 +14,8 @@ namespace AuctionVehicleProperty.Core.Models.Auctions
 
         public decimal StartingPrice { get; set; }
 
-        public decimal? MaxCurrentPrice { get; set; }
+        [Required(ErrorMessage = RequiredMessage)]
+        public decimal MaxCurrentPrice { get; set; }
 
         public decimal MinimumBidIncrement { get; set; }
 

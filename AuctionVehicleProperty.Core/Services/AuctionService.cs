@@ -86,7 +86,9 @@ namespace AuctionVehicleProperty.Core.Services
         public async Task<AuctionDetailsModel> GetAuctionDetailsAsync(int auctionId)
         {
             var a = await repository.GetByIdAsync<Auction>(auctionId);
-
+            var bids = await repository.Query<Bid>()
+                               .Where(b => b.AuctionId == auctionId)
+                               .ToListAsync();
             var vehicle = await repository.GetByIdAsync<Vehicle>(a.VehicleId);
 
             var auctionIndexServiceModels = new AuctionDetailsModel
@@ -96,7 +98,7 @@ namespace AuctionVehicleProperty.Core.Services
                 MinimumBidIncrement = a.MinimumBidIncrement,
                 StartingPrice = a.StartingPrice,
                 VehicleId = a.VehicleId,
-                Bids = a.Bids,
+                Bids = bids,
                 Id = a.Id,
                 Vehicle = vehicle,
                 CreatorId = a.CreatorId,
