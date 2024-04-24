@@ -10,7 +10,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         {
             var data = new SeedData();
 
-            builder.HasData(new Auction[] { data.CarAuction });
+            builder.HasData(new Auction[] { data.CarAuction,data.CarAuctionPeugeot,data.CarAuctionFord });
         }
     }
 

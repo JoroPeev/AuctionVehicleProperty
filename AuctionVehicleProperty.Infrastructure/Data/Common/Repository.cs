@@ -40,7 +40,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Common
         }
 
         public async Task<T?> GetByIdAsync<T>(object id) where T : class
-         {
+        {
             return await DbSet<T>().FindAsync(id);
         }
 
@@ -58,6 +58,9 @@ namespace AuctionVehicleProperty.Infrastructure.Data.Common
             context.Entry(entity).State = EntityState.Modified;
             await context.SaveChangesAsync();
         }
-
+        public IQueryable<TEntity> Query<TEntity>() where TEntity : class
+        {
+            return context.Set<TEntity>();
+        }
     }
 }

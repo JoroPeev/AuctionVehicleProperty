@@ -21,6 +21,6 @@ namespace AuctionVehicleProperty.Core.Contracts
 
         Task DeleteAuctionAsync(int auctionId);
 
-
+        Task UpdateAuctionAsync(AuctionCreationServiceModel updatedAuction);
     }
 }

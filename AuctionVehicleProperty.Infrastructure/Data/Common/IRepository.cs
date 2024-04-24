@@ -15,5 +15,6 @@
         Task DeleteEntity<T>(int id) where T : class;
 
         Task UpdateAsync<T>(T entity) where T : class;
+        IQueryable<TEntity> Query<TEntity>() where TEntity : class;
     }
 }

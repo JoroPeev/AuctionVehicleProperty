@@ -112,5 +112,24 @@ namespace AuctionVehicleProperty.Core.Services
         {
             await repository.DeleteEntity<Auction>(auctionId);
         }
+        public async Task UpdateAuctionAsync(AuctionCreationServiceModel updatedAuction)
+        {
+            var auction = await repository.GetByIdAsync<Auction>(updatedAuction.Id);
+
+            if (auction != null)
+            {
+                auction.CreatorId= updatedAuction.CreatorId;
+                auction.StartingPrice = updatedAuction.StartingPrice;
+                auction.StartingTime = updatedAuction.StartingTime;
+                auction.MinimumBidIncrement = updatedAuction.MinimumBidIncrement;
+                auction.VehicleId = updatedAuction.VehicleId;
+                auction.EndTime = updatedAuction.EndTime;
+                auction.Bids = updatedAuction.Bids;
+                auction.Id = updatedAuction.Id;
+
+                await repository.SaveChangesAsync();
+            }
+
+        }
     }
 }

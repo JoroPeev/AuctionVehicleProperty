@@ -14,8 +14,14 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         public Agent Agent { get; set; }
 
         public Bid GuestBid { get; set; }
+        public Bid GuestBidFord { get; set; }
+        public Bid GuestBidPeugeot { get; set; }
+
         public Bid SecondGuestBid { get; set; }
         public Auction CarAuction { get; set; }
+        public Auction CarAuctionFord { get; set; }
+        public Auction CarAuctionPeugeot { get; set; }
+
 
         public Category SUVCategory { get; set; }
         public Category CoupeCategory { get; set; }
@@ -217,7 +223,7 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
         }
         private void SeedAuction()
         {
-            DateTime date = new DateTime(2024, 04, 25, 12, 30, 00);
+            DateTime date = new DateTime(2024, 04, 28, 16, 30, 00);
 
             CarAuction = new Auction()
             {
@@ -227,6 +233,26 @@ namespace AuctionVehicleProperty.Infrastructure.Data.SeedingData
                 StartingPrice = 25000.00M,
                 MinimumBidIncrement = 500.00M,
                 VehicleId = 1,
+                CreatorId = 1
+            };
+            CarAuctionFord = new Auction()
+            {
+                Id = 2,
+                StartingTime = date,
+                EndTime = date.AddHours(2),
+                StartingPrice = 122000.00M,
+                MinimumBidIncrement = 300.00M,
+                VehicleId = 3,
+                CreatorId = 1
+            };
+            CarAuctionPeugeot = new Auction()
+            {
+                Id = 3,
+                StartingTime = date,
+                EndTime = date.AddHours(2),
+                StartingPrice = 73000.00M,
+                MinimumBidIncrement = 200.00M,
+                VehicleId = 2,
                 CreatorId = 1
             };
         }
