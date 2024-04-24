@@ -1,40 +1,21 @@
-﻿<!-- PlaceBid.cshtml -->
-@model PlacingBidAgent
-
+﻿@model PlacingBidAgent
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Place Bid</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bid Added Notification</title>
 </head>
 <body>
-    <h1>Place Bid</h1>
-    @using (Html.BeginForm("PlaceBid", "Bids", FormMethod.Post, new { id = "bidForm" }))
-    {
-        @Html.LabelFor(m => m.Amount)
-        @Html.TextBoxFor(m => m.Amount, new { type = "number", min = "0", step = "0.01", required = "required" })
-        <button type="submit">Place Bid</button>
-    }
-    <div id="message"></div>
-
-    <script>
-        $(document).ready(function () {
-            $('#bidForm').submit(function (e) {
-                e.preventDefault();
-                var formData = $(this).serialize();
-                $.ajax({
-                    url: '/Bids/PlaceBid',
-                    type: 'POST',
-                    data: formData,
-                    success: function (response) {
-                        $('#message').text(response);
-                    },
-                    error: function (xhr, status, error) {
-                        $('#message').text('Error placing bid: ' + error);
-                    }
-                });
-            });
-        });
-    </script>
+    <div style="text-align: center;">
+        <h1>Bid Added!</h1>
+        <p>Your bid has been successfully added to the auction.</p>
+        @using (Html.BeginForm("Joined", "Bid", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            <input type="hidden" id="auction-id" name="auctionId" value="@Model.AuctionId">
+            <button type="submit" class="btn btn-warning">Go Back To Auction</button>
+        }
+    </div>
 </body>
 </html>

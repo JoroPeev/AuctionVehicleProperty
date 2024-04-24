@@ -1,0 +1,40 @@
+﻿@model PlacingBidAgent
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Place Bid</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Place Bid</h1>
+    @using (Html.BeginForm("PlaceBid", "Bids", FormMethod.Post, new { id = "bidForm" }))
+    {
+        @Html.LabelFor(m => m.Amount)
+        @Html.TextBoxFor(m => m.Amount, new { type = "number", min = "0", step = "0.01", required = "required" })
+        <button type="submit">Place Bid</button>
+    }
+    <div id="message"></div>
+
+    <script>
+        $(document).ready(function () {
+            $('#bidForm').submit(function (e) {
+                e.preventDefault();
+                var formData = $(this).serialize();
+                $.ajax({
+                    url: '/Bids/PlaceBid',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        $('#message').text(response);
+                    },
+                    error: function (xhr, status, error) {
+                        $('#message').text('Error placing bid: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+

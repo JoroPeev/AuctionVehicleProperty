@@ -16,7 +16,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IAgentService, AgentService>();
             services.AddScoped<IAuctionService, AuctionService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserService, UserService>(); 
+            services.AddScoped<IBidService, BidService>();
+
             return services;
         }
         public static IServiceCollection AddAplicationDbContext(this IServiceCollection services,IConfiguration config)

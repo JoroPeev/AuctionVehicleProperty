@@ -116,7 +116,7 @@ namespace AuctionVehicleProperty.Controllers
 
             if (await agentService.ExistsByIdAsync(userId))
             {
-                int agentId = await agentService.GetAgentIdAsync(userId) ?? 0;
+                int agentId = await agentService.GetAgentIdAsync(userId);
                 model = await vehicleService.AllVehiclesByAgentIdAsync(agentId);
             }
 
@@ -157,14 +157,12 @@ namespace AuctionVehicleProperty.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            if (await vehicleService.VehicleExistsByIdAsync(id) == false 
-                && User.IsAdmin() == false)
+            if (await vehicleService.VehicleExistsByIdAsync(id) == false)
             {
                 return BadRequest();
             }
 
-            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false 
-                && User.IsAdmin() == false)
+            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false)
             {
                 return Unauthorized();
             }

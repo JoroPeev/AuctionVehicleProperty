@@ -20,8 +20,8 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error/500");
-    app.UseStatusCodePagesWithReExecute("Home/Error","?statusCode={0}");
+    app.UseExceptionHandler("/Error");
+    app.UseStatusCodePagesWithReExecute("/Error", "?statusCode={0}");
     app.UseHsts();
 }
 
@@ -44,6 +44,11 @@ app.UseEndpoints(endpoints =>
             name: "areas",
             pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
     );
+    endpoints.MapControllerRoute(
+    name: "error",
+    pattern: "/Error",
+    defaults: new { controller = "Home", action = "Error" }
+);
     endpoints.MapDefaultControllerRoute();
     endpoints.MapRazorPages();
 });

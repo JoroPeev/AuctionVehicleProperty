@@ -1,0 +1,130 @@
+﻿@model AuctionDetailsModel
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bidding Page</title>
+    <link rel="stylesheet" href="~/css/biddingpage.css">
+    <style>
+        .container {
+            max-width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .item-photo {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+            .item-photo img {
+                max-width:fit-content;
+                height: auto;
+            }
+
+        .item-info {
+            flex: 2;
+        }
+
+            .item-info h1 {
+                font-size: 24px;
+            }
+
+            
+
+        .bid-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .bid-form input[type="number"] {
+            width: calc(100% - 10px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .bid-form button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .bid-form button:hover {
+                background-color: #0056b3;
+            }
+
+        .max-bid-button {
+            margin-top: 10px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            .max-bid-button:hover {
+                background-color: #0056b3;
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="item-photo">
+            <img src="@Model.Vehicle.ImageUrls" alt="Vehicle Photo">
+        </div>
+        <div class="item-info">
+            <h1>@Model.Vehicle.Title</h1>
+            <p>Description: @Model.Vehicle.Details</p>
+            <p>Starting Price: @(Model.StartingPrice.ToString("0.00")) BGN</p>
+            <p>Minimum Bid Increment: @(Model.MinimumBidIncrement.ToString("0.00")) BGN</p>
+
+            @using (Html.BeginForm("PlaceBid", "Bid", FormMethod.Post, new { @class = "bid-form" }))
+            {
+                @Html.AntiForgeryToken()
+                <label for="bid-amount">Your Bid:</label>
+                <input type="number" id="bid-amount" name="amount" min="@Model.MaxCurrentPrice" maxlength="9" step="0.01" required>
+                <input type="hidden" id="auction-id" name="auctionId" value="@Model.Id">
+                <button type="submit">Place Bid</button>
+            }
+
+            @if (Model.MaxCurrentPrice != 1.1m)
+            {
+                <h5>Next MaxBid</h5>
+                <button type="button" onclick="placeBidWithMaxIncrement()" class="max-bid-button">
+                    @($"{Model.MaxCurrentPrice + Model.MinimumBidIncrement: ###,###,##0.00} BGN")
+                </button>
+            }
+        </div>
+    </div>
+
+    <script>
+        function placeBidWithMaxIncrement() {
+            var maxBid = parseFloat('@Model.MaxCurrentPrice');
+            var increment = parseFloat('@Model.MinimumBidIncrement');
+            var newBid = (maxBid + increment).toFixed(2);
+
+            var bidInput = document.getElementById('bid-amount');
+            if (parseFloat(bidInput.value) < maxBid) {
+                alert('Bid amount cannot be less than the current maximum bid.');
+                return;
+            }
+
+            document.getElementById('bid-amount').value = newBid;
+
+            document.querySelector('.bid-form').submit();
+        }
+    </script>
+</body>
+</html>

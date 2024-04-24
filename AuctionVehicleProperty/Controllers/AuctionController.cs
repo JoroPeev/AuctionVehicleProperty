@@ -73,6 +73,11 @@ namespace AuctionVehicleProperty.Controllers
             {
                 return BadRequest();
             }
+            var vehicles = await actionService.AllAuctionsAsync();
+            if(vehicles.Any(e=>e.Id==auction.VehicleId))
+            {
+                return BadRequest();
+            }
             if (await actionService.AuctionExistAsync(auction.Id))
             {
                 return BadRequest();
@@ -131,6 +136,25 @@ namespace AuctionVehicleProperty.Controllers
             await actionService.DeleteAuctionAsync(model.Id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(int id, AuctionCreationServiceModel auction)
+        {
+            var allascions = await actionService.AllAuctionsAsync();
+            if (allascions.Any(e=>e.Id==auction.Id))
+            {
+                return BadRequest();
+            }
+
+            if (await actionService.AuctionValidationCreator(auction.Id,User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            await actionService.UpdateAuctionAsync(auction);
+
+            return RedirectToAction(nameof(AuctionController.Index), "Auction");
         }
 
 

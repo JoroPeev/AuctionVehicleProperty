@@ -1,6 +1,5 @@
 ﻿@model AuctionDetailsModel
 @inject IAgentService service
-
 @{
     ViewBag.Title = "Auction Details";
 }
@@ -8,40 +7,61 @@
 <h2 class="text-center">@ViewBag.Title</h2>
 
 <div class="container">
-    <h2>@Model.Vehicle.Title</h2>
     <hr>
     <div class="row">
         <div class="col-md-6">
-            <dl class="row">
-
-                <dt class="col-sm-3">Starting Time:</dt>
-                <dd class="col-sm-9">@Model.StartingTime.ToString("yyyy-MM-dd HH:mm:ss")</dd>
-
-                <dt class="col-sm-3">End Time:</dt>
-                <dd class="col-sm-9">@Model.EndTime.ToString("yyyy-MM-dd HH:mm:ss")</dd>
-
-                <dt class="col-sm-3">Starting Price:</dt>
-                <dd class="col-sm-9">@($"{Model.StartingPrice} BGN")</dd>
-
-                <dt class="col-sm-3">Minimum Bid Increment:</dt>
-                <dd class="col-sm-9">@($"{Model.MinimumBidIncrement} BGN")</dd>
-                
-            </dl>
-                <img class="card-img-top" src="@Model.Vehicle.ImageUrls" alt="Vehicle Image">
+            <div class="card">
+                <img class="card-img-top" style="width: 100%;" src="@Model.Vehicle.ImageUrls" alt="">
+                <div class="card-body">
+                    <dl class="row" style="font-size: 1.1rem;">
+                        <dt class="col-sm-5">Starting Price:</dt>
+                        <dd class="col-sm-7">@($"{Model.StartingPrice} BGN")</dd>
+                        <dt class="col-sm-5">Minimum Bid Increment:</dt>
+                        <dd class="col-sm-7">@($"{Model.MinimumBidIncrement} BGN")</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4">Time Until Auction Starts:</h5>
+                    <div id="countdown" class="text-center" style="font-size: 2rem;"></div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <a asp-action="Index" class="btn btn-primary">Back to List</a>
-            
+    <div class="row mt-4">
+        <div class="col text-center">
+            <a asp-action="Index" class="btn btn-primary mr-2">Back to List</a>
             @if (Model.CreatorId == await service.GetAgentIdAsync(User.Id()))
             {
-            <a asp-area="" asp-controller="Auction" asp-action="Delete" asp-route-id="@Model.Id"
-               class="btn btn-danger">Delete Auction</a>
-                
+                <a asp-area="" asp-controller="Auction" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mr-2">Delete Auction</a>
+                <a asp-area="" asp-controller="Auction" asp-action="Update" asp-route-id="@Model.Id" class="btn btn-outline-success">Update Auction</a>
             }
-            
+            @if (await service.ExistsByIdAsync(User.Id()))
+            {
+                <form asp-area="" asp-controller="Bid" asp-action="Joined" method="post">
+                    <input type="hidden" name="auctionId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-warning">Join Auction</button>
+                </form>
+            }
         </div>
-        
     </div>
 </div>
+
+<script>
+    function updateCountdown() {
+        var currentTime=new Date();
+        var startingTime=new Date("@Model.StartingTime");
+        var difference=startingTime - currentTime;
+        var days=Math.floor(difference / (1000 * 60 * 60 * 24));
+        var hours=Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes=Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds=Math.floor((difference % (1000 * 60)) / 1000);
+        document.getElementById("countdown").innerHTML=days + "d " + hours + "h "
+        + minutes + "m " + seconds + "s " ;
+        setTimeout(updateCountdown, 1000);
+        }
+        window.onload=updateCountdown;
+</script>
