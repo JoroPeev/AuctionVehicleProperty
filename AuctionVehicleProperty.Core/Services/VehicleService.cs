@@ -1,11 +1,9 @@
 ﻿using AuctionVehicleProperty.Core.Contracts;
 using AuctionVehicleProperty.Core.Enumerations;
-using AuctionVehicleProperty.Core.Exeptions;
 using AuctionVehicleProperty.Core.Models.Vehicles;
 using AuctionVehicleProperty.Infrastructure.Data.Common;
 using AuctionVehicleProperty.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using static AuctionVehicleProperty.Core.Exeptions.ExeptionMessages;
 
 namespace AuctionVehicleProperty.Core.Services
 {
@@ -230,7 +228,38 @@ namespace AuctionVehicleProperty.Core.Services
 
         public async Task<IEnumerable<Vehicle>> GetAllAsync(int agentId)
         {
-            return await repository.AllReadOnly<Vehicle>().Where(e=>e.OwnerId==agentId).ToListAsync();
+            return await repository.AllReadOnly<Vehicle>().Where(e => e.OwnerId == agentId).ToListAsync();
         }
+
+        public async Task<VehicleCreationServiceModel?> GetVehicleByIdAsync(int idVehicle)
+        {
+            var vehicle = await repository.AllReadOnly<Vehicle>()
+                .Where(h => h.Id == idVehicle)
+                .Select(updatedVehicle => new VehicleCreationServiceModel()
+                {
+                    Id = updatedVehicle.Id,
+                    Title = updatedVehicle.Title,
+                    Year = updatedVehicle.Year,
+                    Make = updatedVehicle.Make,
+                    Model = updatedVehicle.Model,
+                    Mileage = updatedVehicle.Mileage,
+                    Location = updatedVehicle.Location,
+                    AverageDivingRange = updatedVehicle.AverageDivingRange,
+                    Price = updatedVehicle.Price,
+                    Power = updatedVehicle.Power,
+                    Details = updatedVehicle.Details,
+                    VehicleTypeId = updatedVehicle.VehicleTypeId,
+                    ImageUrl = updatedVehicle.ImageUrls
+                    
+                })
+                .FirstOrDefaultAsync();
+            if (vehicle != null)
+            {
+                vehicle.VehicleType = await AllCategoriesAsync();
+            }
+
+            return vehicle;
+        }
+
     }
 }

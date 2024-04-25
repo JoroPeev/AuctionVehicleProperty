@@ -103,6 +103,7 @@ namespace AuctionVehicleProperty.Core.Services
                 Vehicle = vehicle,
                 CreatorId = a.CreatorId,
                 
+                
             };
 
             return auctionIndexServiceModels;
@@ -130,6 +131,30 @@ namespace AuctionVehicleProperty.Core.Services
                 await repository.SaveChangesAsync();
             }
 
+        }
+        public async Task<AuctionCreationServiceModel> GetAuctionAsync(int auctionId)
+        {
+            var a = await repository.GetByIdAsync<Auction>(auctionId);
+            var bids = await repository.Query<Bid>()
+                               .Where(b => b.AuctionId == auctionId)
+                               .ToListAsync();
+            var vehicle = await repository.GetByIdAsync<Vehicle>(a.VehicleId);
+
+            var auctionIndexServiceModels = new AuctionCreationServiceModel
+            {
+                EndTime = a.EndTime,
+                StartingTime = a.StartingTime,
+                MinimumBidIncrement = a.MinimumBidIncrement,
+                StartingPrice = a.StartingPrice,
+                VehicleId = a.VehicleId,
+                Bids = bids,
+                Id = a.Id,
+                CreatorId = a.CreatorId,
+
+
+            };
+
+            return auctionIndexServiceModels;
         }
     }
 }

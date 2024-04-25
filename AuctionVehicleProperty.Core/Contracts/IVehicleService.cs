@@ -7,6 +7,7 @@ namespace AuctionVehicleProperty.Core.Contracts
 {
     public interface IVehicleService
     {
+        Task<VehicleCreationServiceModel?> GetVehicleByIdAsync(int idVehicle);
         Task<IEnumerable<Vehicle>> GetAllAsync(int agentId);
         
         Task<bool> VehicleExistsByIdAsync(int vehicleId);

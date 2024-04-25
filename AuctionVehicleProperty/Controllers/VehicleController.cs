@@ -84,25 +84,57 @@ namespace AuctionVehicleProperty.Controllers
             return RedirectToAction(nameof(VehicleController.Index), "Vehicle");
         }
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Edit(int idVehicle)
         {
-            if (await vehicleService.OwnerExistsByIdAsync(id) == false 
+            if (await vehicleService.VehicleExistsByIdAsync(idVehicle) == false 
                 && User.IsAdmin() == false)
             {
                 return BadRequest();
             }
 
-            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false 
+            if (await vehicleService.HasAgentWithIdAsync(idVehicle, User.Id()) == false 
                 && User.IsAdmin() == false)
 
             {
                 return Unauthorized();
             }
 
-            var model = await vehicleService.GetVehicleByOwnerIdAsync(id);
+            var model = await vehicleService.GetVehicleByIdAsync(idVehicle);
 
             return View(model);
         }
+        [HttpPost]
+        public async Task<IActionResult> Edit(VehicleCreationServiceModel car)
+        {
+
+            if (await vehicleService.VehicleExistsByIdAsync(car.Id) == false)
+            {
+
+                return BadRequest();
+            }
+
+            if (await vehicleService.HasAgentWithIdAsync(car.Id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            if (await vehicleService.CategoryExistsAsync(car.VehicleTypeId) == false)
+            {
+                ModelState.AddModelError(nameof(car.VehicleTypeId), "Vehicle type does not exist");
+            }
+
+            if (ModelState.IsValid == false)
+            {
+                car.VehicleType = await vehicleService.AllCategoriesAsync();
+
+                return View(car);
+            }
+
+            await vehicleService.UpdateVehicleAsync(car.Id, car);
+
+            return RedirectToAction(nameof(VehicleController.Index), "Vehicle");
+        }
+
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
@@ -122,38 +154,6 @@ namespace AuctionVehicleProperty.Controllers
 
             return View(model);
         }
-        [HttpPost]
-        public async Task<IActionResult> Edit(int id, VehicleCreationServiceModel car)
-        {
-
-            if (await vehicleService.VehicleExistsByIdAsync(id) == false)
-            {
-
-                return BadRequest();
-            }
-
-            if (await vehicleService.HasAgentWithIdAsync(id, User.Id()) == false)
-            {
-                return Unauthorized();
-            }
-
-            if (await vehicleService.CategoryExistsAsync(car.VehicleTypeId) == false)
-            {
-                ModelState.AddModelError(nameof(car.VehicleTypeId), "Vehicle type does not exist");
-            }
-
-            if (ModelState.IsValid == false)
-            {
-                car.VehicleType = await vehicleService.AllCategoriesAsync();
-
-                return View(car);
-            }
-
-            await vehicleService.UpdateVehicleAsync(id, car);
-
-            return RedirectToAction(nameof(VehicleController.Index), "Vehicle");
-        }
-
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {

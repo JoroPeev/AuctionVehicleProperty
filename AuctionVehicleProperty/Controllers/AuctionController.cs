@@ -96,7 +96,7 @@ namespace AuctionVehicleProperty.Controllers
             }
             var auction = await actionService.GetAuctionDetailsAsync(auctionId);
 
-            if (await actionService.AuctionValidationCreator(auctionId, User.Id()) == false)
+            if (await actionService.AuctionValidationCreator(auctionId, User.Id()))
             {
                 return Unauthorized();
             }
@@ -137,17 +137,33 @@ namespace AuctionVehicleProperty.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Update(int id, AuctionCreationServiceModel auction)
+        [HttpGet]
+        public async Task<IActionResult> Update(int id)
         {
-            var allascions = await actionService.AllAuctionsAsync();
-            if (allascions.Any(e=>e.Id==auction.Id))
+            if (await actionService.AuctionExistAsync(id)==false)
             {
                 return BadRequest();
             }
 
-            if (await actionService.AuctionValidationCreator(auction.Id,User.Id()))
+            if (await actionService.AuctionValidationCreator(id,User.Id())==false)
+
+            {
+                return Unauthorized();
+            }
+
+            var model = await actionService.GetAuctionAsync(id);
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Update(AuctionCreationServiceModel auction)
+        {
+            if (await actionService.AuctionExistAsync(auction.Id)==false)
+            {
+                return BadRequest();
+            }
+
+            if (await actionService.AuctionValidationCreator(auction.Id, User.Id())==false)
             {
                 return Unauthorized();
             }

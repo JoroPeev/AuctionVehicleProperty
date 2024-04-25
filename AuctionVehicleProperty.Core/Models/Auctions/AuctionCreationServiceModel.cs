@@ -1,7 +1,7 @@
 ﻿using AuctionVehicleProperty.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
 using static AuctionVehicleProperty.Core.Constants.MessageConstants;
-
+using static AuctionVehicleProperty.Infrastructure.Constants.DataConstants;
 namespace AuctionVehicleProperty.Core.Models.Auctions;
 
 public class AuctionCreationServiceModel

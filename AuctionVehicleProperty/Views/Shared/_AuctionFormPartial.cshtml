@@ -7,6 +7,8 @@
         <label for="StartingPrice">Starting Price</label>
         <input type="text" id="StartingPrice" name="StartingPrice" class="form-control" value="@Model.StartingPrice" />
     </div>
+    <input type="hidden" name="id" value="@Model.Id" />
+    <input type="hidden" name="VehicleId" value="@Model.VehicleId" />
     <div class="form-group">
         <label for="StartingTime">Starting Time</label>
         <input type="datetime-local" id="StartingTime" name="StartingTime" class="form-control" value="@Model.StartingTime.ToString("yyyy-MM-ddTHH:mm")" />

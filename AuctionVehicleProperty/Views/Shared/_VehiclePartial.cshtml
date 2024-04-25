@@ -21,14 +21,16 @@
 
                 if (await agentService.ExistsByIdAsync(User.Id()) == true&&Model.OwnerId == currentUserId)
                 {
-                    
-                    <a asp-area="" asp-controller="Auction" asp-action="Create" 
-                    asp-route-ownerId="@Model.OwnerId" class="btn btn-warning">Create Auction</a>
 
-                    <a asp-area="" asp-controller="Vehicle" asp-action="Edit" asp-route-id="@Model.Id"
-                       class="btn btn-warning">Edit Vehicle</a>
+                    <a asp-area="" asp-controller="Auction" asp-action="Create"
+                       asp-route-ownerId="@Model.OwnerId" class="btn btn-warning">Create Auction</a>
+
+                    <form method="get" action="/Vehicle/Edit">
+                        <input type="hidden" name="idVehicle" value="@Model.Id" />
+                        <button type="submit" class="btn btn-warning">Edit Vehicle</button>
+                    </form>
                     <a asp-area="" asp-controller="Vehicle" asp-action="Delete" asp-route-id="@Model.Id"
-                    class="btn btn-danger">Delete Vehicle</a>
+                       class="btn btn-danger">Delete Vehicle</a>
                 
                 }
 
