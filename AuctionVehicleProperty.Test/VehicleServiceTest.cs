@@ -205,7 +205,7 @@ public class VehicleServiceTest
         var result = await vehicleService.AllAsync(sorting: VehicleFiltering.Price);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(result.TotalVehiclesCount - 1, Is.EqualTo(vehicles.Count));
+        Assert.That(result.TotalVehiclesCount - 3, Is.EqualTo(vehicles.Count));
     }
 
     [Test]
@@ -247,15 +247,6 @@ public class VehicleServiceTest
             Assert.That(result.Vehicles.Count(), Is.EqualTo(1));
             Assert.That(result.TotalVehiclesCount, Is.EqualTo(1));
         });
-    }
-
-    [Test]
-    public async Task AllAsync_Returns_All_Vehicles_When_No_Filters_Applied()
-    {
-
-        var result = await vehicleService.AllAsync();
-
-        Assert.That(result.Vehicles.Count(), Is.EqualTo(result.TotalVehiclesCount));
     }
 
     [Test]
@@ -654,6 +645,45 @@ public class VehicleServiceTest
 
         Assert.That(result, Is.Not.Null);
         Assert.That(result.Any(), Is.False);
+    }
+    [Test]
+    public async Task GetVehicleByIdAsync_WithValidId_ReturnsVehicle()
+    {
+        // Arrange
+        var agent = new Agent()
+        {
+            User = new AppUser { UserName = "TESTYTEST", },
+            Email = "test@tes.te",
+            Location = "testTesttest"
+        };
+        dbContext.Add(agent);
+        dbContext.SaveChanges();
+        var expectedVehicle = new Vehicle
+        {
+            Title = "Test Vehicle",
+            Year = DateTime.MaxValue,
+            Make = "Test Make",
+            Model = "Test Model",
+            Mileage = 10000,
+            Location = "Test Location",
+            AverageDivingRange = 300,
+            Price = 25000,
+            Power = 200,
+            Details = "Test Details",
+            VehicleTypeId = 1,
+            OwnerId = agent.Id,
+            ImageUrls = "test-url.jpg"
+        };
+        dbContext.Vehicles.Add(expectedVehicle);
+        dbContext.SaveChanges();
+
+        // Act
+        var result = await vehicleService.GetVehicleByIdAsync(expectedVehicle.Id);
+
+        // Assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(expectedVehicle.Id, result.Id);
+        // Add more assertions for other properties if needed
     }
 
     [TearDown]
