@@ -631,6 +631,77 @@ namespace AuctionVehicleProperty.Test
             var deletedAuction = await repository.GetByIdAsync<Auction>(auctionData.Id);
             Assert.That(deletedAuction, Is.Null);
         }
+        [Test]
+        public async Task UpdateAuctionAsync_Updates_Auction_In_Repository()
+        {
+            // Arrange
+            var user = new AppUser { UserName = "TESTYTEST" };
+            await repository.AddAsync(user);
+            await repository.SaveChangesAsync();
+
+            var agent = new Agent
+            {
+                User = user,
+                Email = "test@tes.te",
+                Location = "testTesttest"
+            };
+            await repository.AddAsync(agent);
+            await repository.SaveChangesAsync();
+
+            var vehicle = new Vehicle
+            {
+                Title = "Test Vehicle",
+                Details = "Test details",
+                Location = "Test location",
+                Mileage = 20000,
+                Power = 200,
+                Make = "Test Make",
+                Model = "Test Model",
+                AverageDivingRange = 600,
+                Price = 60000,
+                Owner = agent,
+                VehicleTypeId = 1,
+                Year = DateTime.MinValue
+            };
+            await repository.AddAsync(vehicle);
+            await repository.SaveChangesAsync();
+
+            var auctionData = new Auction
+            {
+                StartingPrice = 12344,
+                EndTime = DateTime.MaxValue,
+                StartingTime = DateTime.MinValue,
+                MinimumBidIncrement = 12345,
+                VehicleId = vehicle.Id,
+                CreatorId = agent.Id
+            };
+            await repository.AddAsync(auctionData);
+            await repository.SaveChangesAsync();
+
+            // Act
+            var updatedAuction = new AuctionCreationServiceModel
+            {
+                Id = auctionData.Id,
+                CreatorId = agent.Id,
+                StartingPrice = 54321,
+                StartingTime = DateTime.UtcNow,
+                MinimumBidIncrement = 10000,
+                VehicleId = vehicle.Id,
+                EndTime = DateTime.UtcNow.AddDays(7),
+                Bids = new List<Bid>()
+            };
+            await auctionService.UpdateAuctionAsync(updatedAuction);
+
+            // Assert
+            var updatedAuctionFromRepo = await repository.GetByIdAsync<Auction>(auctionData.Id);
+            Assert.IsNotNull(updatedAuctionFromRepo);
+            Assert.AreEqual(updatedAuction.StartingPrice, updatedAuctionFromRepo.StartingPrice);
+            Assert.AreEqual(updatedAuction.StartingTime, updatedAuctionFromRepo.StartingTime);
+            Assert.AreEqual(updatedAuction.MinimumBidIncrement, updatedAuctionFromRepo.MinimumBidIncrement);
+            Assert.AreEqual(updatedAuction.VehicleId, updatedAuctionFromRepo.VehicleId);
+            Assert.AreEqual(updatedAuction.EndTime, updatedAuctionFromRepo.EndTime);
+            // Add more assertions for other properties if needed
+        }
 
 
         [TearDown]
