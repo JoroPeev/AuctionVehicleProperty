@@ -34,6 +34,11 @@ namespace AuctionVehicleProperty.Infrastructure.Data
             .WithMany(a => a.Bids)
             .HasForeignKey(b => b.AuctionId)
             .OnDelete(DeleteBehavior.NoAction);
+            
+            builder.Entity<Auction>()
+           .HasMany(a => a.Bids)
+           .WithOne(b => b.Auction)
+           .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Vehicle>()
             .HasOne(v => v.Owner)
