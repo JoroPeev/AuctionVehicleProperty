@@ -96,7 +96,7 @@ namespace AuctionVehicleProperty.Controllers
             }
             var auction = await actionService.GetAuctionDetailsAsync(auctionId);
 
-            if (await actionService.AuctionValidationCreator(auctionId, User.Id()))
+            if (await actionService.AuctionValidationCreator(auctionId, User.Id())==false)
             {
                 return Unauthorized();
             }
