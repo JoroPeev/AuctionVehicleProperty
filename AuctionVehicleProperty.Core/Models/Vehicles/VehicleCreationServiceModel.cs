@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static AuctionVehicleProperty.Infrastructure.Constants.DataConstants;
 using static AuctionVehicleProperty.Core.Constants.MessageConstants;
+using AuctionVehicleProperty.Core.Extensions;
 
 namespace AuctionVehicleProperty.Core.Models.Vehicles
 {
@@ -39,16 +40,18 @@ namespace AuctionVehicleProperty.Core.Models.Vehicles
         public DateTime Year { get; set; }
         
         [Required(ErrorMessage = RequiredMessage)]
+        [NonNegativeRequired(ErrorMessage = "Please enter a non-negative value for Mileage.")]
         public int Mileage { get; set; }
 
         public int VehicleTypeId { get; set; }
 
         public IEnumerable<VehicleCategoryServiceModel> VehicleType { get; set; } =
             new List<VehicleCategoryServiceModel>();
-
+        [NonNegativeRequired(ErrorMessage = "Please enter a non-negative value for AverageDivingRange.")]
         public int? AverageDivingRange { get; set; }
 
         [Required(ErrorMessage = RequiredMessage)]
+        [NonNegativeRequired(ErrorMessage = "Please enter a non-negative value for Power.")]
         public int Power { get; set; }
 
         public string Color { get; set; } = string.Empty;
