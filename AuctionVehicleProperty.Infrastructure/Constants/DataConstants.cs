@@ -11,6 +11,9 @@
         public const int AuctionBudIncrementMin = 10;
         public const int AuctionBudIncrementMax = 10_000_000;
 
+        public const int AuctionStartingPriceMin = 10;
+        public const int AuctionStartingPriceMax = 10_000_000;
+
         public const int CategoryNameMin = 5;
         public const int CategoryNameMax = 50;
 
