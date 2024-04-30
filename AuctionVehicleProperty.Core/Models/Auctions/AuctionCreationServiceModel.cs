@@ -1,4 +1,6 @@
-﻿using AuctionVehicleProperty.Infrastructure.Data.Models;
+﻿using AuctionVehicleProperty.Core.Extensions;
+using AuctionVehicleProperty.Infrastructure.Data.Models;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using System.ComponentModel.DataAnnotations;
 using static AuctionVehicleProperty.Core.Constants.MessageConstants;
 using static AuctionVehicleProperty.Infrastructure.Constants.DataConstants;
@@ -18,14 +20,14 @@ public class AuctionCreationServiceModel
     [Display(Name = "End Time")]
     public DateTime EndTime { get; set; }
 
-
-    [Required(ErrorMessage = RequiredMessage)]
     [Display(Name = "Starting Price")]
+    [Required(ErrorMessage = "Starting Price is required.")]
+    [Range(0, double.MaxValue, ErrorMessage = "Starting Price must be a non-negative number.")]
     public decimal StartingPrice { get; set; }
 
-
-    [Required(ErrorMessage = RequiredMessage)]
     [Display(Name = "Minimum Bid Increment")]
+    [Required(ErrorMessage = "Minimum Bid Increment is required.")]
+    [Range(0, double.MaxValue, ErrorMessage = "Minimum Bid Increment must be a non-negative number.")]
     public decimal MinimumBidIncrement { get; set; }
 
     [Display(Name = "Winner")]
