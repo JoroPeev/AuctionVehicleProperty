@@ -21,7 +21,7 @@ namespace AuctionVehicleProperty.Extensions
             if (agentService != null
                 && agentService.ExistsByIdAsync(context.HttpContext.User.Id()).Result == false)
             {
-                context.Result = new RedirectToActionResult(nameof(AgentController.Become), "Agent", null);
+                context.Result = new RedirectToActionResult(nameof(AgentController.RegisterAsAgent), "Agent", null);
             }
         }
     }
