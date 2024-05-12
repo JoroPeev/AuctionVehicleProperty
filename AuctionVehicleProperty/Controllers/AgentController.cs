@@ -18,20 +18,27 @@ namespace AuctionVehicleProperty.Controllers
 
         [HttpGet]
         [NotAnSeller]
-        public IActionResult Become()
+        public IActionResult RegisterAsAgent()
         {
-            var model = new AgentServiceModel();
+            var model = new AgentServiceModel() {UserId = User.Id() };
 
             return View(model);
         }
 
         [HttpPost]
         [NotAnSeller]
-        public async Task<IActionResult> Become(AgentServiceModel model)
+        public async Task<IActionResult> RegisterAsAgent(AgentServiceModel model)
         {
-            if (!await agentService.ExistsByIdAsync(model.UserId))
+            if (await agentService.ExistsByIdAsync(User.Id()))
             {
                 return Unauthorized();
+            }
+            
+            var agents = await agentService.GetAllAgentsAsync();
+            
+            if (agents.Any(e=>e.Email==model.Email))
+            {
+                return BadRequest();
             }
 
             await agentService.CreateAsync(User.Id(), model.Email, model.Location);
