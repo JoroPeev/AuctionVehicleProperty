@@ -20,7 +20,7 @@
         if (await agentService.ExistsByIdAsync(User.Id()) == false)
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="Become">Become Seller</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Agent" asp-action="RegisterAsAgent">Register as Agent</a>
             </li>
         }
         if (await agentService.ExistsByIdAsync(User.Id()) == true)
