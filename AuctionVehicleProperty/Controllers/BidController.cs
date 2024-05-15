@@ -18,7 +18,7 @@ namespace AuctionVehicleProperty.Controllers
             auctionService = _auctionService;
         }
         [MustBeSeller]
-        public async Task<IActionResult> Joined(int auctionId)
+        public async Task<IActionResult> JoinBid(int auctionId)
         {
             var ac = await auctionService.AuctionExistAsync(auctionId);
             if (ac == false) { return BadRequest(); }
