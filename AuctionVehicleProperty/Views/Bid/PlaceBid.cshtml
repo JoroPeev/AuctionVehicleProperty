@@ -10,7 +10,7 @@
     <div style="text-align: center;">
         <h1>Bid Added!</h1>
         <p>Your bid has been successfully added to the auction.</p>
-        @using (Html.BeginForm("Joined", "Bid", FormMethod.Post))
+        @using (Html.BeginForm("JoinBid", "Bid", FormMethod.Post))
         {
             @Html.AntiForgeryToken()
             <input type="hidden" id="auction-id" name="auctionId" value="@Model.AuctionId">
