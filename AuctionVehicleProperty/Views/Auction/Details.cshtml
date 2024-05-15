@@ -45,7 +45,7 @@
             }
             @if (await service.ExistsByIdAsync(User.Id()))
             {
-                <form asp-area="" asp-controller="Bid" asp-action="Joined" method="post">
+                <form asp-area="" asp-controller="Bid" asp-action="JoinBid" method="post">
                     <input type="hidden" name="auctionId" value="@Model.Id" />
                     <button type="submit" class="btn btn-warning">Join Auction</button>
                 </form>
